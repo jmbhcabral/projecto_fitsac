@@ -1,0 +1,143 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <div class="container">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                    <p>Welcome to the Gerenciador de instrutores. Here you can manage the website.</p>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-8">
+                    <h1>Gerir Aulas</h1>
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <form id="instructorForm" method="POST" action="{{ form_action }}">
+                        {% csrf_token %}
+                        
+                        <!-- Campo de pesquisa -->
+                        <div class="form-group">
+                            <label for="user_search_input">Pesquisar Instrutor:</label>
+                            <input type="text" id="user_search_input" name="user_search" class="form-control" placeholder="Pesquise por nome ou email">
+                        </div>
+                    
+                        <!-- Campo de seleção preenchido via AJAX -->
+                        <div class="form-group">
+                            <label for="user_select">Selecione o Instrutor:</label>
+                            <select id="user_select" name="instructor" class="form-control nice-select">
+                                <option value="">-- Selecione um Instrutor --</option>
+                            </select>
+                        </div>
+                    
+                        <!-- Campo para a biografia do instrutor -->
+                        <div class="form-group">
+                            <label for="bio">Biografia:</label>
+                            <textarea id="bio" name="bio" class="form-control" placeholder="Biografia do instrutor" rows="5">{{ form.bio.value }}</textarea>
+                        </div>
+                    
+                        <!-- Botão de submissão -->
+                        <button type="submit" class="btn btn-primary">Submeter</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row pt-60">
+                <div class="col-12">
+                    <a href="{% url 'scheduling:instructors_management' %}" class="btn btn-primary">Voltar</a>
+                </div>
+            </div>
+        </div>
+
+        
+        
+        
+    </div>
+</main>
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        // When the user types in the search input
+        $('#user_search_input').on('keyup', function() {
+            var query = $(this).val();  // Obtain the value of the search input
+            console.log(query);
+            if (query) {
+                $.ajax({
+                    url: "{% url 'scheduling:search_users' %}",  // URL from the view that handles the search
+                    data: {
+                        'q': query  // Search query
+                    },
+                    success: function(data) {
+                        // Cleaning the select field
+                        console.log(data);
+                        console.log('success');
+                        $('#user_select').empty();
+                        $('#user_select').append('<option value="">-- Selecione um Instrutor --</option>');
+                        
+                        // Filling the select field with the results
+                        $.each(data.results, function(index, user) {
+                            $('#user_select').append('<option value="' + user.id + '">' + user.text + '</option>');
+                        });
+                    }
+                });
+            } else {
+                // If the search input is empty, clean the select field
+                $('#user_select').empty();
+                $('#user_select').append('<option value="">-- Selecione um Instrutor --</option>');
+            }
+        });
+    });
+</script>
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

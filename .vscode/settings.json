@@ -1,54 +1,61 @@
 {
-    "window.zoomLevel": 2,
-    "editor.fontSize": 24,
-    "editor.hover.enabled": true,
-    "workbench.startupEditor": "none",
-    "explorer.compactFolders": false,
-    "terminal.integrated.fontSize": 24,
-    "editor.rulers": [80, 120],
-    "workbench.colorTheme": "OM Theme (Default Dracula Italic)",
-    "workbench.iconTheme": "material-icon-theme",
-    "code-runner.executorMap": {
-      "python": "clear ; python -u"
-    },
-    "code-runner.runInTerminal": true,
-    "code-runner.ignoreSelection": true,
-    "editor.fontFamily": "'Fira Code', Consolas, 'Dank Mono', 'Source Code Pro', 'Fira Code', Menlo, 'Inconsolata', 'Droid Sans Mono', 'DejaVu Sans Mono', 'Ubuntu Mono', 'Courier New', Courier, Monaco, monospace",
-    "terminal.integrated.fontFamily": "",
-    "editor.fontLigatures": false,
-    "[python]": {
-      "editor.defaultFormatter": "ms-python.autopep8",
-      "editor.tabSize": 4,
-      "editor.insertSpaces": true,
-      "editor.formatOnSave": true,
-      "editor.codeActionsOnSave": {
-        "source.fixAll": true,
-        "source.fixAll.unusedImports": true,
-        "source.organizeImports": true
-      }
-    },
-    "python.languageServer": "Pylance",
-    "python.formatting.autopep8Args": [
-      "--indent-size=4",
-      "--max-line-length=80"
-      // "--ignore=E111"
-    ],
-    "python.linting.flake8Args": [
-      // "--ignore=E111",
-    ],
-    "python.linting.flake8Enabled": true,
-    "python.linting.mypyEnabled": true,
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
-    "python.analysis.diagnosticSeverityOverrides": {
-      "reportUnknownMemberType": "none",
-      "reportUnknownArgumentType": "none",
-      "reportUnknownVariableType": "none",
-      "reportUnknownLambdaType": "none",
-      "reportUnknownParameterType": "none"
-    },
-    "python.defaultInterpreterPath": "./venv/bin/python",
-    "python.analysis.typeCheckingMode": "basic",
-    "cSpell.enabled": true,
-    "python.formatting.provider": "none"
+  "window.zoomLevel": 1, // 0 to 20
+  "editor.fontSize": 24,
+  "explorer.compactFolders": false,
+  "editor.fontFamily": "Operator Mono",
+  "python.languageServer": "Pylance", // ms-python.vscode-pylance
+  "python.testing.unittestEnabled": false, // ms-python.python
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [], // -x to bail
+  "pylint.args": [
+    "--load-plugins=pylint_django",
+    "--errors-only"
+  ],
+  "autopep8.args": ["--indent-size=4"],
+  "python.defaultInterpreterPath": "venv/bin/python",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8",// or "ms-python.python",  ms-python.python
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "[html]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+    }
+  },
+  "[django-html]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+    }
+  },
+  "files.associations": {
+    "*.js": "javascript",
+    "*.jsx": "javascriptreact",
+    "*.xml": "html",
+    "*.svg": "html",
+    "*.html": "html",
+    "django-html": "html", // batisteo.vscode-django
+    "**/*.html": "html",
+    "**/templates/**/*.html": "django-html",
+    "**/base_templates/**/*.html": "django-html",
+    "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+  },
+  "emmet.includeLanguages": {
+    "django-html": "html", // batisteo.vscode-django
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact",
   }
+}

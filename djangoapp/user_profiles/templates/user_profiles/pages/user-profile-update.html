@@ -1,0 +1,182 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        {% include "user_profiles/partials/_account_top.html" %}
+        
+        <div class="container mt-50 wrapper d-flex">
+            <div id="sidebar" class="col-12 col-md-3 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                {% include "user_profiles/partials/_account_nav.html" %}
+            </div>
+            
+            <div id="content" class="col-12 col-md-9 content-area p-4 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                <h2 class="text-center">Informações do Utilizador</h2>
+                <div>
+
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="first_name">Nome:</label>
+                            {{ userform.first_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Apelido:</label>
+                            {{ userform.last_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            {{ userform.username }}
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            {{ userform.email }}
+                        </div>
+                        <div class="form-group">
+                            <label for="photo">Foto:</label><br>
+                            <small id="file-name">{{ profileform.photo.value|default_if_none:"Nenhum ficheiro selecionado" }}</small>
+                            {{ profileform.photo }}
+                        </div>
+                        <div class="form-group">
+                            <label for="date_of_birth">Data de Nascimento:</label>
+                            {{ profileform.date_of_birth }}
+                        </div>
+                        <div class="form-group">
+                            <label for="bio">Bio:</label>
+                            {{ profileform.bio }}
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefone:</label>
+                            {{ profileform.phone }}
+                        </div>
+                        <div class="form-group">
+                            <label for="profession">Profissão:</label>
+                            {{ profileform.profession }}
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Género:</label>
+                            {{ profileform.gender }}
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Morada:</label>
+                            {{ profileform.address }}
+                        </div>
+                        <div class="form-group">
+                            <label for="locality">Localidade:</label>
+                            {{ profileform.locality }}
+                        </div>
+                        <div class="form-group">
+                            <label for="postal_code_1">Código Postal:</label>
+                            <div style="display: flex; gap: 5px;">
+                                <input type="text" id="postal_code_1" name="postal_code_1" maxlength="4" 
+                                       class="form-control" value="{{ postal_code_1 }}" placeholder="1234" style="width: 80px;">
+                                <span>-</span>
+                                <input type="text" id="postal_code_2" name="postal_code_2" maxlength="3" 
+                                       class="form-control" value="{{ postal_code_2 }}" placeholder="567" style="width: 60px;">
+                            </div>
+                        </div>            
+                        <div class="form-group">
+                            <label for="city">Cidade:</label>
+                            {{ profileform.city }}
+                        </div>
+                        <div class="form-group">
+                            <label for="nif">Nif:</label>
+                            {{ profileform.nif }}
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-custom-user">Atualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/pikaday.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script>
+    
+    var picker = new Pikaday({
+        field: document.getElementById('id_date_of_birth'),
+        format: 'YYYY-MM-DD',   // Define o formato da data
+        position: 'bottom right',    // Posiciona o calendário
+        maxDate: new Date(),    // Impede a seleção de datas futuras
+        i18n: {
+            previousMonth: 'Mês Anterior',
+            nextMonth: 'Próximo Mês',
+            months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            weekdays: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+            weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+        },
+        yearRange: [1900, new Date().getFullYear()], // Years range from 1900 to current year
+        
+        toString: function(date, format) {
+            // Converte a data selecionada no formato desejado
+            return moment(date).format('YYYY-MM-DD');
+        },
+        parse: function(dateString, format) {
+            // Converte a string da data de volta para o objeto Date
+            return moment(dateString, 'YYYY-MM-DD').toDate();
+        }
+       
+    });
+    
+    function updateFileName() {
+        const fileInput = document.getElementById('photo');
+        const fileNameElement = document.getElementById('file-name');
+        
+        if (fileInput.files.length > 0) {
+            fileNameElement.textContent = fileInput.files[0].name;
+        } else {
+            fileNameElement.textContent = "Nenhum ficheiro selecionado";
+        }
+    }
+    </script>
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

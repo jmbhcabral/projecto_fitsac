@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  djangoapp_fitsac:
+    container_name: djangoapp_fitsac
+    build:
+      context: .
+    stdin_open: true # equivalente ao -i do docker run
+    tty: true        # equivalente ao -t do docker run
+    ports:
+      - 8000:8000
+    volumes:
+      - ./djangoapp:/djangoapp
+      - ./data/web/static:/data/web/static/
+      - ./data/web/media:/data/web/media/
+      - ./scripts:/scripts
+    env_file:
+      - ./dotenv_files/.env
+    depends_on:
+      - postgres_db
+    networks:
+      - app-network
+  postgres_db:
+    container_name: postgres_db
+    image: postgres:13-alpine
+    volumes:
+      - ./data/postgres/data:/var/lib/postgresql/data/
+    ports:
+    - 5433:5432
+    env_file:
+      - ./dotenv_files/.env
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

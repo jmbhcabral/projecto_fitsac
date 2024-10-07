@@ -1,0 +1,129 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <div class="container">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                    <p>Welcome to the Section Five. Here you can manage the website.</p>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-4">
+                    <h1>Content</h1>
+                    {% include "fitsac/partials/_messages.html" %}
+                    
+                    <form 
+                        action="{{ form_action }}" 
+                        method="post"
+                        >
+                        {% csrf_token %}
+
+                         <!-- Campo Oferta -->
+                         <div class="form-group col-8 pt-60">
+                            <label for="id_offer">Oferta</label>
+                            <select name="offer" id="id_offer" class="form-control" placeholder="Escolha uma oferta">
+                                <option value="">-- Selecione uma oferta --</option>
+                                {% for offer in offers %}
+                                    <option value="{{ offer.id }}">{{ offer.name }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if form.offer.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.offer.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo Ícone -->
+                        <div class="form-group col-8 pt-60">
+                            <label for="id_icon">Ícone</label>
+                            <select name="icon" id="id_icon" class="form-control" placeholder="Escolha um ícone">
+                                <option value="">-- Selecione um icon --</option>
+                                {% for obj in form.fields.icon.queryset %}
+                                    <option value="{{ obj.id }}">{{ obj }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if form.icon.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.icon.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo Visível -->
+                        <div class="form-group form-check text-center pt-60">
+                            <input type="checkbox" name="is_visible" id="id_is_visible" class="form-check-input" {% if form.is_visible.value %}checked{% endif %}>
+                            <label class="form-check-label" for="id_is_visible">Visível</label>
+                            {% if form.is_visible.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.is_visible.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="pt-60">
+                            <button class="btn btn-primary btn-xs" type="submit">Adicionar</button>
+                            
+                            <a href="{% url 'user_dashboard:section_five_offers_icons' %}" class="btn btn-primary btn-xs" type="submit">Voltar</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>             
+    </div>
+</main>
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

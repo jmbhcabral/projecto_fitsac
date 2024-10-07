@@ -1,0 +1,128 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<main class="pt-80">
+    <section class="pricing-area section-padding40 fix">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section-tittle text-center mb-55 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                        <h1>Admin Dashboard</h1>
+                        <p>Welcome to the Tipos de Aulas. Here you can manage the website.</p>
+                    </div>
+                </div>
+            </div>
+            {% include "fitsac/partials/_messages.html" %}
+            <div class="row">    
+                {% if tipo_de_aula %}
+                    <div class="border-fit w-100">
+                        <div class="w-100 pt-60">
+                            <h2>Título: {{tipo_de_aula.tipo}}</h2>
+                        </div>
+                        <div class="pt-60">
+                            {% if tipo_de_aula.image %}
+                                <img src="{{ tipo_de_aula.image.url}}" alt="{{tipo_de_aula.image.name}}">
+                            {% else %}
+                                <img src="{% static 'fitsac/img/aulas_image.jpg' %}" alt="Foto da aula" style="object-fit: cover;">
+                            {% endif %}
+                            <p>
+                                Nome do ficheiro: {{ tipo_de_aula.image.name|basename }}
+                            </p>
+                        </div>
+                        <div class="pt-60">
+                            <h2>Descrição:</h2>
+                            <p>
+                                {{ tipo_de_aula.description }}
+                            </p>
+                        </div>
+                        <div class="pt-60">
+                            <h2>Ordem:</h2>
+                            <p>
+                                {{ tipo_de_aula.order }}
+                            </p>
+                        </div>
+                        <div class="pt-60 w-100">
+                            <h2>Visibilidade</h2>
+                            <p>
+                                {% if tipo_de_aula.is_visible %}
+                                    Visível
+                                {% else %}
+                                    Não visível
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="row pt-60">
+                            <a href="{% url 'user_dashboard:classe_type_update' tipo_de_aula.id %}" class="btn btn-primary btn-xs">Editar</a>
+                            <form action="{% url 'user_dashboard:classe_type_delete' tipo_de_aula.id %}" method='POST'>
+                                {% csrf_token %}
+                                {% if confirmation == 'yes' %}
+                                    <input type="hidden" name="confirmation" value="{{ confirmation }}">
+                                    <button class="btn btn-primary btn-xs" type="submit">Confirma?</button>
+                                {% else %}
+
+                                    <button class="btn btn-primary btn-xs" type="submit">Apagar</button>
+                                {% endif %}
+                            </form>
+                            <a href="{% url 'user_dashboard:classes_type' %}" class="btn btn-primary btn-xs">Voltar</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="pt-80">
+                        <h1>Ainda não tem cards na secção.</h1>
+                        <div class="pt-60">
+                            <a href="{% url "user_dashboard:classes_type_create" %}" class="btn btn-primary btn-xs">Criar</a>
+                            <a href="{% url "user_dashboard:classes_type" %}" class="btn btn-primary btn-xs">Voltar</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>         
+        </div>     
+    </section>
+</main>
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+{% comment %} <script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script> {% endcomment %}
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

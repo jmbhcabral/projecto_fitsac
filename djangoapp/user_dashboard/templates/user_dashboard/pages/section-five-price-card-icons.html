@@ -1,0 +1,124 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <div class="container">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                    <p>Welcome to the Section Five. Here you can manage the website.</p>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-8 text-center">
+                    <h1>Content</h1>
+                    {% include "fitsac/partials/_messages.html" %}
+                    {% if formset %}
+                        <form action="{{ form_action }}" method="post" enctype="multipart/form-data" class="pt-60 d-flex flex-column align-items-center">
+                            {% csrf_token %}
+                            {{ formset.management_form }}
+                            {% for form in formset %}
+                                <div class="box snake">
+                                    {% if form.instance.icon %}
+                                        <img src="{{ form.instance.icon.url }}" alt="{{ form.instance.icon.name }}" class="img-fluid img-thumbnail" style="width: 20px; height: 20px;">
+                                        <p>Nome do ficheiro: {{ form.instance.icon.name }}</p>
+                                    {% else %}
+                                        <p>Sem imagem disponível</p>
+                                    {% endif %}
+                                    <label for="{{ form.icon.id_for_label }}">Icon:</label>
+                                    {{ form.icon }}
+                                    <label for="{{ form.name.id_for_label }}">Título:</label>
+                                    {{ form.name }}
+                                    <label for="{{ form.is_visible.id_for_label }}">Visibilidade:</label>
+                                    {{ form.is_visible }}
+                                    {{ form.id }}
+                                </div>
+                            {% endfor %}
+                            <div class="pt-60">
+                                <button class="btn btn-primary btn-xs" type="submit">Atualizar</button>
+                                
+                            </div>
+                            <div class="row pt-60">
+                                <a href="{% url "user_dashboard:section_five_price_card_icons_create" %}" class="btn btn-primary btn-xs">criar ofertas</a>
+                                <a href="{% url "user_dashboard:section_five_price_card_icons_delete" %}" class="btn btn-primary btn-xs">Apagar Ofertas</a>
+                                <a href="{% url "user_dashboard:section_five_create" %}" class="btn btn-primary btn-xs">Voltar</a>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="pt-80">
+                            <h1>Ainda não tem Icons na secção.</h1>
+                            <div class="pt-60">
+                                <a href="{% url "user_dashboard:section_five_price_card_icons_create" %}" class="btn btn-primary btn-xs">Criar</a>
+                                <a href="{% url "user_dashboard:section_five_price_card_icons" %}" class="btn btn-primary btn-xs">Voltar</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>     
+    </div>
+</main>
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+{% comment %} <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][name$="is_visible"]');
+    
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    // Desmarca todos os outros checkboxes
+                    checkboxes.forEach(cb => {
+                        if (cb !== this) {
+                            cb.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+    });
+    </script> {% endcomment %}
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

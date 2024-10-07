@@ -1,0 +1,244 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <!--? Hero Start -->
+    <div class="slider-area2">
+        <div class="slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap hero-cap2 pt-70">
+                            <h2>Gallery</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero End -->
+    <!--? Gallery Area Start -->
+    <div class="gallery-area">
+        <div class="container-fluid ">
+            <div class="row">
+                {% if section_four %}
+                    {% for photo in section_four %}
+                        <div class="photo-container col-xl-6 col-lg-6 col-md-6 col-sm-6" data-photo-url="{{ photo.image.url }}">
+                            <div class="box snake mb-30">
+                                <div class="gallery-img big-img" style="background-image: url({{ photo.image.url }});"></div>
+                                    <div class="overlay">
+                                    <div class="overlay-content">
+                                        <h3>{{ photo.tag }}</h3>
+                                        <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Modal para exibição da imagem ampliada -->
+                <div id="modal" class="modal">
+                    <span class="close">&times;</span>
+                    <img class="modal-content" id="modal-img">
+                </div>
+            
+                {% else %}
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                    <div class="box snake mb-30">
+                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery1.png' %});"></div>
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3>Muscle gaining </h3>
+                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                    <div class="box snake mb-30">
+                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery2.png' %});"></div>
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3>Muscle gaining </h3>
+                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                    <div class="box snake mb-30">
+                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery3.png' %});"></div>
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3>Muscle gaining </h3>
+                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                    <div class="box snake mb-30">
+                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery4.png' %});"></div>
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3>Muscle gaining </h3>
+                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                    <div class="box snake mb-30">
+                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery5.png' %});"></div>
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3>Muscle gaining </h3>
+                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                    <div class="box snake mb-30">
+                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery6.png' %});"></div>
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3>Muscle gaining </h3>
+                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Gallery Area End -->
+    <!-- ? services-area -->
+    {% if site_setup.show_services_area %}
+    <section class="services-area">
+        <div class="container">
+            {% if services %}
+            <div class="row justify-content-between">
+                {% for service in services %}
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8">
+                    <div class="single-services mb-40 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
+                        
+                        <div class="features-icon">
+                            <img src="{{ service.icon.url}}" alt="">
+                        </div>
+                        <div class="features-caption">
+                            <h3>{{ service.name}}</h3>
+                            <p>{{ service.text_field_1 }}</p>
+                            <p>{{ service.text_field_2 }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+</main>
+  <!-- Scroll Up -->
+  <div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var photoContainers = document.querySelectorAll('.photo-container');
+    
+        photoContainers.forEach(function(container) {
+            var img = new Image();
+            img.src = container.getAttribute('data-photo-url');
+            
+            img.onload = function() {
+                if (img.width > 400) {
+                    container.classList.add('col-xl-6');
+                    container.classList.remove('col-xl-3');
+                } else {
+                    container.classList.add('col-xl-3');
+                    container.classList.remove('col-xl-6');
+                }
+            };
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Seleciona o modal
+        var modal = document.getElementById("modal");
+    
+        // Seleciona a imagem no modal
+        var modalImg = document.getElementById("modal-img");
+    
+        // Seleciona todas as imagens da galeria
+        var images = document.querySelectorAll('.photo-container');
+    
+        // Seleciona o botão de fechar
+        var span = document.getElementsByClassName("close")[0];
+    
+        // Para cada imagem, adiciona um evento de clique
+        images.forEach(function(image) {
+            image.addEventListener('click', function() {
+                modal.style.display = "block";
+                modalImg.src = this.getAttribute('data-photo-url');
+            });
+        });
+    
+        // Fecha o modal ao clicar no "x"
+        span.onclick = function() { 
+            modal.style.display = "none";
+        }
+    
+        // Também fecha o modal ao clicar fora da imagem
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    });
+</script>
+<script src="{%static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{%static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{%static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{%static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{%static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{%static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{%static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{%static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{%static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{%static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{%static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{%static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{%static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{%static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{%static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{%static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{%static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{%static 'fitsac/js/contact.js' %}"></script>
+<script src="{%static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{%static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{%static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{%static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{%static 'fitsac/js/plugins.js' %}"></script>
+<script src="{%static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

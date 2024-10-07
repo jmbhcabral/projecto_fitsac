@@ -1,0 +1,13 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    {% include "fitsac/partials/_head_front.html" %}
+</head>
+<body class="black-bg">
+    {% include "fitsac/partials/_preloader.html" %}
+    {% include "fitsac/partials/_header_front.html" %}
+    {% block content %}{% endblock %}
+    {% include "fitsac/partials/_footer_front.html" %}
+</body>
+</html>

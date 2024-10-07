@@ -1,0 +1,14 @@
+{% if request.user.is_authenticated %}
+<nav id="sidebar" class="bg-dark">
+    <div class="sidebar-header">
+        <h3>Minha Conta</h3>
+    </div>
+    <ul class="list-unstyled components">
+        <li><a href="{% url 'user_profiles:user_account' %}">Conta</a></li>
+        <li><a href="{% url 'user_profiles:user_account_profile' %}">Dados Pessoais</a></li>
+        <li><a href="{% url 'user_profiles:user_change_password' %}">Alterar Password</a></li>
+        <li><a href="{% url 'scheduling:user_classes_management' %}">Gerir Aulas</a></li>
+        <li><a href="{% url 'user_profiles:user_logout' %}">Sair</a></li>
+    </ul>
+</nav>
+{% endif %}

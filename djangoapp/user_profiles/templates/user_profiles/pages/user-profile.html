@@ -1,0 +1,209 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <!-- Cabeçalho da página -->
+        {% include "user_profiles/partials/_account_top.html" %}
+        
+        <!-- Layout principal com a sidebar e conteúdo -->
+        <div class="container mt-50 wrapper d-flex">
+            <!-- Sidebar -->
+            <div id="sidebar" class="col-12 col-md-3 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                {% include "user_profiles/partials/_account_nav.html" %}
+            </div>
+            
+            <!-- Conteúdo Principal -->
+            <div id="content" class="col-12 col-md-9 content-area p-4 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                <h2 class="text-center">Informações do Utilizador</h2>
+                <div class="image-preview mb-5" style="background-image: url(
+                    {% if user_profile.photo %}
+                        '{{ user_profile.photo.url }}'
+                    {% else %}
+                        '/path/para/imagem/default.jpg'
+                    {% endif %}
+                ); height: 200px; width: 200px; background-size: cover; background-position: center; border-radius: 50%;"></div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Nome:</p>
+                    <p class="value">
+                        {% if user_profile.user.first_name %}
+                            {{ user_profile.user.first_name }}
+                        {% else %}
+                            Não inseriu o seu nome.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Apelido:</p>
+                    <p class="value">
+                        {% if user_profile.user.last_name %}
+                            {{ user_profile.user.last_name }}
+                        {% else %}
+                            Não inseriu os eu apelido.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Username:</p>
+                    <p class="value">
+                        {% if user_profile.user.username %}
+                            {{ user_profile.user.username }}
+                        {% else %}
+                            Não inseriu o seu username.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Email:</p>
+                    <p class="value">
+                        {% if user_profile.user.email %}
+                            {{ user_profile.user.email }}
+                        {% else %}
+                            Não inseriu o seu email.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Data de Nascimento:</p>
+                    <p class="value">
+                        {% if user_profile.date_of_birth %}
+                            {{ user_profile.date_of_birth }}
+                        {% else %}
+                            Não inseriu a sua data de nascimento.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Género:</p>
+                    <p class="value">
+                        {% if user_profile.gender %}
+                            {{ user_profile.get_gender_display}}
+                        {% else %}
+                            Não inseriu o seu género.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Telefone:</p>
+                    <p class="value">
+                        {% if user_profile.phone %}
+                            {{ user_profile.phone }}
+                        {% else %}
+                            Não inseriu o seu telefone.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Cliente nº:</p>
+                    <p class="value">
+                        {% if user_profile.client_number %}
+                            {{ user_profile.client_number }}
+                        {% else %}
+                            Não inseriu o seu telefone.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Morada:</p>
+                    <p class="value">
+                        {% if user_profile.address %}
+                            {{ user_profile.address }}
+                        {% else %}
+                            Não inseriu a sua morada.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Código Postal:</p>
+                    <p class="value">
+                        {{postal_code}}
+                        {% comment %} {% if postal_code %}
+                            {{ postal_code }}
+                        {% else %}
+                            Não inseriu o seu código postal.
+                        {% endif %} {% endcomment %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Localidade:</p>
+                    <p class="value">
+                        {% if user_profile.locality %}
+                            {{ user_profile.locality }}
+                        {% else %}
+                            Não inseriu a sua localidade.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Cidade:</p>
+                    <p class="value">
+                        {% if user_profile.city %}
+                            {{ user_profile.city }}
+                        {% else %}
+                            Não inseriu a sua cidade.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="label-value-wrapper">
+                    <p class="label-color">Nif:</p>
+                    <p class="value">
+                        {% if user_profile.nif %}
+                            {{ user_profile.nif }}
+                        {% else %}
+                            Não inseriu o seu número de identificação fiscal.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="pb-5">
+                    <a href="{% url 'user_profiles:update_profile' %}" class="btn btn-custom-user">Editar</a>
+                </div>
+            </div>
+        </div>   
+    </div>
+</main>
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}<main>
+    <div class="admin-menu">
+        <div class="container">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-8">
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <h2 class="text-center">Avaliação da composição corporal</h2>
+                    {% if body_composition_single %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-responsive-md">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Nome</td>
+                                    <td>{{ student.first_name}} {{ student.last_name}}</td>  
+                                </tr>
+                                <tr>
+                                    <td>Instrutor</td>
+                                    <td>{{ body_composition_single.instructor }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Data</td>
+                                    <td>{{ body_composition_single.date|date:"d/m/Y" }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tipo de corpo</td>
+                                    <td>{{ body_composition_single.body_type }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Idade</td>
+                                    <td>{{ age }} anos</td>
+                                </tr>
+                                <tr>
+                                    <td>Altura</td>
+                                    <td>{{ body_composition_single.height }} m</td>
+                                </tr>
+                                <tr>
+                                    <td>Peso</td>
+                                    <td>{{ body_composition_single.weight }} kg</td>
+                                </tr>
+                                <tr>
+                                    <td>Circunferência da Cintura</td>
+                                    <td>{{ body_composition_single.waist_circumference }} cm</td>
+                                </tr>
+                                <tr>
+                                    <td>Circunferência Abdominal</td>
+                                    <td>{{ body_composition_single.belly_circumference }} cm</td>
+                                </tr>
+                                <tr>
+                                    <td>Circunferência do Quadril</td>
+                                    <td>{{ body_composition_single.hip_circumference }} cm</td>
+                                </tr>
+                                <tr>
+                                    <td>Circunferência da Perna</td>
+                                    <td>{{ body_composition_single.leg_circumference }} cm</td>
+                                </tr>
+                                <tr>
+                                    <td>Circunferência do Braço</td>
+                                    <td>{{ body_composition_single.arm_circumference }} cm</td>
+                                </tr>
+                                <tr>
+                                    <td>Percentagem de Gordura Corporal</td>
+                                    <td>{{ body_composition_single.body_fat_percentage }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Percentagem Total de Água</td>
+                                    <td>{{ body_composition_single.total_water_percentage }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Massa Muscular</td>
+                                    <td>{{ body_composition_single.muscle_mass_percentage }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Nível de Aptidão Física</td>
+                                    <td>{{ body_composition_single.fitness_level }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Calorias Queimadas</td>
+                                    <td>{{ body_composition_single.calories_burned }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Idade Metabólica</td>
+                                    <td>{{ body_composition_single.metabolic_age }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Massa Óssea</td>
+                                    <td>{{ body_composition_single.bone_mass }} kg</td>
+                                </tr>
+                                <tr>
+                                    <td>Percentagem de Gordura Visceral</td>
+                                    <td>{{ body_composition_single.visceral_fat_percentage }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>IMC</td>
+                                    <td>{{ body_composition_single.imc }}</td>
+                                </tr>
+                                <tr>
+                                    <td>FP</td>
+                                    <td>{{ body_composition_single.fp }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Observações</td>
+                                    <td>{{ body_composition_single.observations }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pt-10 d-flex justify-content-center mr-1">
+                        <a href="{% url "physical_evaluations:body_composition_update" body_composition_single.pk %}" class="btn btn-custom-user">Editar</a>
+                        <a href="{% url "physical_evaluations:evaluation_images" body_composition_single.pk %}" class="btn btn-custom-user">Adicionar imagens</a>
+                        <a href="{% url "physical_evaluations:eating_habits" body_composition_single.pk %}" class="btn btn-custom-user">Hábitos alimentares</a>
+                        <a href="{% url "physical_evaluations:health_state" body_composition_single.pk %}" class="btn btn-custom-user">Estado da saúde</a>
+                    </div>
+                    {% else %}
+                        <p>Ainda não efectuou uma avaliação da composição corporal.</p>
+                    {% endif %}
+
+
+                </div>
+            </div>
+            <div class="row pt-60">
+                <div class="col-12">
+                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-custom-user">Voltar</a>
+                </div>
+            </div>
+        </div>    
+    </div>
+</main>
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

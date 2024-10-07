@@ -1,0 +1,131 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <!-- Cabeçalho da página -->
+        {% include "user_profiles/partials/_account_top.html" %}
+        
+        <!-- Layout principal com a sidebar e conteúdo -->
+        <div class="container mt-50 wrapper d-flex">
+            <!-- Sidebar -->
+            <div id="sidebar" class="col-12 col-md-3 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                {% include "user_profiles/partials/_account_nav.html" %}
+            </div>
+            
+            <!-- Conteúdo Principal -->
+            <div id="content" class="col-12 col-md-9 content-area p-4 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                <h2 class="text-center">Verificação</h2>
+                
+                <p class="text-center">Insira o código de verificação que lhe foi enviado por email.</p>
+                <div class="row">
+                    <div class="col-12 col-md-6 offset-md-3">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="code_1">Código de Verificação</label>
+                                <div class="d-flex justify-content-between">
+                                    <input type="text" class="form-control code-input" id="code_1" name="code_1" maxlength="3" inputmode="numeric" pattern="\d*" required aria-label="Primeiro dígito do código de verificação">
+                                    <input type="text" class="form-control code-input" id="code_2" name="code_2" maxlength="3" inputmode="numeric" pattern="\d*" required aria-label="Segundo dígito do código de verificação">
+                                    <input type="text" class="form-control code-input" id="code_3" name="code_3" maxlength="3" inputmode="numeric" pattern="\d*" required aria-label="Terceiro dígito do código de verificação">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-custom-user btn-block mt-4">Verificar</button>
+                        </form>
+                    </div>
+                    <div class="col-12">
+                        {% if allow_resend %}
+                        <div class="form-group text-center">
+                            <p class="text-center mt-5">
+                                <form method="POST" action="{% url 'user_profiles:user_resend_reset_code' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-custom-user mt-4">Reenviar CÓDIGO</button>
+                                </form>
+                            </p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Places the focus on the first input when the page loads
+        setTimeout(function() {
+            document.getElementById('code_1').focus();
+        }, 100);
+    
+        const inputs = document.querySelectorAll('.code-input');
+
+        inputs.forEach((input, index) => {
+            // allows only numbers
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, ''); // Removes all non-numeric characters
+            });
+
+            input.addEventListener('input', () => {
+                // If the input has a length of 3 and there is another input after it, move the focus to the next input
+                if (input.value.length === 3 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            // Mves the focus to the previous input when the backspace key is pressed and the input is empty
+            input.addEventListener('keydown', (e) => {
+                if (e.key === "Backspace" && input.value.length === 0 && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+    });
+</script>
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

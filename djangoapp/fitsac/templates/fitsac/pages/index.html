@@ -1,0 +1,360 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<main>
+    <!--? slider Area Start-->
+    <div class="slider-area position-relative">
+        <div class="slider-active">
+            <!-- Section One-->
+            <div class="single-slider slider-height d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-9 col-md-10">
+                            <div class="hero__caption">
+                                <span data-animation="fadeInLeft" data-delay="0.1s">{{ section_one.text_field_1 }}</span>
+                                <h1 data-animation="fadeInLeft" data-delay="0.4s">{{ section_one.text_field_2 }}</h1>
+                                <a href="{% url 'fitsac:courses' %}" class="border-btn hero-btn" data-animation="fadeInLeft" data-delay="0.8s">Aulas</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+        </div>
+    </div>
+    <!-- Section One End -->
+    <!-- Section Two Start -->
+    {% if site_setup.show_training_categories %}
+    <section class="traning-categories black-bg">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="single-topic text-center mb-30">
+                        <div class="topic-img">
+                            <img src="{{ section_two.image_1.url }}" alt="">
+                            <div class="topic-content-box">
+                                <div class="topic-content">
+                                    <h3>{{ section_two.text_field_3  }}</h3>
+                                    <p>{{ section_two.text_field_4 }}</p>
+                                    <a href="{% url 'fitsac:courses' %}" class="border-btn">Ver Aulas</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="single-topic text-center mb-30">
+                        <div class="topic-img">
+                            <img src="{{ section_two.image_2.url }}" alt="">
+                            <div class="topic-content-box">
+                                <div class="topic-content">
+                                    <h3>{{ section_two.text_field_5  }}</h3>
+                                    <p>{{ section_two.text_field_6  }}</p>
+                                    <a href="{% url 'fitsac:courses' %}" class="border-btn">ver Aulas</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <!-- Section Two End -->
+    <!-- Section Three Start -->
+    {% if site_setup.show_services %}
+    <section class="team-area fix">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section-tittle text-center mb-55 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
+                        <h2 >{{ section_three.name }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-cat text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s" >
+                        <div class="cat-icon">
+                            <img src="{{ section_three.image_1.url }}" alt="">
+                        </div>
+                        <div class="cat-cap">
+                            <h5><a href={{ section_three.url_or_path_1}}>{{ section_three.text_field_1 }}</a></h5>
+                            <p>{{ section_three.text_field_2 }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-cat text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".4s">
+                        <div class="cat-icon">
+                            <img src="{{ section_three.image_2.url }}" alt="">
+                        </div>
+                        <div class="cat-cap">
+                            <h5><a href={{ section_three.url_or_path_2}}>{{ section_three.text_field_3 }}</a></h5>
+                            <p>{{ section_three.text_field_4 }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-cat text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".6s">
+                        <div class="cat-icon">
+                            <img src="{{ section_three.image_3.url }}" alt="">
+                        </div>
+                        <div class="cat-cap">
+                            <h5><a href={{ section_three.url_or_path_3}}>{{ section_three.text_field_5 }}</a></h5>
+                            <p>{{ section_three.text_field_6 }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <!-- Section Three End -->
+    <!--? Section Four Start -->
+    <!--? Gallery Area Start -->
+    {% if site_setup.show_gallery %}
+    <div class="gallery-area section-padding30 ">
+        <div class="container-fluid ">
+            <div class="row">
+                {% for photo in section_four %}
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                    <div class="box snake mb-30">
+                        <div class="gallery-img big-img" style="background-image: url({{ photo.image.url }});"></div>
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3>{{ photo.tag}}</h3>
+                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!-- Section Four End -->
+    <!-- Gallery Area End -->
+    <!-- Section Five start -->
+    {% if site_setup.show_pricing %}
+    <section class="pricing-area section-padding40 fix">
+        <div class="container">
+            {% if header and cards %}
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="section-tittle text-center mb-55 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                            <h2>{{header.name}}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for card in cards %}
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="properties mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+                            <div class="properties__card">
+                                <div class="about-icon">
+                                    <img src="{{ card.logo.url}}" alt="">
+                                </div>
+                                <div class="properties__caption">
+                                    <span class="month">{{ card.name }}</span>
+                                    <p class="mb-25">{{ card.price}}€/mês <span>({{ card.span}})</span></p>
+                                    {% for icon_offer in card.offers.all %}
+                                        <div class="single-features">
+                                            <div class="features-icon">
+                                                <img src="{{ icon_offer.icon.icon.url }}" alt="">
+                                            </div>
+                                            <div class="features-caption">
+                                                <p>{{ icon_offer.offer.name}}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="pt-80">
+                    <h1>Ainda não construiu a secção.</h1>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endif %}
+    <!-- Section Five End -->
+    <!--? About Area-2 Start -->
+    {% if site_setup.show_about_us %}
+    <section class="about-area2 fix pb-padding pt-50 pb-80">
+        <div class="support-wrapper align-items-center">
+            <div class="right-content2">
+                <!-- img -->
+                <div class="right-img wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
+                    <img src="{{ section_six.image.url}}" alt="{{ section_six.image.name|basename}}">
+                </div>
+            </div>
+            <div class="left-content2">
+                <!-- section tittle -->
+                <div class="section-tittle2 mb-20 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
+                    <div class="front-text">
+                        <h2 class="">{{ section_six.name}}</h2>
+                        <p>{{ section_six.paragraph_1 }}</p>
+                        <p class="mb-40">{{ section_six.paragraph_2 }}</p>
+                        <a href="{% url 'fitsac:courses' %}" class="border-btn">Aulas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <!-- About Area End -->
+    <!--? Blog Area Start -->
+    {% if site_setup.show_blog %}
+    <section class="home-blog-area pt-10 pb-50">
+        <div class="container">
+            <!-- Section Tittle -->
+            <div class="row justify-content-center">
+                <div class="col-lg-7 col-md-9 col-sm-10">
+                    <div class="section-tittle text-center mb-100 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".2s">
+                        <h2>From Blog</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6">
+                    <div class="home-blog-single mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".4s">
+                        <div class="blog-img-cap">
+                            <div class="blog-img">
+                                <img src="{% static 'fitsac/img/gallery/blog1.png' %}" alt="">
+                            </div>
+                            <div class="blog-cap">
+                                <span>Gym & Fitness</span>
+                                <h3><a href="{% url 'fitsac:blog_details' %}">Your Antibiotic One Day To 10 Day Options</a></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6">
+                    <div class="home-blog-single mb-30 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".6s">
+                        <div class="blog-img-cap">
+                            <div class="blog-img">
+                                <img src="{% static 'fitsac/img/gallery/blog2.png' %}" alt="">
+                            </div>
+                            <div class="blog-cap">
+                                <span>Gym & Fitness</span>
+                                <h3><a href="{% url 'fitsac:blog_details' %}">Your Antibiotic One Day To 10 Day Options</a></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <!-- Blog Area End -->
+    <!--? video_start -->
+    {% if site_setup.show_video %}
+    
+        <div class="container">
+            {% if video %}
+                <div class="row">
+                    <div class="col-12 d-flex align-items-center mb-30">
+                        <div class="video-container">
+                            <iframe 
+                            src="{{ video.video_url}}" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            referrerpolicy="strict-origin-when-cross-origin" 
+                            allowfullscreen
+                            >
+                            </iframe>
+                        </div> 
+                    </div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="pt-80">
+                        <h1 class="">Ainda não tem videos na secção.</h1>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+    {% endif %}
+    <!-- video_end -->
+    <!-- ? services-area -->
+    {% if site_setup.show_services_area %}
+    <section class="services-area">
+        <div class="container">
+            {% if services %}
+            <div class="row justify-content-between">
+                {% for service in services %}
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8">
+                    <div class="single-services mb-40 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
+                        
+                        <div class="features-icon">
+                            <img src="{{ service.icon.url}}" alt="">
+                        </div>
+                        <div class="features-caption">
+                            <h3>{{ service.name}}</h3>
+                            <p>{{ service.text_field_1 }}</p>
+                            <p>{{ service.text_field_2 }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+</main>
+
+  <!-- Scroll Up -->
+  <div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

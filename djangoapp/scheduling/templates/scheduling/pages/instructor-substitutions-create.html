@@ -1,0 +1,145 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <div class="container">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-8">
+                    <h1>Gerir Aulas</h1>
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <h2>Substituição de instrutores</h2>
+                    <p class="mt-5 mb-5">Submeta o formulário para substituir um instrutor por outro.</p>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_class">Aula</label>
+                            <select name="fitness_class" id="id_fitness_class" class="form-control" required>
+                                <option value="">Selecione uma aula</option>
+                                {% for class in classes %}
+                                    <option value="{{ class.id }}">{{ class.get_day_of_week_display }} - {{ class.title }} - {{ class.instructor }} - {{ class.time }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_instructor">Instrutor substituto</label>
+                            <select name="substitute_instructor" id="id_substitute_instructor" class="form-control" required>
+                                <option value="">Selecione um instrutor</option>
+                                {% for instructor in instructors %}
+                                    <option value="{{ instructor.id }}">{{ instructor.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Data da substituição</label>
+                            <input type="text" name="date" id="date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reason">Motivo</label>
+                            <textarea name="reason" id="reason" class="form-control" rows="5"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-custom-user w-30">Substituir Instrutor</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row pt-60">
+                <div class="col-12">
+                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-primary">Voltar</a>
+                </div>
+            </div>
+        </div>
+
+        
+        
+        
+    </div>
+</main>
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/pikaday.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+    var picker = new Pikaday({
+        field: document.getElementById('date'),
+        format: 'YYYY-MM-DD',   // Define o formato da data
+        position: 'bottom right',    // Posiciona o calendário
+        // maxDate: new Date(),    Impede a seleção de datas futuras
+        i18n: {
+            previousMonth: 'Mês Anterior',
+            nextMonth: 'Próximo Mês',
+            months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            weekdays: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+            weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+        },
+        yearRange: [1900, new Date().getFullYear()], // Years range from 1900 to current year
+        
+        toString: function(date, format) {
+            // Converte a data selecionada no formato desejado
+            return moment(date).format('YYYY-MM-DD');
+        },
+        parse: function(dateString, format) {
+            // Converte a string da data de volta para o objeto Date
+            return moment(dateString, 'YYYY-MM-DD').toDate();
+        }
+        
+    });
+</script>
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

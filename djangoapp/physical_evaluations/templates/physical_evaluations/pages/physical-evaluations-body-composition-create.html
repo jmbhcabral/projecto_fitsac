@@ -1,0 +1,226 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}<main>
+    <div class="admin-menu">
+        <div class="container">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-8">
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <h2 class="text-center">Avaliação da composição corporal</h2>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="user">Utilizador: </label>
+                            {{ user.first_name }}
+                        <!-- Campo Tipo de Corpo -->
+                        <div class="form-group">
+                            <label for="body_type">Tipo de Corpo</label>
+                            {{ form.body_type }}
+                        </div>
+                    
+                        <!-- Campo Data -->
+                        <div class="form-group">
+                            <label for="date">Data</label>
+                            {{ form.date }}
+                        </div>
+                    
+                        <!-- Campo Peso -->
+                        <div class="form-group">
+                            <label for="weight">Peso (kg)</label>
+                            {{ form.weight }}
+                        </div>
+                    
+                        <!-- Campo Altura -->
+                        <div class="form-group">
+                            <label for="height">Altura (metros)</label>
+                            {{ form.height }}
+                        </div>
+                    
+                        <!-- Campo Gordura Corporal -->
+                        <div class="form-group">
+                            <label for="body_fat_percentage">Gordura Corporal (%)</label>
+                            {{ form.body_fat_percentage }}
+                        </div>
+                    
+                        <!-- Campo Percentagem de Água -->
+                        <div class="form-group">
+                            <label for="total_water_percentage">Percentagem de Água (%)</label>
+                            {{ form.total_water_percentage }}
+                        </div>
+                    
+                        <!-- Campo Massa Muscular -->
+                        <div class="form-group">
+                            <label for="muscle_mass_percentage">Massa Muscular (%)</label>
+                            {{ form.muscle_mass_percentage }}
+                        </div>
+                    
+                        <!-- Campo Nível de Fitness -->
+                        <div class="form-group">
+                            <label for="fitness_level">Nível de Fitness</label>
+                            {{ form.fitness_level }}
+                        </div>
+                    
+                        <!-- Campo Calorias Queimadas -->
+                        <div class="form-group">
+                            <label for="calories_burned">Calorias Queimadas</label>
+                            {{ form.calories_burned }}
+                        </div>
+                    
+                        <!-- Campo Idade Metabólica -->
+                        <div class="form-group">
+                            <label for="metabolic_age">Idade Metabólica</label>
+                            {{ form.metabolic_age }}
+                        </div>
+                    
+                        <!-- Campo Massa Óssea -->
+                        <div class="form-group">
+                            <label for="bone_mass">Massa Óssea (kg)</label>
+                            {{ form.bone_mass }}
+                        </div>
+                    
+                        <!-- Campo Gordura Visceral -->
+                        <div class="form-group">
+                            <label for="visceral_fat_percentage">Gordura Visceral (%)</label>
+                            {{ form.visceral_fat_percentage }}
+                        </div>
+                    
+                        <!-- Campo Circunferência da Cintura -->
+                        <div class="form-group">
+                            <label for="waist_circumference">Circunferência da Cintura (cm)</label>
+                            {{ form.waist_circumference }}
+                        </div>
+                    
+                        <!-- Campo Circunferência do Abdómen -->
+                        <div class="form-group">
+                            <label for="belly_circumference">Circunferência do Abdómen (cm)</label>
+                            {{ form.belly_circumference }}
+                        </div>
+                    
+                        <!-- Campo Circunferência do Quadril -->
+                        <div class="form-group">
+                            <label for="hip_circumference">Circunferência do Quadril (cm)</label>
+                            {{ form.hip_circumference }}
+                        </div>
+                    
+                        <!-- Campo Circunferência da Perna -->
+                        <div class="form-group">
+                            <label for="leg_circumference">Circunferência da Perna (cm)</label>
+                            {{ form.leg_circumference }}
+                        </div>
+                    
+                        <!-- Campo Circunferência do Braço -->
+                        <div class="form-group">
+                            <label for="arm_circumference">Circunferência do Braço (cm)</label>
+                            {{ form.arm_circumference }}
+                        </div>
+                    
+                        <!-- Campo Observações -->
+                        <div class="form-group">
+                            <label for="observations">Observações</label>
+                            {{ form.observations }}
+                        </div>
+                    
+                        <button type="submit" class="btn btn-custom-user mt-5">Submeter</button>
+                    </form>
+                    
+                </div>
+            </div>
+            <div class="row pt-60">
+                <div class="col-12">
+                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-custom-user">Voltar</a>
+                </div>
+            </div>
+        </div>    
+    </div>
+</main>
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/pikaday.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script>
+    
+    var picker = new Pikaday({
+        field: document.getElementById('id_date'),
+        format: 'YYYY-MM-DD',   // Define o formato da data
+        position: 'bottom right',    // Posiciona o calendário
+        maxDate: new Date(),    // Impede a seleção de datas futuras
+        i18n: {
+            previousMonth: 'Mês Anterior',
+            nextMonth: 'Próximo Mês',
+            months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            weekdays: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+            weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+        },
+        yearRange: [1900, new Date().getFullYear()], // Years range from 1900 to current year
+        
+        toString: function(date, format) {
+            // Converte a data selecionada no formato desejado
+            return moment(date).format('YYYY-MM-DD');
+        },
+        parse: function(dateString, format) {
+            // Converte a string da data de volta para o objeto Date
+            return moment(dateString, 'YYYY-MM-DD').toDate();
+        }
+       
+    });
+</script>
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

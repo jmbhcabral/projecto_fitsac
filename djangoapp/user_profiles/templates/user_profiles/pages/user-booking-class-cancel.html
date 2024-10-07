@@ -1,0 +1,97 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <!-- Cabeçalho da página -->
+        {% include "user_profiles/partials/_account_top.html" %}
+        
+        <!-- Layout principal com a sidebar e conteúdo -->
+        <div class="container mt-50 wrapper d-flex">
+            <!-- Sidebar -->
+            <div id="sidebar" class="col-12 col-md-3 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                {% include "user_profiles/partials/_account_nav.html" %}
+            </div>
+            
+            <!-- Conteúdo Principal -->
+            <div id="content" class="col-12 col-md-9 content-area p-4 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                <h2 class="text-center">Aulas de grupo</h2>
+                <p class="mt-5 text-center">Olá {{ user.first_name }}, nesta página pode cancelar aulas de grupo.</p>
+                <div>
+                    <form action="{% url 'scheduling:user_cancel_booking' %}" method="post">
+                        {% csrf_token %}
+                        {% if future_bookings %}
+                            <div class="form-group">
+                                <label for="future_bookings">Escolha as aulas que deseja cancelar</label>
+                                <div id="future_bookings"> 
+                                    {% for booking in form.fields.booking_ids.queryset %}
+                                        <div class="form-check">
+                                            <label class="form-check-label" for="{{ booking.id_for_label}}">
+                                                {{ booking.fitness_class.get_day_of_week_display }} - {{ booking.fitness_class.title }} -{{ booking.fitness_class.instructor }} -{{ booking.fitness_class.time }}
+                                            </label>
+                                            <input class="form-check-input custom-checkbox ml-3" type="checkbox" value="{{ booking.id }}" id="{{ booking.id }}" name="booking_ids">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="mt-4 text-center">Não existem aulas disponíveis.</p>
+                        {% endif %}
+                        {% if future_bookings %}
+                            <button type="submit" class="btn btn-custom-user mt-3">Cancelar Aula</button>
+                        {% endif %}
+                    </form>
+                </div>
+                
+                <!-- Adicionar mais conteúdo aqui conforme necessário -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

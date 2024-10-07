@@ -1,0 +1,164 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <!--? Hero Start -->
+    <div class="slider-area2">
+        <div class="pt-70 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap hero-cap2 pt-70">
+                            <h2>Contacte-nos</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero End -->
+    <!--?  Contact Area start  -->
+    <section class="contact-section">
+        <div class="container">
+            {% if messages %}
+                <div class="alert alert-dismissible">
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="col-12 mb-5 pb-4">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12435.610417708021!2d-9.158145371704098!3d38.811784888157206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd192d72c363b04f%3A0xd0a8f886bead8022!2sFitsac%20-%20Est%C3%BAdio!5e0!3m2!1spt-PT!2spt!4v1724428000097!5m2!1spt-PT!2spt" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                
+                
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12 text-center">
+                    <h2 class="contact-title">Entre em contacto connosco</h2>
+                </div>
+                <div class="col-lg-8">
+                    <form class="form-contact contact_form" action="{{ form_action }}" method="post" id="contactForm" novalidate="novalidate">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group" style="color: white;">
+                                    {{ form.message.label_tag }}
+                                    {{ form.message }}
+                                    {% if form.message.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ form.message.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group" style="color: white;">
+                                    {{ form.name.label_tag }}
+                                    {{ form.name }}
+                                    {% if form.name.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ form.name.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group" style="color: white;">
+                                    {{ form.email.label_tag }}
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ form.email.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group" style="color: white;">
+                                    {{ form.subject.label_tag }}
+                                    {{ form.subject }}
+                                    {% if form.subject.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ form.subject.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <button type="submit" class="button button-contactForm boxed-btn">Enviar</button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Area End -->
+    <!-- ? services-area -->
+    {% if site_setup.show_services_area %}
+    <section class="services-area">
+        <div class="container">
+            {% if services %}
+            <div class="row justify-content-between">
+                {% for service in services %}
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8">
+                    <div class="single-services mb-40 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
+                        
+                        <div class="features-icon">
+                            <img src="{{ service.icon.url}}" alt="">
+                        </div>
+                        <div class="features-caption">
+                            <h3>{{ service.name}}</h3>
+                            <p>{{ service.text_field_1 }}</p>
+                            <p>{{ service.text_field_2 }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+</main>
+  <!-- Scroll Up -->
+  <div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- contact js -->
+{% comment %} <script src="{% static 'fitsac/js/contact.js' %}"></script> {% endcomment %}
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

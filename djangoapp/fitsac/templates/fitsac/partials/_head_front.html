@@ -1,0 +1,37 @@
+{% load static %}
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% comment %} <link rel="manifest" href="site.webmanifest"> {% endcomment %}
+<link rel="stylesheet" href={% static "fitsac/css/bootstrap.min.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/owl.carousel.min.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/slicknav.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/flaticon.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/gijgo.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/animate.min.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/animated-headline.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/magnific-popup.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/fontawesome-all.min.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/themify-icons.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/slick.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/nice-select.css" %} class="css">
+<link rel="stylesheet" href={% static "fitsac/css/style.css" %} class="css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/css/pikaday.min.css">
+
+<style>
+    .slider-area {
+        margin-top: -1px;
+        background-image: url({{ section_one.image_1.url }});
+        background-repeat: no-repeat;
+        background-position: top center;
+        background-size: cover;
+        background-attachment: fixed;
+        {% comment %} opacity: 0.6; {% endcomment %}
+    }
+    .slider-area2 {
+        background-image: url({{ section_one.image_2.url }});
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+</style>
+<title>{{ setup.head_title }}</title>
