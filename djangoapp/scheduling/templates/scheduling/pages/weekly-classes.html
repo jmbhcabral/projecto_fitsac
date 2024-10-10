@@ -40,6 +40,7 @@
                                                 <th>Hora</th>
                                                 <th>Instrutor</th>
                                                 <th>Aula</th>
+                                                <th>Sessão</th>
                                                 <th>Visível</th>
                                                 <th>Acções</th>
                                             </tr>
@@ -58,6 +59,8 @@
                                                             {% endif %}
                                                         </td>
                                                         <td>{{ class.title }}</td>
+                                                        <td>
+                                                            <span class="badge badge-info"><a href="{% url 'scheduling:class_session_start' class.id %}" class="">Adicionar</a></span>
                                                         <td>
                                                             {% if class.is_visible %}
                                                                 <span class="badge badge-success">Sim</span>

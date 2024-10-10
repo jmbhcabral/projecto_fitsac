@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.utils import timezone
 from utils.image_validators import resize_image
+from utils.qr_code import generate_qr_code
+import uuid
+from io import BytesIO
 
 
 class Instructor(models.Model):
@@ -76,7 +79,10 @@ class WeeklyClass(models.Model):
         )
 
     def get_current_instructors(self, class_date=None, time=None):
-        '''Verifica se há um instrutor substituto para a data especificada, considerando o dia da semana e o horário.'''
+        '''
+        Verifica se há um instrutor substituto para a data especificada,
+        considerando o dia da semana e o horário.
+        '''
         print('Getting current instructors')
         print(f"date: {class_date}, time: {time}")
 
@@ -89,15 +95,18 @@ class WeeklyClass(models.Model):
         if class_date and time:
             try:
                 substitution = InstructorSubstitution.objects.get(
-                    fitness_class=self, date=class_date, fitness_class__time=time)
+                    fitness_class=self,
+                    date=class_date,
+                    fitness_class__time=time
+                )
                 return substitution.substitute_instructor.instructor.first_name
             except InstructorSubstitution.DoesNotExist:
                 return self.instructor.instructor.first_name
 
     def get_class_time(self, date):
-        ''' Retorna o horário da aula, considerando qualquer exceção de horário.
-            Se houver uma exceção para a data específica e esta aula, usa-se o horário da exceção;
-            caso contrário, usa-se o horário padrão.
+        ''' Retorna o horário da aula, considerando qualquer exceção de
+        horário. Se houver uma exceção para a data específica e esta aula,
+        usa-se o horário da exceção; caso contrário, usa-se o horário padrão.
         '''
         try:
             exception = ClassTimeException.objects.get(
@@ -110,9 +119,17 @@ class WeeklyClass(models.Model):
 class InstructorSubstitution(models.Model):
     fitness_class = models.ForeignKey(WeeklyClass, on_delete=models.CASCADE)
     original_instructor = models.ForeignKey(
-        Instructor, related_name='original_instructors', on_delete=models.SET_NULL, null=True)
+        Instructor,
+        related_name='original_instructors',
+        on_delete=models.SET_NULL,
+        null=True
+    )
     substitute_instructor = models.ForeignKey(
-        Instructor, related_name='substitute_instructors', on_delete=models.SET_NULL, null=True)
+        Instructor,
+        related_name='substitute_instructors',
+        on_delete=models.SET_NULL,
+        null=True
+    )
     date = models.DateField()
     reason = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -159,6 +176,9 @@ class ClassSession(models.Model):
     time = models.TimeField()
     participants = models.ManyToManyField(User, blank=True)
     notes = models.TextField(blank=True, null=True)
+    qr_code = models.ImageField(
+        upload_to='assets/class_sessions/qr_codes/', blank=True)
+    session_identifier = models.UUIDField(default=uuid.uuid4, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -172,12 +192,24 @@ class ClassSession(models.Model):
             # If the time is not set, use the regular time.
             self.time = self.fitness_class.get_class_time(self.date)
 
+            # If the QR code is not set, generate it.
+            if not self.qr_code:
+                qr_data = f'{self.session_identifier}'
+                img = generate_qr_code(qr_data)
+
+                buffer = BytesIO()
+                img.save(buffer, format='PNG')
+                file_name = f'classsession_qr_{self.pk}.png'
+                self.qr_code.save(file_name, buffer, save=False)
+
         super().save(*args, **kwargs)
 
     def __str__(self):
         return (
-            f"{self.fitness_class.title} com {self.instructor.instructor.first_name} "
-            f"em {self.date} às {self.time}")
+            f'{self.fitness_class.title} com '
+            f'{self.instructor.instructor.first_name} '
+            f'em {self.date} às {self.time}'
+        )
 
 
 class Booking(models.Model):

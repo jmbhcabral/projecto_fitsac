@@ -10,7 +10,9 @@ from scheduling.views import (
 )
 from scheduling.views import (
     ClassesNextDayView, BookingClassView, CancelBookingView,
-    InstructorSubstitutionsView, InstructorSubstitutionCreateView
+    InstructorSubstitutionsView, InstructorSubstitutionCreateView,
+    ClassesSessionsView, ClassSessionStartView, ClassSessionEditView,
+    QrCodeView, MarkAttendanceView, QrCodeScannerView
 )
 
 
@@ -57,5 +59,22 @@ urlpatterns = [
     path('scheduling/instructor-substitution/create/',
          InstructorSubstitutionCreateView.as_view(),
          name='instructor_substitution_create'),
+    # classes Sessions
+    path('scheduling/classes-sessions/', ClassesSessionsView.as_view(),
+         name='classes_sessions'),
+    path('scheduling/classes-sessions/start/<int:pk>/',
+         ClassSessionStartView.as_view(),
+         name='class_session_start'),
+    path('scheduling/classes-sessions/edit/<int:pk>/',
+         ClassSessionEditView.as_view(),
+         name='class_session_edit'),
+    # QR code
+    path('scheduling/classes-sessions/qr-code/<int:session_id>/',
+         QrCodeView.as_view(),
+         name='session_qrcode'),
+    path('qr-code-reader/', QrCodeScannerView.as_view(),
+         name='qr_code_reader'),
+    path('mark-attendance/', MarkAttendanceView.as_view(),
+         name='mark_attendance'),
 
 ]

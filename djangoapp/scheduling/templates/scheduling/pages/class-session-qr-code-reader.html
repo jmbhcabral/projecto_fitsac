@@ -1,0 +1,134 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <!-- Cabeçalho da página -->
+        {% include "user_profiles/partials/_account_top.html" %}
+        
+        <!-- Layout principal com a sidebar e conteúdo -->
+        <div class="container mt-50">
+
+                
+                
+                <!-- Conteúdo Principal -->
+                <div id="content" class="col-12 col-md-9 content-area-qr-code wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                    <h2 class="text-center">Marcar presença</h2>
+                    <p>{{ user.username }}</p>
+                    <div id="qr-reader" class="qr-reader"></div>
+                    <div id="qr-reader-results" class="text-center mt-3" style="color: white;"></div>
+                </div>
+
+        </div>
+    </div>
+</main>
+
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+<script src="https://unpkg.com/html5-qrcode/html5-qrcode.min.js"></script>
+
+<script>
+    function onScanSuccess(qrCodeMessage) {
+        // Quando o QR code for lido com sucesso
+        document.getElementById('qr-reader-results').innerText = 'Olá, {{ user.username }}! Presença marcada com sucesso!';
+
+        // Podes aqui redirecionar para o servidor ou enviar uma requisição Ajax
+        fetch(`/mark-attendance/?code=${qrCodeMessage}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'  // Se estiveres a usar Django
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            if (data.success) {
+                document.getElementById('qr-reader-results').innerText = 'Olá, {{ user.username }}! ' + data.message + '.';
+                // Parar o scanner após sucesso
+                html5QrCode.stop().then(() => {
+                    console.log('Leitura do QR code parada com sucesso.');
+                }).catch((err) => {
+                    console.error('Erro ao parar a leitura do QR code:', err);
+                });
+            } else {
+                document.getElementById('qr-reader-results').innerText = 'Olá, {{ user.username }}! ' + data.message + '.';
+            
+                if(data.message === 'Presença já marcada.') {
+                    // Parar o scanner se a presença já tiver sido marcada
+                    html5QrCode.stop().then(() => {
+                        console.log('Leitura do QR code parada com sucesso.');
+                    }).catch((err) => {
+                        console.error('Erro ao parar a leitura do QR code:', err);
+                    });
+                }
+            }
+        });
+    }
+
+    function onScanError(errorMessage) {
+        // Em caso de erro de leitura, podes mostrar a mensagem
+        console.warn('Erro na leitura do QR code:', errorMessage);
+    }
+
+    // Iniciar o leitor de QR code
+    var html5QrCode = new Html5Qrcode("qr-reader");
+
+    html5QrCode.start(
+        { facingMode: "environment" }, // Usa a câmara traseira
+        {
+            fps: 10,    // Taxa de frames
+            qrbox: {
+                width: 300,  // Largura da área de leitura
+                height: 300  // Altura da área de leitura
+            }  // Tamanho da área de leitura
+        },
+        onScanSuccess,
+        onScanError
+    ).catch(err => {
+        console.error('Erro ao iniciar o leitor de QR code', err);
+    });
+</script>
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

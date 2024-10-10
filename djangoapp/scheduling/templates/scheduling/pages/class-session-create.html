@@ -26,47 +26,17 @@
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
                     <div>
                         <h2>Gerir Sessões</h2>
-                        <p>Gerir sessões de aulas.</p>
+                        <p>Criar sessões de aulas.</p>
                     </div>
                     <div>
-                        <a href="{% url 'scheduling:class_session_create' instructor.pk %}" class="btn btn-custom-user">Criar Sessão</a>
-                    </div>
-                    <div class="pt-5">
-                        <h3>Ultimas 10 aulas</h3>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Aula</th>
-                                    <th scope="col">Data</th>
-                                    <th scope="col">Hora</th>
-                                    <th scope="col">Duração</th>
-                                    <th scope="col">Instrutor</th>
-                                    <th scope="col">Local</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for session in sessions %}
-                                <tr>
-                                    <th scope="row">{{ session.id }}</th>
-                                    <td>{{ session.class.name }}</td>
-                                    <td>{{ session.date|date:"d/m/Y" }}</td>
-                                    <td>{{ session.time }}</td>
-                                    <td>{{ session.duration }}</td>
-                                    <td>{{ session.instructor }}</td>
-                                    <td>{{ session.location }}</td>
-                                    <td>
-                                        {% comment %} <a href="{% url 'scheduling:session_detail' session.id %}" class="btn btn-primary">Detalhes</a>
-                                        <a href="{% url 'scheduling:session_update' session.id %}" class="btn btn-warning">Editar</a>
-                                        <a href="{% url 'scheduling:session_delete' session.id %}" class="btn btn-danger">Apagar</a> {% endcomment %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_date">Data</label>
+                                <input type="text" name="date" id="id_date" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-custom-user">Criar Sessão</button>
+                        </form>
                 </div>
             </div>
             <div class="row pt-60">
@@ -75,10 +45,6 @@
                 </div>
             </div>
         </div>
-
-        
-        
-        
     </div>
 </main>
 <!-- Scroll Up -->
@@ -87,6 +53,36 @@
 </div>
 
 <!-- JS here -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/pikaday.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script>
+    
+    var picker = new Pikaday({
+        field: document.getElementById('id_date'),
+        format: 'YYYY-MM-DD',   // Define o formato da data
+        position: 'bottom right',    // Posiciona o calendário
+        // maxDate: new Date(),    // Impede a seleção de datas futuras
+        i18n: {
+            previousMonth: 'Mês Anterior',
+            nextMonth: 'Próximo Mês',
+            months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            weekdays: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+            weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+        },
+        yearRange: [1900, new Date().getFullYear()], // Years range from 1900 to current year
+        
+        toString: function(date, format) {
+            // Converte a data selecionada no formato desejado
+            return moment(date).format('YYYY-MM-DD');
+        },
+        parse: function(dateString, format) {
+            // Converte a string da data de volta para o objeto Date
+            return moment(dateString, 'YYYY-MM-DD').toDate();
+        }
+       
+    });
+</script>
 
 <script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
 <!-- Jquery, Popper, Bootstrap -->

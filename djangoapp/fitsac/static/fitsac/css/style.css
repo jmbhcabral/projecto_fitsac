@@ -8347,3 +8347,33 @@ input[type="file"]::file-selector-button {
   height: auto; /* Ajusta a altura da imagem */
 
 }
+
+/* QR Code Scanner */
+#qr-reader {
+  width: 100%;   /* Ocupa toda a largura disponível */
+  max-width: 500px; /* Define um limite máximo de largura */
+  height: 600px; /* Altura em desktop */
+  margin: 0 auto;  /* Centraliza o leitor horizontalmente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+/* Estilos responsivos para dispositivos móveis */
+@media (max-width: 768px) {
+  #qr-reader {
+      width: 100%;
+      height: 400px;  /* Altura maior em telemóveis */
+      margin: 0 auto;
+  }
+}
+
+/* Garante que o conteúdo principal ocupa o espaço completo */
+.content-area-qr-code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;  
+}

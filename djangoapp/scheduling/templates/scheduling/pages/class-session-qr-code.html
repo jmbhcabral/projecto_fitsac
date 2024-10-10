@@ -18,69 +18,33 @@
                 </div>
             </div>
         </div>
+
         <div class="container">
             <div class="row pt-5 align-items-stretch">
                 <!-- Coluna para as opções de gestão -->
                 {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- TODO: retirar a navegação de gestão de aulas e colocar um link para voltar -->
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <div>
+                    <div class="text-center">
                         <h2>Gerir Sessões</h2>
-                        <p>Gerir sessões de aulas.</p>
+                        <p>QrCode.</p>
                     </div>
-                    <div>
-                        <a href="{% url 'scheduling:class_session_create' instructor.pk %}" class="btn btn-custom-user">Criar Sessão</a>
+                    <div class="d-flex justify-content-center">
+                        <img src="{{ session.qr_code.url }}" alt="QR Code" class="img-fluid" style="max-width: 300px;">
                     </div>
-                    <div class="pt-5">
-                        <h3>Ultimas 10 aulas</h3>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Aula</th>
-                                    <th scope="col">Data</th>
-                                    <th scope="col">Hora</th>
-                                    <th scope="col">Duração</th>
-                                    <th scope="col">Instrutor</th>
-                                    <th scope="col">Local</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for session in sessions %}
-                                <tr>
-                                    <th scope="row">{{ session.id }}</th>
-                                    <td>{{ session.class.name }}</td>
-                                    <td>{{ session.date|date:"d/m/Y" }}</td>
-                                    <td>{{ session.time }}</td>
-                                    <td>{{ session.duration }}</td>
-                                    <td>{{ session.instructor }}</td>
-                                    <td>{{ session.location }}</td>
-                                    <td>
-                                        {% comment %} <a href="{% url 'scheduling:session_detail' session.id %}" class="btn btn-primary">Detalhes</a>
-                                        <a href="{% url 'scheduling:session_update' session.id %}" class="btn btn-warning">Editar</a>
-                                        <a href="{% url 'scheduling:session_delete' session.id %}" class="btn btn-danger">Apagar</a> {% endcomment %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
                 </div>
             </div>
-            <div class="row pt-60">
-                <div class="col-12">
+
+            <div class="row pt-60 justify-content-center">
+                <div class="col-12 text-center">
                     <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-primary">Voltar</a>
                 </div>
             </div>
         </div>
-
-        
-        
-        
     </div>
 </main>
+
 <!-- Scroll Up -->
 <div id="back-top" >
     <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>

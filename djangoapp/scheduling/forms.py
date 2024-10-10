@@ -443,51 +443,83 @@ class CancelBookingForm(forms.Form):
         return cleaned_data
 
 
-class ClassSessionForm(forms.ModelForm):
-    ''' 
-    Form for the ClassSession model. 
-    '''
+class ClassSessionStartForm(forms.ModelForm):
+    ''' Form for starting a class session. '''
+
     class Meta:
         model = ClassSession
-        fields = ['fitness_class', 'instructor',
-                  'date', 'time', 'participants', 'notes']
+        fields = ['date']
 
-    fitness_class = forms.ModelChoiceField(
-        label='Aula',
-        queryset=WeeklyClass.objects.all(),
-        widget=forms.Select(
+    date = forms.DateField(
+        label='Data',
+        widget=forms.DateInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Aula',
+                'placeholder': 'Data',
             }
         )
     )
-    instructor = forms.ModelChoiceField(
-        label='Instrutor',
-        queryset=Instructor.objects.all(),
-        widget=forms.Select(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Instrutor',
-            }
-        )
-    )
+
+    def __init__(self, *args, **kwargs):
+        ''' Initialize the form '''
+
+        # Get the fitness class from the URL parameter class_id
+        self.fitness_class = kwargs.pop('fitness_class', None)
+        print(f'Fitness Class: {self.fitness_class}')
+
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        ''' Form validation '''
+        cleaned_data = super().clean()
+        selected_date = cleaned_data.get('date')
+
+        errors = {}
+
+        if not selected_date:
+            errors['date'] = ['A data é obrigatória.']
+        else:
+            today = datetime.date.today()
+
+            if selected_date > today:
+                if 'date' in errors:
+                    errors['date'].append('A data não pode ser no futuro.')
+                else:
+                    errors['date'] = ['A data não pode ser no futuro.']
+
+            selected_day_of_week = selected_date.weekday()
+
+            if selected_day_of_week != self.fitness_class.day_of_week:
+                if 'date' in errors:
+                    errors['date'].append(
+                        'A data selecionada não corresponde ao dia da semana '
+                        'da aula.'
+                    )
+                else:
+                    errors['date'] = [
+                        'A data selecionada não corresponde ao dia da semana da aula.'
+                    ]
+
+        if errors:
+            print(f'Erros: {errors}')
+            raise forms.ValidationError(errors)
+
+        return cleaned_data
+
+
+class ClassSessionEndForm(forms.ModelForm):
+    ''' Form for ending a class session. '''
+
+    class Meta:
+        model = ClassSession
+        fields = ['participants', 'notes']
+
     participants = forms.ModelMultipleChoiceField(
         label='Participantes',
         queryset=User.objects.all(),
         widget=forms.CheckboxSelectMultiple(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Participantes',
-            }
-        )
-    )
-    notes = forms.CharField(
-        label='Observações',
-        widget=forms.Textarea(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Observações',
             }
         )
     )
@@ -495,20 +527,10 @@ class ClassSessionForm(forms.ModelForm):
     def clean(self):
         ''' Form validation '''
         cleaned_data = super().clean()
-        fitness_class = cleaned_data.get('fitness_class')
-        instructor = cleaned_data.get('instructor')
-        date = cleaned_data.get('date')
-        time = cleaned_data.get('time')
         participants = cleaned_data.get('participants')
         notes = cleaned_data.get('notes')
 
         erros = {}
-
-        if not fitness_class:
-            erros['fitness_class'] = 'A aula é obrigatória.'
-
-        if not instructor:
-            erros['instructor'] = 'O instrutor é obrigatório.'
 
         if not participants:
             erros['participants'] = 'Selecione pelo menos um participante.'
