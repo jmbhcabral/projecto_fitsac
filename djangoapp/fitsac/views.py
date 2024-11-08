@@ -19,6 +19,7 @@ def index(request):
     # Section Five
     header = SectionFiveHeader.objects.filter(is_visible=True).first()
     cards = Card.objects\
+        .filter(is_visible=True)\
         .order_by('order')\
         .all()
     section_six = SectionSix.objects\
@@ -132,7 +133,3 @@ def contact(request):
         'form_action': form_action,
         'services': services,
     })
-
-
-def admin(request):
-    return render(request, 'fitsac/admin/admin-home.html')

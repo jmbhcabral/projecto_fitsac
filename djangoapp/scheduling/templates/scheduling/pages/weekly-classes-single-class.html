@@ -8,12 +8,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Gerir Aulas</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -24,55 +22,68 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <div class="card p-5">
-                        {% if weekly_class %}
-                            <p style="color: black;"><strong>Aula:</strong> {{ weekly_class.title }}</p>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Gerir Instrutores.</p>
+                                <p>Crie, edite e delete instrutores.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <div class="card p-5">
+                                    {% if weekly_class %}
+                                        <p style="color: black;"><strong>Aula:</strong> {{ weekly_class.title }}</p>
+                                        
+                                        <p style="color: black;"><strong>Descrição:</strong> {{ weekly_class.description }}</p>
+                                        
+                                        <p style="color: black;"><strong>Instrutor:</strong> {{ weekly_class.instructor.name }}</p>
+                                        
+                                        {% if weekly_class.substitute_instructor %}
+                                            <p style="color: black;"><strong>Substituto:</strong> 
+                                                {{ weekly_class.substitute_instructor.name }}
+                                            </p>
+                                        {% else %}
+                                            <p style="color: black;"><strong>Substituto:</strong>Não tem substituto.</p>
+                                        {% endif %}
                             
-                            <p style="color: black;"><strong>Descrição:</strong> {{ weekly_class.description }}</p>
+                                        <p style="color: black;"><strong>Duração:</strong>
+                                            {{ formatted_duration }}
+                                        </p>
                             
-                            <p style="color: black;"><strong>Instrutor:</strong> {{ weekly_class.instructor.name }}</p>
-                            
-                            {% if weekly_class.substitute_instructor %}
-                                <p style="color: black;"><strong>Substituto:</strong> 
-                                    {{ weekly_class.substitute_instructor.name }}
-                                </p>
-                            {% else %}
-                                <p style="color: black;"><strong>Substituto:</strong>Não tem substituto.</p>
-                            {% endif %}
-                            
-                            <p style="color: black;"><strong>Duração:</strong>
-                                {{ formatted_duration }}
-                            </p>
-                            
-                            <p style="color: black;"><strong>Dia da Semana:</strong> {{ weekly_class.get_day_of_week_display }}</p>
+                                        <p style="color: black;"><strong>Dia da Semana:</strong> {{ weekly_class.get_day_of_week_display }}</p>
                         
-                            <p style="color: black;"><strong>Hora:</strong> {{ weekly_class.time|date:"H:i" }}</p>
+                                        <p style="color: black;"><strong>Hora:</strong> {{ weekly_class.time|date:"H:i" }}</p>
                         
-                            <p style="color: black;"><strong>Participantes:</strong> {% if weekly_class.participants.count %}{% else %}0{% endif %}/{{ weekly_class.max_participants }}</p>
+                                        <p style="color: black;"><strong>Participantes:</strong> {% if weekly_class.participants.count %}{% else %}0{% endif %}/{{ weekly_class.max_participants }}</p>
 
-                            {% if weekly_class.is_visible %}
-                                <p style="color: black;"><strong>Visível:</strong> Visível na tabela.</p>
-                            {% else %}
-                                <p style="color: black;"><strong>Visível:</strong> Não visível na tabela.</p>
-                        {% endif %}
-                    {% endif %}
-                </div>
+                                        {% if weekly_class.is_visible %}
+                                            <p style="color: black;"><strong>Visível:</strong> Visível na tabela.</p>
+                                        {% else %}
+                                            <p style="color: black;"><strong>Visível:</strong> Não visível na tabela.</p>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <div class="row p-4">
-                    <a href="{% url "scheduling:weekly_classes_edit" weekly_class.id %}" class="btn btn-primary mr-5">Editar</a>
+                    <a href="{% url "scheduling:weekly_classes_edit" weekly_class.id %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
                     <form action="{% url "scheduling:weekly_classes_delete" weekly_class.id %}" method='POST'>
                         {% csrf_token %}
                         {% if confirmation == 'yes' %}
                             <input type="hidden" name="confirmation" value="{{ confirmation }}">
-                            <button class="btn btn-primary btn-xs" type="submit">Confirma?</button>
+                            <button class="btn btn-custom-user mb-5 mr-3" type="submit">Confirma?</button>
                         {% else %}
-                            <button class="btn btn-primary btn-xs" type="submit">Apagar</button>
+                            <button class="btn btn-custom-user mb-5 mr-3" type="submit">Apagar</button>
                         {% endif %}
                     </form>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'scheduling:weekly_classes_management' %}" class="btn btn-primary">Voltar</a>
+                    <a href="{% url 'scheduling:weekly_classes_management' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>

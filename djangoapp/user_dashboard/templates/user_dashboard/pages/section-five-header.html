@@ -7,50 +7,73 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section Five. Here you can manage the website.</p>
                 </div>
             </div>
-            {% if formset %}
             <div class="row pt-80 justify-content-center">
-                <div class="col-12 text-center">
-                    <h1>Content</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
-                    <form action="{{ form_action }}" method="post" class="pt-60 d-flex flex-column align-items-center">
-                    {% csrf_token %}
-
-                        <div class="form-group">
-                        {% for form in formset %}
-                            {{ formset.management_form }}
-                            <div class="form-row">
-                            <label for="{{ form.name.id_for_label }}">Título:</label>
-                            {{ form.name }}
-                            <label for="{{ form.is_visible.id_for_label }}">Visibilidade:</label>
-                            {{ form.is_visible }}
-                            {{ form.id }}
-                            </div>
-                            {% endfor %}
-                        </div>
-                    <div class="pt-60">
-                        <button class="btn btn-primary btn-xs" type="submit">atualizar</button>
-                    </form>
-                    </div>
-                </div>
-                <div class="pt-60 justify-content-center">
-                    <a href="{% url "user_dashboard:section_five_header_create" %}" class="btn btn-primary btn-xs">Criar Título</a>
-                    <a href="{% url "user_dashboard:section_five_header_delete" %}" class="btn btn-primary btn-xs">Apagar</a>
-                    <a href="{% url "user_dashboard:section_five_create" %}" class="btn btn-primary btn-xs">Voltar</a>
                 </div>
             </div>
-            {% else %}
-            <div class="d-flex flex-row flex-wrap">
-                <div class="pt-80">
-                    <h1>Ainda não tem Títulos na secção.</h1>
-                    <div class="pt-60">
-                        <a href="{% url "user_dashboard:section_five_header_create" %}" class="btn btn-primary btn-xs">Criar</a>
-                        <a href="{% url "user_dashboard:section_five_create" %}" class="btn btn-primary btn-xs">voltar</a>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Títulos da página de preços.</p>
+                                <p>Selecione um título para ver detalhes ou editar.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if formset %}
+                                    <form action="{{ form_action }}" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            {% for form in formset %}
+                                                {{ formset.management_form }}
+                                                <div class="form-row pt-5 border-fit w-100 mb-3">
+                                                    <label for="{{ form.name.id_for_label }}">Título:</label>
+                                                    {{ form.name }}
+                                                    <label for="{{ form.is_visible.id_for_label }}">Visibilidade:</label>
+                                                    {{ form.is_visible }}
+                                                    {{ form.id }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="pt-60">
+                                            <button class="btn btn-custom-user mb-5 mr-3" type="submit">atualizar</button>
+                                        </div>
+                                    </form>
+                                    <div class="pt-60 justify-content-center">
+                                        <a href="{% url "user_dashboard:section_five_header_create" %}" class="btn btn-custom-user mb-5 mr-3">Criar Título</a>
+                                        <a href="{% url "user_dashboard:section_five_header_delete" %}" class="btn btn-custom-user mb-5 mr-3">Apagar</a>
+                                    </div>
+                                {% else %}
+                                    <div class="d-flex flex-row flex-wrap">
+                                        <div class="pt-80">
+                                            <h1>Ainda não tem Títulos na secção.</h1>
+                                            <div class="pt-60">
+                                                <a href="{% url "user_dashboard:section_five_header_create" %}" class="btn btn-custom-user mb-5 mr-3">Criar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            {% endif %}
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:section_five_create" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
+            </div>
         </div>     
     </div>
 </main>

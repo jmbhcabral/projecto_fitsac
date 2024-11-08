@@ -1,6 +1,6 @@
 from django.urls import path
 from fitsac.views import (index, about, courses, pricing, gallery, blog,
-                          blog_details, contact, admin
+                          blog_details, contact
                           )
 
 
@@ -15,6 +15,4 @@ urlpatterns = [
     path('blog/', blog, name='blog'),
     path('blog-details/', blog_details, name='blog_details'),
     path('contact/', contact, name='contact'),
-    # Admin
-    path('fitsac/admin/', admin, name='admin'),
 ]

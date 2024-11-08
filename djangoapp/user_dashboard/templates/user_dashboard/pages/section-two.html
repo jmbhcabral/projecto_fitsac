@@ -7,47 +7,68 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section One. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Content</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
-                    {% if section_two %}
-                        
-                        
-                        <p>Nome Secção: {{ section_two.name }}</p>
-                        {% if section_two.image_1 %}
-                            <p>Imagem: {{ section_two.image_1 }}</p>
-                            <img src="{{ section_two.image_1.url }}" alt="image_1" style="width: 250px; height: 150px;">
-                        {% else %}
-                            <p>Imagem: Não tem imagem</p>
-                        {% endif %}
-                        <p>Cabeçalho 1: {{ section_two.text_field_3 }}</p>
-                        <p>Parágrafo 2: {{ section_two.text_field_4 }}</p>
-                        {% if section_two.image_2 %}
-                            <p>Imagem: {{ section_two.image_2 }}</p>
-                            <img src="{{ section_two.image_2.url }}" alt="image_2" style="width: 250px; height: 150px;">
-                        {% else %}
-                            <p>Imagem: Não tem imagem</p>
-                        {% endif %}
-                        <p>Cabeçalho 2: {{ section_two.text_field_5 }}</p>
-                        <p>Parágrafo 2: {{ section_two.text_field_6 }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Crie a secção dois. Mostre quais os serviços principais do estúdio.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if section_two %}  
+                                    <p>Nome Secção: {{ section_two.name }}</p>
+                                    {% if section_two.image_1 %}
+                                        <p>Imagem: {{ section_two.image_1 }}</p>
+                                        <img src="{{ section_two.image_1.url }}" alt="image_1" style="width: 250px; height: 150px;">
+                                    {% else %}
+                                        <p>Imagem: Não tem imagem</p>
+                                    {% endif %}
+                                        <p>Cabeçalho 1: {{ section_two.text_field_3 }}</p>
+                                        <p>Parágrafo 2: {{ section_two.text_field_4 }}</p>
+                                    {% if section_two.image_2 %}
+                                        <p>Imagem: {{ section_two.image_2 }}</p>
+                                        <img src="{{ section_two.image_2.url }}" alt="image_2" style="width: 250px; height: 150px;">
+                                    {% else %}
+                                        <p>Imagem: Não tem imagem</p>
+                                    {% endif %}
+                                    <p>Cabeçalho 2: {{ section_two.text_field_5 }}</p>
+                                    <p>Parágrafo 2: {{ section_two.text_field_6 }}</p>
 
-                        <div class="pt-60">
-                            <a href="{% url "user_dashboard:section_two_update" section_two.id %}" class="btn btn-primary btn-xs">Editar</a>
-                            <a href="{% url "user_dashboard:admin_home" %}" class="btn btn-danger btn-xs">voltar</a>
+                                    <div class="pt-60">
+                                        <a href="{% url "user_dashboard:section_two_update" section_two.id %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                                    </div>
+                                {% else %}        
+                                    <div class="pt-80">
+                                        <h1>Ainda não tem a secção criada.</h1>
+                                        <div class="pt-60">
+                                            <a href="{% url "user_dashboard:section_two_create" %}" class="btn btn-custom-user mb-5 mr-3">Criar Secção</a>
+                                        </div>
+                                    </div> 
+                                {% endif %}
+                            </div>
                         </div>
-                    {% else %}        
-                    <div class="pt-80">
-                        <h1>Ainda não tem a secção criada.</h1>
-                        <div class="pt-60">
-                            <a href="{% url "user_dashboard:section_two_create" %}" class="btn btn-primary btn-xs">Criar Secção</a>
-                        </div>
-                    {% endif %}
                     </div>
                 </div>     
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:admin_site_config" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
             </div>
         </div>
     </div>

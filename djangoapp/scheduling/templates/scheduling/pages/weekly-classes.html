@@ -1,5 +1,6 @@
 {% extends "fitsac/base_front.html" %}
 {% load static %}
+{% load custom_tags %}
 {% load custom_filters %}
 {% block content %}
 <main>
@@ -8,12 +9,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas semanais. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
                 <div class="col-12">
-                    <h1>Gerir Aulas</h1>
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -24,73 +23,97 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    {% if weekly_classes %}
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-12 text-center">
-                                    <h2>Horário Semanal das Aulas</h2>
-                                </div>
-                            </div>
-                            <div class="row pt-5">
-                                <div class="col-12">
-                                    <table class="table table-bordered table-responsive-md">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th>Dia da Semana</th>
-                                                <th>Hora</th>
-                                                <th>Instrutor</th>
-                                                <th>Aula</th>
-                                                <th>Sessão</th>
-                                                <th>Visível</th>
-                                                <th>Acções</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for day, classes in classes_by_day.items %}
-                                                {% for class in classes %}
-                                                    <tr>
-                                                        <td>{{ day }}</td>
-                                                        <td>{{ class.time|date:"H:i" }}</td>
-                                                        <td>
-                                                            {% if class.substitute_instructor %}
-                                                                {{ class.substitute_instructor.name }}
-                                                            {% else %}
-                                                                {{ class.instructor.instructor.first_name }} {{ class.instructor.instructor.last_name }}
-                                                            {% endif %}
-                                                        </td>
-                                                        <td>{{ class.title }}</td>
-                                                        <td>
-                                                            <span class="badge badge-info"><a href="{% url 'scheduling:class_session_start' class.id %}" class="">Adicionar</a></span>
-                                                        <td>
-                                                            {% if class.is_visible %}
-                                                                <span class="badge badge-success">Sim</span>
-                                                            {% else %}
-                                                                <span class="badge badge-danger">Não</span>
-                                                            {% endif %}
-                                                        <td>
-                                                            <a href="{% url 'scheduling:weekly_classes_single_class' class.id %}" class="">Editar</a>
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Gerir Aulas Semanais.</p>
+                                <p>Crie, edite e delete aulas semanais.</p>
                             </div>
                         </div>
-                        
-                    {% else %}
-                        <p class="text-center">Não há aulas semanais criadas.</p>
-                        <div>
-                            <a href="{% url 'scheduling:weekly_classes_create' %}" class="btn btn-primary">Criar</a>
-                        </div>    
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if weekly_classes %}
+                                    <div class="container">
+                                        <div class="row justify-content-center">
+                                            <div class="col-12 text-center">
+                                                <h2>Horário Semanal das Aulas</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row pt-5">
+                                            <div class="col-12">
+                                                <table class="table table-bordered table-responsive-md">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th>Dia da Semana</th>
+                                                            <th>Hora</th>
+                                                            <th>Instrutor</th>
+                                                            <th>Aula</th>
+                                                            <th>Sessão</th>
+                                                            <th>Visível</th>
+                                                            <th>Acções</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for day, classes in classes_by_day.items %}
+                                                            {% for class in classes %}
+                                                                <tr>
+                                                                    <td>{{ day }}</td>
+                                                                    <td>{{ class.time|date:"H:i" }}</td>
+                                                                    <td>
+                                                                        {% if class.substitute_instructor %}
+                                                                            {{ class.substitute_instructor.name }}
+                                                                        {% else %}
+                                                                            {{ class.instructor.instructor.first_name }} {{ class.instructor.instructor.last_name }}
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>{{ class.title }}</td>
+                                                                    <td>
+                                                                        <span class="badge badge-info"><a href="{% url 'scheduling:class_session_start' class.id %}" class="">Adicionar</a></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if class.is_visible %}
+                                                                            <span class="badge badge-success">Sim</span>
+                                                                        {% else %}
+                                                                            <span class="badge badge-danger">Não</span>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if request.user|in_group:"_access_restricted" %}
+                                                                            <a href="{% url 'scheduling:weekly_classes_single_class' class.id %}" class="">Editar</a>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <p class="text-center">Não há aulas semanais criadas.</p>
+                                    {% if request.user|in_group:"_access_restricted" %}
+                                        <div>
+                                            <a href="{% url 'scheduling:weekly_classes_create' %}" class="btn btn-custom-user mb-5 mr-3">Criar</a>
+                                        </div>    
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% if request.user|in_group:"_access_restricted" %}
+                        <div class="row pt-60">
+                            <div class="col-12">
+                            <a href="{% url 'scheduling:weekly_classes_create' %}" class="btn btn-custom-user mb-5 mr-3">Criar</a>
+                        </div>
+                    </div>
                     {% endif %}
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'scheduling:weekly_classes_create' %}" class="btn btn-primary mr-5">Criar</a>
-                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-primary">Voltar</a>
+                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>

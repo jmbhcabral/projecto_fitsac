@@ -7,43 +7,65 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section One. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-6">
-                    <h1>Content</h1>
-                    {% include "fitsac/partials/_messages.html" %} Here you can manage the website.</p>
-                    {% if section_one %}   
-                        <p>Nome Secção: {{ section_one.name }}</p>
-                        {% if section_one.image_1 %}
-                            <p>Imagem: {{ section_one.image_1 }}</p>
-                            <img src="{{ section_one.image_1.url }}" alt="image" style="width: 300px; height: 200px;">
-                        {% else %}
-                            <p>Imagem: Não tem imagem</p>
-                        {% endif %}
-                        {% if section_one.image_2 %}
-                            <p>Imagem: {{ section_one.image_2 }}</p>
-                            <img src="{{ section_one.image_2.url }}" alt="image" style="width: 300px; height: 100px;">
-                        {% else %}
-                            <p>Imagem: Não tem imagem</p>
-                        {% endif %}
-                        <p>Texto 1: {{ section_one.text_field_1 }}</p>
-                        <p>Texto 2: {{ section_one.text_field_2 }}</p>
+                <div class="col-12">
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Crie a secção principal do site. A secção principal é a primeira coisa que os visitantes vão ver quando entram no site.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if section_one %}   
+                                    <p>Nome Secção: {{ section_one.name }}</p>
+                                    {% if section_one.image_1 %}
+                                        <p>Imagem: {{ section_one.image_1 }}</p>
+                                        <img src="{{ section_one.image_1.url }}" alt="image" style="width: 300px; height: 200px;">
+                                    {% else %}
+                                        <p>Imagem: Não tem imagem</p>
+                                    {% endif %}
+                                    {% if section_one.image_2 %}
+                                        <p>Imagem: {{ section_one.image_2 }}</p>
+                                        <img src="{{ section_one.image_2.url }}" alt="image" style="width: 300px; height: 100px;">
+                                    {% else %}
+                                        <p>Imagem: Não tem imagem</p>
+                                    {% endif %}
+                                    <p>Texto 1: {{ section_one.text_field_1 }}</p>
+                                    <p>Texto 2: {{ section_one.text_field_2 }}</p>
 
-                        <div class="pt-60">
-                            <a href="{% url "user_dashboard:section_one_update" section_one.id %}" class="btn btn-primary btn-xs">Editar</a>
-                            <a href="{% url "user_dashboard:admin_home" %}" class="btn btn-danger btn-xs">voltar</a>
+                                    <div class="pt-60">
+                                        <a href="{% url "user_dashboard:section_one_update" section_one.id %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                                    </div>
+                                {% else %}
+                                    <div class="pt-80">
+                                        <h1>Ainda não tem a secção criada.</h1>
+                                        <div class="pt-60">
+                                            <a href="{% url "user_dashboard:section_one_create" %}" class="btn btn-custom-user mb-5 mr-3">Criar Secção</a>
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
-                    {% else %}
-                    <div class="pt-80">
-                        <h1>Ainda não tem a secção criada.</h1>
-                        <div class="pt-60">
-                            <a href="{% url "user_dashboard:section_one_create" %}" class="btn btn-primary btn-xs">Criar Secção</a>
-                        </div>
-                        {% endif %}
                     </div>
                 </div>    
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:admin_site_config" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
             </div>
         </div>     
     </div>

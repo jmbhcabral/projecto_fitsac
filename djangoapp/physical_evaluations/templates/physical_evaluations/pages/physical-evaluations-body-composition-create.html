@@ -1,16 +1,16 @@
 {% extends "fitsac/base_front.html" %}
 {% load static %}
-{% block content %}<main>
+{% block content %}
+<main>
     <div class="admin-menu">
         <div class="container">
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -21,128 +21,141 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2 class="text-center">Avaliação da composição corporal</h2>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="user">Utilizador: </label>
-                            {{ user.first_name }}
-                        <!-- Campo Tipo de Corpo -->
-                        <div class="form-group">
-                            <label for="body_type">Tipo de Corpo</label>
-                            {{ form.body_type }}
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Avaliações Físicas.</p>
+                                <p>Crie uma avaliação da composição corporal.</p>
+                            </div>
                         </div>
-                    
-                        <!-- Campo Data -->
-                        <div class="form-group">
-                            <label for="date">Data</label>
-                            {{ form.date }}
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="user">Utilizador: </label>
+                                        {{ user.first_name }}
+                                    </div>
+                                    <!-- Campo Tipo de Corpo -->
+                                    <div class="form-group">
+                                        <label for="body_type">Tipo de Corpo</label>
+                                        {{ form.body_type }}
+                                    </div>
+                                    
+                                    <!-- Campo Data -->
+                                    <div class="form-group">
+                                        <label for="date">Data</label>
+                                        {{ form.date }}
+                                    </div>
+                                    
+                                    <!-- Campo Peso -->
+                                    <div class="form-group">
+                                        <label for="weight">Peso (kg)</label>
+                                        {{ form.weight }}
+                                    </div>
+                                    
+                                    <!-- Campo Altura -->
+                                    <div class="form-group">
+                                        <label for="height">Altura (metros)</label>
+                                        {{ form.height }}
+                                    </div>
+                                    
+                                    <!-- Campo Gordura Corporal -->
+                                    <div class="form-group">
+                                        <label for="body_fat_percentage">Gordura Corporal (%)</label>
+                                        {{ form.body_fat_percentage }}
+                                    </div>
+                                    
+                                    <!-- Campo Percentagem de Água -->
+                                    <div class="form-group">
+                                        <label for="total_water_percentage">Percentagem de Água (%)</label>
+                                        {{ form.total_water_percentage }}
+                                    </div>
+                                    
+                                    <!-- Campo Massa Muscular -->
+                                    <div class="form-group">
+                                        <label for="muscle_mass_percentage">Massa Muscular (%)</label>
+                                        {{ form.muscle_mass_percentage }}
+                                    </div>
+                                    
+                                    <!-- Campo Nível de Fitness -->
+                                    <div class="form-group">
+                                        <label for="fitness_level">Nível de Fitness</label>
+                                        {{ form.fitness_level }}
+                                    </div>
+                                    
+                                    <!-- Campo Calorias Queimadas -->
+                                    <div class="form-group">
+                                        <label for="calories_burned">Calorias Queimadas</label>
+                                        {{ form.calories_burned }}
+                                    </div>
+                                    
+                                    <!-- Campo Idade Metabólica -->
+                                    <div class="form-group">
+                                        <label for="metabolic_age">Idade Metabólica</label>
+                                        {{ form.metabolic_age }}
+                                    </div>
+                                    
+                                    <!-- Campo Massa Óssea -->
+                                    <div class="form-group">
+                                        <label for="bone_mass">Massa Óssea (kg)</label>
+                                        {{ form.bone_mass }}
+                                    </div>
+                                    
+                                    <!-- Campo Gordura Visceral -->
+                                    <div class="form-group">
+                                        <label for="visceral_fat_percentage">Gordura Visceral (%)</label>
+                                        {{ form.visceral_fat_percentage }}
+                                    </div>
+                                    
+                                    <!-- Campo Circunferência da Cintura -->
+                                    <div class="form-group">
+                                        <label for="waist_circumference">Circunferência da Cintura (cm)</label>
+                                        {{ form.waist_circumference }}
+                                    </div>
+                                    
+                                    <!-- Campo Circunferência do Abdómen -->
+                                    <div class="form-group">
+                                        <label for="belly_circumference">Circunferência do Abdómen (cm)</label>
+                                        {{ form.belly_circumference }}
+                                    </div>
+                                    
+                                    <!-- Campo Circunferência do Quadril -->
+                                    <div class="form-group">
+                                        <label for="hip_circumference">Circunferência do Quadril (cm)</label>
+                                        {{ form.hip_circumference }}
+                                    </div>
+                                    
+                                    <!-- Campo Circunferência da Perna -->
+                                    <div class="form-group">
+                                        <label for="leg_circumference">Circunferência da Perna (cm)</label>
+                                        {{ form.leg_circumference }}
+                                    </div>
+                                    
+                                    <!-- Campo Circunferência do Braço -->
+                                    <div class="form-group">
+                                        <label for="arm_circumference">Circunferência do Braço (cm)</label>
+                                        {{ form.arm_circumference }}
+                                    </div>
+                                    
+                                    <!-- Campo Observações -->
+                                    <div class="form-group">
+                                        <label for="observations">Observações</label>
+                                        {{ form.observations }}
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="btn btn-custom-user mt-5">Submeter</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    
-                        <!-- Campo Peso -->
-                        <div class="form-group">
-                            <label for="weight">Peso (kg)</label>
-                            {{ form.weight }}
-                        </div>
-                    
-                        <!-- Campo Altura -->
-                        <div class="form-group">
-                            <label for="height">Altura (metros)</label>
-                            {{ form.height }}
-                        </div>
-                    
-                        <!-- Campo Gordura Corporal -->
-                        <div class="form-group">
-                            <label for="body_fat_percentage">Gordura Corporal (%)</label>
-                            {{ form.body_fat_percentage }}
-                        </div>
-                    
-                        <!-- Campo Percentagem de Água -->
-                        <div class="form-group">
-                            <label for="total_water_percentage">Percentagem de Água (%)</label>
-                            {{ form.total_water_percentage }}
-                        </div>
-                    
-                        <!-- Campo Massa Muscular -->
-                        <div class="form-group">
-                            <label for="muscle_mass_percentage">Massa Muscular (%)</label>
-                            {{ form.muscle_mass_percentage }}
-                        </div>
-                    
-                        <!-- Campo Nível de Fitness -->
-                        <div class="form-group">
-                            <label for="fitness_level">Nível de Fitness</label>
-                            {{ form.fitness_level }}
-                        </div>
-                    
-                        <!-- Campo Calorias Queimadas -->
-                        <div class="form-group">
-                            <label for="calories_burned">Calorias Queimadas</label>
-                            {{ form.calories_burned }}
-                        </div>
-                    
-                        <!-- Campo Idade Metabólica -->
-                        <div class="form-group">
-                            <label for="metabolic_age">Idade Metabólica</label>
-                            {{ form.metabolic_age }}
-                        </div>
-                    
-                        <!-- Campo Massa Óssea -->
-                        <div class="form-group">
-                            <label for="bone_mass">Massa Óssea (kg)</label>
-                            {{ form.bone_mass }}
-                        </div>
-                    
-                        <!-- Campo Gordura Visceral -->
-                        <div class="form-group">
-                            <label for="visceral_fat_percentage">Gordura Visceral (%)</label>
-                            {{ form.visceral_fat_percentage }}
-                        </div>
-                    
-                        <!-- Campo Circunferência da Cintura -->
-                        <div class="form-group">
-                            <label for="waist_circumference">Circunferência da Cintura (cm)</label>
-                            {{ form.waist_circumference }}
-                        </div>
-                    
-                        <!-- Campo Circunferência do Abdómen -->
-                        <div class="form-group">
-                            <label for="belly_circumference">Circunferência do Abdómen (cm)</label>
-                            {{ form.belly_circumference }}
-                        </div>
-                    
-                        <!-- Campo Circunferência do Quadril -->
-                        <div class="form-group">
-                            <label for="hip_circumference">Circunferência do Quadril (cm)</label>
-                            {{ form.hip_circumference }}
-                        </div>
-                    
-                        <!-- Campo Circunferência da Perna -->
-                        <div class="form-group">
-                            <label for="leg_circumference">Circunferência da Perna (cm)</label>
-                            {{ form.leg_circumference }}
-                        </div>
-                    
-                        <!-- Campo Circunferência do Braço -->
-                        <div class="form-group">
-                            <label for="arm_circumference">Circunferência do Braço (cm)</label>
-                            {{ form.arm_circumference }}
-                        </div>
-                    
-                        <!-- Campo Observações -->
-                        <div class="form-group">
-                            <label for="observations">Observações</label>
-                            {{ form.observations }}
-                        </div>
-                    
-                        <button type="submit" class="btn btn-custom-user mt-5">Submeter</button>
-                    </form>
-                    
+                    </div>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-custom-user">Voltar</a>
+                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-custom-user mr-3">Voltar</a>
                 </div>
             </div>
         </div>    

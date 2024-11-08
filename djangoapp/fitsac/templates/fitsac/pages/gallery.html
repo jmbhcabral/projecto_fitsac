@@ -25,11 +25,11 @@
                     {% for photo in section_four %}
                         <div class="photo-container col-xl-6 col-lg-6 col-md-6 col-sm-6" data-photo-url="{{ photo.image.url }}">
                             <div class="box snake mb-30">
-                                <div class="gallery-img big-img" style="background-image: url({{ photo.image.url }});"></div>
-                                    <div class="overlay">
+                                <div class="gallery-img big-img" style="background-image: url({{ photo.image.url }}); border-radius: 10px;"></div>
+                                    <div class="overlay" style="border-radius: 10px;">
                                     <div class="overlay-content">
                                         <h3>{{ photo.tag }}</h3>
-                                        <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
+                                        <a href="{% url 'fitsac:courses' %}"><i class="ti-plus"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -44,72 +44,9 @@
                 </div>
             
                 {% else %}
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div class="box snake mb-30">
-                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery1.png' %});"></div>
-                        <div class="overlay">
-                            <div class="overlay-content">
-                                <h3>Muscle gaining </h3>
-                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
+                    <div class="col-12 text-center">
+                        <p>Esta página ainda não tem conteúdo disponível.</p>
                     </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div class="box snake mb-30">
-                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery2.png' %});"></div>
-                        <div class="overlay">
-                            <div class="overlay-content">
-                                <h3>Muscle gaining </h3>
-                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div class="box snake mb-30">
-                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery3.png' %});"></div>
-                        <div class="overlay">
-                            <div class="overlay-content">
-                                <h3>Muscle gaining </h3>
-                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-                    <div class="box snake mb-30">
-                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery4.png' %});"></div>
-                        <div class="overlay">
-                            <div class="overlay-content">
-                                <h3>Muscle gaining </h3>
-                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-                    <div class="box snake mb-30">
-                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery5.png' %});"></div>
-                        <div class="overlay">
-                            <div class="overlay-content">
-                                <h3>Muscle gaining </h3>
-                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="box snake mb-30">
-                        <div class="gallery-img big-img" style="background-image: url({% static 'fitsac/img/gallery/gallery6.png' %});"></div>
-                        <div class="overlay">
-                            <div class="overlay-content">
-                                <h3>Muscle gaining </h3>
-                                <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 {% endif %}
             </div>
         </div>

@@ -1,38 +1,57 @@
 {% extends "fitsac/base_front.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block content %}
 <main>
     <div class="admin-menu">
         <div class="container">
             <div class="row pt-80 justify-content-center">
-                <div class="col-12 text-center">   
+                <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section Five. Here you can manage the website.</p>
                 </div>
             </div>
-            <div class="row pt-80 justify-content-center align-items-center">
-                <div class="col-2 col-12 col-md-2 mb-2 mb-md-0">
-                    <a href="{% url 'user_dashboard:section_five' %}" class="btn btn-primary btn-xs w-100">Título</a>
-                </div>
-                <div class="col-2 col-12 col-md-2 mb-2 mb-md-0">
-                    <a href="{% url 'user_dashboard:section_five' %}" class="btn btn-primary btn-xs w-100">Ofertas</a>
-                </div>
-                <div class="col-3 col-12 col-md-3 mb-2 mb-md-0">
-                    <a href="{% url 'user_dashboard:section_five' %}" class="btn btn-primary btn-xs w-100">Card offers</a>
-                </div>
-                <div class="col-3 col-12 col-md-3 mb-2 mb-md-0">
-                    <a href="{% url 'user_dashboard:section_five' %}" class="btn btn-primary btn-xs w-100">Icon ofertas</a>
-                </div>
-                <div class="col-2 col-12 col-md-2 mb-2 mb-md-0">
-                    <a href="{% url 'user_dashboard:section_five' %}" class="btn btn-primary btn-xs w-100">Card</a>
-                </div>
-            </div>
-            <div class="row pt-80">
+            <div class="row pt-80 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'user_dashboard:section_five' %}" class="btn btn-primary btn-xs">Voltar</a>
+                    {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
-        </div>             
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Administração financeira do site.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3 class="mb-3">Gerir Pack.</h3>
+                                <a href="{% url 'billing:pack_home' %}" class="btn btn-custom-user mb-5 mr-3">Gerir Pack</a>
+                            </div>
+                            <div class="col-12">
+                                <h3 class="mb-3">Gerir Subscrições.</h3>
+                                <a href="{% url 'billing:subscription_home' %}" class="btn btn-custom-user mb-5 mr-3">Gerir Subscrições</a>
+                            </div>
+                            <div class="col-12">
+                                <h3 class="mb-3">Gerir Pagamentos.</h3>
+                                <a href="{% url 'billing:payment_home' %}" class="btn btn-custom-user mb-5 mr-3">Gerir Pagamentos</a>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 <!-- Scroll Up -->
@@ -61,7 +80,7 @@
 <!-- Date Picker -->
 <script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
 <!-- Nice-select, sticky -->
-<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+{% comment %} <script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script> {% endcomment %}
 <script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
 
 <!-- counter , waypoint,Hover Direction -->

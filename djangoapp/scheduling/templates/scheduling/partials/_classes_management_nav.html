@@ -1,18 +1,72 @@
-<div class="col-12 col-md-3 border-fit d-flex flex-column">
-    <ul class="mb-auto">
-        <li>
-            <a href="{% url 'scheduling:instructors_management' %}">Gerir instrutores</a>
-        </li>
-        <li>
-            <a href="{% url 'scheduling:instructor_substitution' %}">Substituir instrutor</a>
-        <li>
-            <a href="{% url 'scheduling:weekly_classes_management' %}">Gerir aulas semanais</a>
-        </li>
-        <li>
-            <a href="{% url "physical_evaluations:students_management_search" %}">Gerir alunos</a>
-        </li>
-        <li>
-            <a href="{% url "scheduling:classes_sessions" %}">Relatorios de aulas</a>
-        </li>
-    </ul>
-</div>
+{% load custom_tags %}
+{% if request.user|in_group:"_access_restricted" %}
+    <div class="col-12 col-md-3 border-fit d-flex flex-column">
+        <ul class="mb-auto list-unstyled">
+            <li class="mb-4">
+                <a href="{% url 'user_dashboard:admin_site_config' %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-cog" style="width: 25px;"></i>
+                    <span class="ml-3">Configuração do site</span>
+                </a>
+            </li>
+            <li class="mb-4">
+                <a href="{% url 'scheduling:instructors_management' %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-user" style="width: 25px;"></i>
+                    <span class="ml-3">Gerir instrutores</span>
+                </a>
+            </li>
+            <li class="mb-4">
+                <a href="{% url 'scheduling:instructor_substitution' %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-exchange-alt" style="width: 25px;"></i>
+                    <span class="ml-3">Substituir instrutor</span>
+                </a>
+            </li>
+            <li class="mb-4">
+                <a href="{% url 'scheduling:weekly_classes_management' %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-calendar-alt" style="width: 25px;"></i>
+                    <span class="ml-3">Gerir aulas semanais</span>
+                </a>
+            </li>
+            <li class="mb-4">
+                <a href="{% url 'scheduling:classes_sessions' %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-calendar-alt" style="width: 25px;"></i>
+                    <span class="ml-3">Gerir sessões</span>
+                </a>
+            </li>
+            <li class="mb-4">
+                <a href="{% url 'physical_evaluations:students_management_search' %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-heartbeat" style="width: 25px;"></i>
+                    <span class="ml-3">Avaliações Corporais</span>
+                </a>
+            </li>
+            <li class="mb-4">
+                <a href="{% url 'user_dashboard:reports' %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-file-alt" style="width: 25px;"></i>
+                    <span class="ml-3">Relatórios de aulas</span>
+                </a>
+            </li>
+            <li class="mb-4">
+                <a href="{% url 'billing:billing_home' %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-euro-sign" style="width: 25px;"></i>
+                    <span class="ml-3">Financeiro</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+{% elif request.user|in_group:"_admin" %}
+    <div class="col-12 col-md-3 border-fit d-flex flex-column">
+        <ul class="mb-auto list-unstyled">
+            <li class="mb-4">
+                <a href="{% url 'scheduling:weekly_classes_management' %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-calendar-alt" style="width: 25px;"></i>
+                    <span class="ml-3">Gerir aulas semanais</span>
+                </a>
+            </li>
+            <li class="mb-4">
+                <a href="{% url 'scheduling:classes_sessions' %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-calendar-alt" style="width: 25px;"></i>
+                    <span class="ml-3">Gerir sessões</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endif %}

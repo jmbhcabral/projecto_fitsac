@@ -7,23 +7,43 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section Five. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Content</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary btn-xs">Apagar Selecionadas</button>
-                    </form>
-                    <div class="row pt-80">
-                        <div class="col-12">
-                            <a href="{% url 'user_dashboard:section_five_offers_icons' %}" class="btn btn-primary btn-xs">Voltar</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Icons dos cards da página de preços.</p>
+                                <p>Apague os icons dos cards da página de preços selecionados.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit" class="btn btn-custom-user mb-5 mr-3">Apagar Selecionadas</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url 'user_dashboard:section_five_offers_icons' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>             

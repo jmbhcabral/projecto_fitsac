@@ -1,0 +1,191 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <div class="container">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12">
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Relatórios.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <div class="container pt-5">
+                                    <h2>Filtrar Relatórios por Data</h2>
+                                    <!-- Dropdown para selecionar o ano -->
+                                    <div class="form-group">
+                                        <label for="yearInput">Ano:</label>
+                                        <div class="input-group">
+                                            <button class="btn btn-custom-user" type="button" onclick="changeYear(-1)">-</button>
+                                            <input type="hidden" id="yearInput" class="form-control text-center" readonly value="{{ current_year }}">
+                                            <button class="btn btn-custom-user" type="button" onclick="changeYear(1)">+</button>
+                                        </div>
+                                    </div>
+                                    <!-- Calendário -->
+                                    <h3>Calendário</h3>
+                                    <div id='calendar'></div>
+                                
+                                    <h3 class="pt-40">Relatórios Baseados na Data Selecionada</h3>
+                                    <p>Data selecionada: {{ selected_date }}</p>
+                                    <table class="table table-bordered table-responsive-md">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Totais</th>
+                                                <th>Dia</th>
+                                                <th>Semana</th>
+                                                <th>Mês</th>
+                                                <th>Ano</th>
+                                                <th>Desde sempre</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for report in reports %}
+                                            <tr>
+                                                <td>{{ report.description }}</td>
+                                                <td>{{ report.day }}</td>
+                                                <td>{{ report.week }}</td>
+                                                <td>{{ report.month }}</td>
+                                                <td>{{ report.year }}</td>
+                                                <td>{{ report.total }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>           
+                                    <h3>Presenças por Aluno</h3>
+                                    <table class="table table-bordered table-responsive-md">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>Dia</th>
+                                                <th>Semana</th>
+                                                <th>Mês</th>
+                                                <th>Ano</th>
+                                                <th>Desde Sempre</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for attendance in students_attendance %}
+                                            <tr>
+                                                <td>{{ attendance.name }}</td>
+                                                <td>{{ attendance.day }}</td>
+                                                <td>{{ attendance.week }}</td>
+                                                <td>{{ attendance.month }}</td>
+                                                <td>{{ attendance.year }}</td>
+                                                <td>{{ attendance.total }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url 'user_dashboard:reports' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locales: 'pt',
+            initialDate: new Date(),
+            dateClick: function(info){
+                var selectedDate = info.dateStr;
+                window.location.href = '?selected_date=' + selectedDate;
+            }
+
+        });
+        calendar.render();
+
+        // Função para atualizar o calendário para o ano selecionado
+        window.changeYear = function(increment) {
+            var yearInput = document.getElementById('yearInput');
+            var currentYear = parseInt(yearInput.value);
+            var newYear = currentYear + increment;
+
+            yearInput.value = newYear;
+
+            // Atualiza o calendário com o novo ano, mantendo o mês e o dia atuais
+            const today_day = new Date().getDate();
+            const current_month = new Date().getMonth();
+            calendar.gotoDate(new Date(newYear, current_month, today_day));
+        }
+    });
+</script>
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

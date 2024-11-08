@@ -4,10 +4,17 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from scheduling.models import WeeklyClass
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='/login/')
 def weekly_classes_create(request):
     ''' Create a new weekly class. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     form_action = reverse('scheduling:weekly_classes_create')
     if request.method == 'POST':
         form = WeeklyClassForm(request.POST, request.FILES)
@@ -22,7 +29,7 @@ def weekly_classes_create(request):
             return redirect('scheduling:weekly_classes_management')
 
         else:
-            # Adicionar erros ao messages
+            # Add errors to messages
             for field, errors in form.errors.items():
                 label = form[field].label
                 for error in errors:
@@ -46,8 +53,14 @@ def weekly_classes_create(request):
     )
 
 
+@login_required(login_url='/login/')
 def weekly_classes_edit(request, id):
     ''' Edit an existing weekly class. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     weekly_class = get_object_or_404(WeeklyClass, id=id)
     form_action = reverse('scheduling:weekly_classes_edit', args=[id])
 
@@ -64,12 +77,13 @@ def weekly_classes_edit(request, id):
             messages.success(request, 'Aula editada com sucesso.')
             return redirect('scheduling:weekly_classes_management')
         else:
-            # Adicionar erros ao messages
+            # Add errors to messages
             for field, errors in form.errors.items():
                 label = form[field].label
                 for error in errors:
                     messages.error(request, f"{label}: {error}")
             messages.error(request, 'Por favor, corrija os erros abaixo.')
+
             return render(
                 request,
                 'scheduling/pages/weekly-classes-edit.html',
@@ -89,8 +103,14 @@ def weekly_classes_edit(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def weekly_classes_delete(request, id):
     ''' Delete an existing weekly class. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     weekly_class = get_object_or_404(WeeklyClass, id=id)
 
     if request.method == 'POST':

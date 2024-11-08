@@ -1,23 +1,36 @@
 ''' '''
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView
 from scheduling.models import ClassSession, WeeklyClass
 from scheduling.forms import ClassSessionStartForm, ClassSessionEndForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
-from datetime import date
+from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 
 
-class ClassSessionStartView(FormView):
+class ClassSessionStartView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    FormView
+):
     ''' View to render the class session create page '''
 
     form_class = ClassSessionStartForm
     template_name = 'scheduling/pages/class-session-create.html'
     success_url = reverse_lazy('scheduling:session_qrcode')
+    login_url = '/login/'
+
+    def test_func(self):
+        ''' Method to check if the user is in the _admin group '''
+        return (
+            self.request.user.is_authenticated
+            and hasattr(self.request.user, 'groups')
+            and self.request.user.groups.filter(name='_admin').exists()
+        )
 
     def get_form_kwargs(self):
         ''' Method to get the form kwargs '''
@@ -41,7 +54,6 @@ class ClassSessionStartView(FormView):
 
         # Get the session date from the form data
         session_date = form.cleaned_data.get('date', '')
-        print(f'Session date: {session_date}')
 
         # Check if a session already exists for the class, date and time
         if ClassSession.objects.filter(
@@ -69,7 +81,10 @@ class ClassSessionStartView(FormView):
         # Add a success message
         messages.success(self.request, 'Sessão de aula criada com sucesso.')
 
-        return redirect('scheduling:session_qrcode', session_id=form.instance.pk)
+        return redirect(
+            'scheduling:session_qrcode',
+            session_id=form.instance.pk
+        )
 
     def form_invalid(self, form):
         ''' Method to handle the form invalid '''
@@ -83,13 +98,26 @@ class ClassSessionStartView(FormView):
         return super().form_invalid(form)
 
 
-class ClassSessionEditView(UpdateView):
+class ClassSessionEditView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    UpdateView
+):
     ''' View to render the class session edit page '''
 
     model = ClassSession
-    form_class = ClassSession
-    template = 'scheduling/pages/class-session-update.html'
+    form_class = ClassSessionEndForm
+    template_name = 'scheduling/pages/class-session-update.html'
     success_url = reverse_lazy('scheduling:classes_sessions')
+    login_url = '/login/'
+
+    def test_func(self):
+        ''' Method to check if the user is in the _admin group '''
+        return (
+            self.request.user.is_authenticated
+            and hasattr(self.request.user, 'groups')
+            and self.request.user.groups.filter(name='_admin').exists()
+        )
 
     def get_context_data(self, **kwargs):
         ''' Method to get the context data '''
@@ -97,11 +125,30 @@ class ClassSessionEditView(UpdateView):
         # Subscribe the context data from the parent class method
         context = super().get_context_data(**kwargs)
 
+        # Get the form instance
+        form = self.form_class(instance=self.get_object())
+        context['form'] = form
+
         # Get the class session from the object and add it to the
         # context data dictionary
         context['session'] = self.get_object()
 
+        # Get all possible participants
+
+        User = get_user_model()
+        context['participants'] = User.objects.all()
+
         return context
+
+    def form_valid(self, form):
+        ''' Method to handle the form valid '''
+        print(f'Form: {form.cleaned_data}')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        ''' Method to handle the form invalid '''
+        print(f'Form invalid: {form.errors}')
+        return super().form_invalid(form)
 
 
 class ClassSessionEndView(FormView):
@@ -111,6 +158,8 @@ class ClassSessionEndView(FormView):
 
 class MarkAttendanceView(LoginRequiredMixin, View):
     ''' View to render the mark attendance page '''
+
+    login_url = '/login/'
 
     def post(self, request, *args, **kwargs):
         ''' Method to handle the post request '''
@@ -124,19 +173,35 @@ class MarkAttendanceView(LoginRequiredMixin, View):
             # Check if the user is already a participant
             if class_session.participants.filter(pk=request.user.pk).exists():
 
-                return JsonResponse({'success': False, 'message': 'Presença já marcada.'})
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Presença já marcada.'
+                })
 
             # Mark user as participant of the class session
             class_session.participants.add(request.user)
 
-            return JsonResponse({'success': True, 'message': 'Presença marcada com sucesso.'})
+            return JsonResponse({
+                'success': True,
+                'message': 'Presença marcada com sucesso.'
+            })
+
         except ClassSession.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'Sessão não encontrada.'})
+            return JsonResponse({
+                'success': False,
+                'message': 'Sessão não encontrada.'
+            })
 
         except Exception as e:
             print(f'Error: {str(e)}')
-            return JsonResponse({'success': False, 'message': f'Erro: {str(e)}.'})
+            return JsonResponse({
+                'success': False,
+                'message': f'Erro: {str(e)}.'
+            })
 
     def get(self, request, *args, **kwargs):
         ''' Method to handle the get request '''
-        return JsonResponse({'success': False, 'message': 'Método não permitido.'})
+        return JsonResponse({
+            'success': False,
+            'message': 'Método não permitido.'
+        })

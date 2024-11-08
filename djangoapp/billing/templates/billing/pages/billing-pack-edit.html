@@ -1,16 +1,17 @@
 {% extends "fitsac/base_front.html" %}
 {% load static %}
-{% block content %}<main>
+{% load custom_filters %}
+{% block content %}
+<main>
     <div class="admin-menu">
         <div class="container">
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -21,19 +22,32 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2 class="text-center">Avaliações fisicas</h2>
-                    <a href="#" class="btn btn-custom-user mt-5" style="font-size: 16px;">Avaliação corporal</a>
-                    <a href="#" class="btn btn-custom-user mt-5" style="font-size: 16px;">Habitos alimentares</a>
-                    <a href="#" class="btn btn-custom-user mt-5" style="font-size: 16px;">Estado de saúde</a>
-
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Administração financeira do site.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Editar Pack</h3>
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit" class="btn btn-custom-user">Actualizar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-custom-user">Voltar</a>
+                    <a href="{% url 'billing:pack_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
 </main>
 <!-- Scroll Up -->
@@ -62,7 +76,7 @@
 <!-- Date Picker -->
 <script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
 <!-- Nice-select, sticky -->
-<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+{% comment %} <script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script> {% endcomment %}
 <script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
 
 <!-- counter , waypoint,Hover Direction -->

@@ -20,7 +20,9 @@ from user_dashboard.views import (
     section_eight_single_video, section_eight_single_video_update,
     section_eight_single_video_delete, section_nine, section_nine_create,
     classes_type, classes_type_create, classes_type_single_class,
-    classes_type_update, classes_type_delete, classes_type_ordering
+    classes_type_update, classes_type_delete, classes_type_ordering,
+    admin_site_config, section_nine_update,
+    UserDashboardReportsView, UserDashboardReportsFilterView
 )
 
 
@@ -29,6 +31,8 @@ app_name = 'user_dashboard'
 urlpatterns = [
     path('user_dashboard/admin/', admin_home, name='admin_home'),
     # Section One
+    path('user_dashboard/admin-site-config/',
+         admin_site_config, name='admin_site_config'),
     path('user_dashboard/section-one/', section_one, name='section_one'),
     path('user_dashboard/section-one-create/',
          section_one_create, name='section_one_create'),
@@ -139,6 +143,8 @@ urlpatterns = [
     path('user_dashboard/section-nine/', section_nine, name='section_nine'),
     path('user_dashboard/section-nine-create/',
          section_nine_create, name='section_nine_create'),
+    path('user_dashboard/section-nine-update/<int:id>/',
+         section_nine_update, name='section_nine_update'),
     # Aulas
     path('user_dashboard/classes-type/', classes_type, name='classes_type'),
     path('user_dashboard/classe-type-create/',
@@ -151,4 +157,10 @@ urlpatterns = [
          classes_type_delete, name='classe_type_delete'),
     path('user_dashboard/classes-type-ordering/',
          classes_type_ordering, name='classes_type_ordering'),
+    # Reports
+    path('user_dashboard/reports/', UserDashboardReportsView.as_view(),
+         name='reports'),
+    path('user_dashboard/reports/filter/',
+         UserDashboardReportsFilterView.as_view(),
+         name='reports_filter'),
 ]

@@ -1,11 +1,16 @@
 from django.shortcuts import render
 from django.utils import timezone
-from datetime import datetime
 from django.views import View
-from ..models import WeeklyClass, Booking
+from ..models import Booking
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class ClassesNextDayView(View):
+class ClassesNextDayView(
+    LoginRequiredMixin,
+    View
+):
+    login_url = '/login/'
+
     def get(self, request):
         ''' Handle GET requests. '''
         # Get the current timezone-aware datetime

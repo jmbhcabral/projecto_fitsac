@@ -8,12 +8,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de instrutores. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Gerir Aulas</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -24,35 +22,48 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    {% if instructors %}
-                        {% for instructor in instructors %}
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h3 class="card-title" style="color: black;">{{ instructor.instructor.first_name }}</h3>
-                                    <p class="card-text"style="color: black;">{{ instructor.instructor.email }}</p>
-                                    <a href="{% url 'scheduling:instructor_single_view' instructor.id %}" class="btn btn-primary">Actualizar</a>
-                                </div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Gerir Instrutores.</p>
+                                <p>Crie, edite e delete instrutores.</p>
                             </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-center">Não há instrutores criados.</p>
-                        <div>
-                            <a href="{% url 'scheduling:instructor_create' %}" class="btn btn-primary">Criar</a>
-                        </div>    
-                    {% endif %}
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if instructors %}
+                                    {% for instructor in instructors %}
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h3 class="card-title" style="color: black;">{{ instructor.instructor.first_name }}</h3>
+                                                <p class="card-text"style="color: black;">{{ instructor.instructor.email }}</p>
+                                                <a href="{% url 'scheduling:instructor_single_view' instructor.id %}" class="btn btn-custom-user mb-5 mr-3">Actualizar</a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="text-center">Não há instrutores criados.</p>
+                                    <div>
+                                        <a href="{% url 'scheduling:instructor_create' %}" class="btn btn-custom-user mb-5 mr-3">Criar</a>
+                                    </div>    
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row pt-60">
+                            <div class="col-12">
+                                <a href="{% url 'scheduling:instructor_create' %}" class="btn btn-custom-user mb-5 mr-3">Criar</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'scheduling:instructor_create' %}" class="btn btn-primary">Criar</a>
-                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-primary">Voltar</a>
+                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>
-
-        
-        
-        
     </div>
 </main>
 <!-- Scroll Up -->

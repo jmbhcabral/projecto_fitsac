@@ -8,11 +8,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -23,20 +22,31 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2>Gerir aluno</h2>
-                    <p>Nome:{{ user.first_name }} {{ user.last_name }}</p>
-                    <p>Email:{{ user.email }}</p>
-                    <p>Telefone:{{ user.profile.phone }}</p>
-                    <p>Endereço:{{ user.profile.address }}</p>
-                    <div class="pt-20">
-                        <a href="{% url 'physical_evaluations:body_composition_assessment' user.pk%}" class="btn btn-custom-user mt-5">Avaliações corporais</a>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Avaliações corporais.</p>
+                                <p>Crie, edite e delete avaliações corporais.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <p>Nome:{{ user.first_name }} {{ user.last_name }}</p>
+                                <p>Email:{{ user.email }}</p>
+                                <p>Telefone:{{ user.profile.phone }}</p>
+                                <p>Endereço:{{ user.profile.address }}</p>
+                                <div class="pt-20">
+                                    <a href="{% url 'physical_evaluations:body_composition_assessment' user.pk%}" class="btn btn-custom-user mt-5">Avaliações corporais</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-primary">Voltar</a>
+                    <a href="{% url 'physical_evaluations:students_management_search' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>

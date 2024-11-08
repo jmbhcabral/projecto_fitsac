@@ -2,22 +2,52 @@
 {% load static %}
 {% block content %}
 <main>
-    <section class="services-area">
+    <div class="admin-menu">
         <div class="container">
-            <div class="row justify-content-between pt-80">
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8">
-                    <form action="{{form_action}}" 
-                    method="POST"
-                    enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary btn-xs">Criar</button>
-                        <a href="{% url "user_dashboard:classes_type" %}" class="btn btn-primary btn-xs">Voltar</a>
-                    </form>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12">
+                    {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
         </div>
-    </section>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Criação de aulas.</p>
+                                <p>Crie aulas para a secção.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form action="{{form_action}}" method="post" enctype="multipart/form-data" class="costum-form">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit" class="btn btn-custom-user mb-5 mr-3">Criar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:classes_type" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <!-- Scroll Up -->
 <div id="back-top" >

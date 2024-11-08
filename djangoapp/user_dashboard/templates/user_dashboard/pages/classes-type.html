@@ -8,66 +8,90 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Tipos de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
                 <div class="col-12">
-                    <h1>Content</h1>
                     {% include "fitsac/partials/_messages.html" %}
-                    {% if tipos_de_aulas %}
-                    {% for tipo in tipos_de_aulas %}
-                        <div class="border-fit pb-10">
-                            <div class="w-100 pt-60">
-                                <h2>Título: {{tipo.tipo}}</h2>
-                            </div>
-                            <div class="pt-60">
-                                <img src="{{ tipo.image.url}}" alt="{{tipo.image.name}}">
-                                <p>
-                                    Nome do ficheiro: {{ tipo.image.name|basename }}
-                                </p>
-                            </div>
-                            <div class="pt-60">
-                                <h2>Descrição:</h2>
-                                <p>
-                                    {{ tipo.description }}
-                                </p>
-                            </div>
-                            <div class="pt-60">
-                                <h2>Ordem:</h2>
-                                <p>
-                                    {{ tipo.order }}
-                                </p>
-                            </div>
-                            <div class="pt-60 w-100">
-                                <h2>Visibilidade</h2>
-                                <p>
-                                    {% if tipo.is_visible %}
-                                        Visível
-                                    {% else %}
-                                        Não visível
-                                    {% endif %}
-                                </p>
-                            </div>
-                            <div class="row pt-60">
-                                <a href="{% url 'user_dashboard:classes_type_single_class' tipo.id %}" class="btn btn-primary btn-xs">Gerir</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Aulas da secção.</p>
+                                <p>Altere as aulas da secção.</p>
                             </div>
                         </div>
-                    {% endfor %}
-                    <div class="row pt-60 w-100">
-                        <a href="{% url "user_dashboard:classes_type_create" %}" class="btn btn-primary btn-xs">Criar</a>
-                        <a href="{% url "user_dashboard:classes_type_ordering" %}" class="btn btn-primary btn-xs">Ordenar</a>
-                        <a href="{% url "user_dashboard:admin_home" %}" class="btn btn-primary btn-xs">Voltar</a>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if tipos_de_aulas %}
+                                    {% for tipo in tipos_de_aulas %}
+                                        <div class="border-fit pb-10">
+                                            <div class="w-100 pt-60">
+                                                <h2>Título: {{tipo.tipo}}</h2>
+                                            </div>
+                                            <div class="pt-60">
+                                                <img src="{{ tipo.image.url}}" alt="{{tipo.image.name}}">
+                                                <p>
+                                                    Nome do ficheiro: {{ tipo.image.name|basename }}
+                                                </p>
+                                            </div>
+                                            <div class="pt-60">
+                                                <h2>Descrição:</h2>
+                                                <p>
+                                                    {{ tipo.description }}
+                                                </p>
+                                            </div>
+                                            <div class="pt-60">
+                                                <h2>Ordem:</h2>
+                                                <p>
+                                                    {{ tipo.order }}
+                                                </p>
+                                            </div>
+                                            <div class="pt-60 w-100">
+                                                <h2>Visibilidade</h2>
+                                                <p>
+                                                    {% if tipo.is_visible %}
+                                                        Visível
+                                                    {% else %}
+                                                        Não visível
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                            <div class="row pt-5 pl-5">
+                                                <a href="{% url 'user_dashboard:classes_type_single_class' tipo.id %}" class="btn btn-custom-user mb-5 mr-3">Gerir</a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="row pt-60 w-100">
+                                        <a href="{% url "user_dashboard:classes_type_create" %}" class="btn btn-custom-user mb-5 mr-3">Criar</a>
+                                        <a href="{% url "user_dashboard:classes_type_ordering" %}" class="btn btn-custom-user mb-5 mr-3">Ordenar</a>
+                                    </div>
+                                {% else %}
+                                    <div class="pt-80">
+                                        <h1>Ainda não tem aulas criadas.</h1>
+                                        <div class="pt-60">
+                                            <a href="{% url "user_dashboard:classes_type_create" %}" class="btn btn-custom-user mb-5 mr-3">Criar</a>
+                                            <a href="{% url "user_dashboard:admin_site_config" %}" class="btn btn-custom-user mb-5 mr-3">voltar</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
-                    {% else %}
-                    <div class="pt-80">
-                        <h1>Ainda não tem a secção criada.</h1>
-                        <div class="pt-60">
-                            <a href="{% url "user_dashboard:classes_type_create" %}" class="btn btn-primary btn-xs">Criar</a>
-                            <a href="{% url "user_dashboard:admin_home" %}" class="btn btn-danger btn-xs">voltar</a>
-                        </div>
-                    {% endif %}
-
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:admin_site_config" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>

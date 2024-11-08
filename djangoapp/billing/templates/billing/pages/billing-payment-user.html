@@ -1,0 +1,258 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <div class="container">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12">
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Gerir pagamentos dos alunos.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5">
+                            <div class="col-12">
+                                <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                            </div>
+                            <div class="col-12">
+                                <p>Pagamentos:</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <div class="card w-100">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="color: black;">Data</th>
+                                                        <th style="color: black;">Fatura</th>
+                                                        <th style="color: black;">Mês</th>
+                                                        <th style="color: black;">Preço</th>
+                                                        <th style="color: black;">Ações</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for payment in payments %}
+                                                        <tr data-payment-id="{{ payment.pk }}">
+                                                            <td style="color: black;">{{ payment.date|date:"d/m/Y" }}</td>
+                                                            <td style="color: black;">{{ payment.invoice }}</td>
+                                                            <td style="color: black;">{{ payment.invoice.get_month_name }}</td>
+                                                            <td style="color: black;">{{ payment.subscription.pack.price }}€</td>
+                                                            <td style="color: black;">
+                                                                <a href="{% url "billing:payment_update" payment.pk %}" class="badge badge-warning">Editar</a>
+                                                                <a href="javascript:void(0);" class="badge badge-danger" data-toggle="modal" data-target="#deleteConfirmationModal" data-url="{% url 'billing:payment_delete' payment.pk %}">Apagar</a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pt-5">
+                                <div class="col-12">
+                                    <a href="{% url 'billing:payment_create' user.pk %}" class="btn btn-custom-user">Adicionar pagamento</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pt-5">
+                            <div class="col-12">
+                                <h3>Pagamentos em atraso:</h3>
+                            </div>
+                        </div>
+                        {% if late_payments %}
+                            <div class="row pt-5 w-100">
+                                <div class="col-12">
+                                    <div class="card w-100">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="color: black;">Data</th>
+                                                            <th style="color: black;">Fatura</th>
+                                                            <th style="color: black;">Mês</th>
+                                                            <th style="color: black;">Preço</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for payment in late_payments %}
+                                                            <tr>
+                                                                <td style="color: black;">{{ payment.invoice_date|date:"d/m/Y" }}</td>
+                                                                <td style="color: black;">{{ payment.invoice_number }}</td>
+                                                                <td style="color: black;">{{ payment.get_month_name }}</td>
+                                                                <td style="color: black;">{{ payment.amount }}€</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row pt-5">
+                                <div class="col-12">
+                                    <p>Não existem pagamentos em atraso.</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5">
+                <div class="col-12">
+                    <a href="{% url 'billing:payment_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- Modal para confirmação de eliminação -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" style="color: black;" id="deleteConfirmationModalLabel">Confirmação de Eliminação</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="color: black">
+                    Tem a certeza que deseja eliminar este pagamento?
+                </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-custom-user" data-dismiss="modal">Cancelar</button>
+                <button id="confirmDeleteBtn" class="btn btn-custom-user">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS here -->
+<script>
+    console.log('Script carregado corretamente!');
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        var paymentId = null;
+        var url = null;
+        console.log("Variáveis inicializadas.");
+    
+        // Capturar diretamente o clique no botão "Apagar"
+        document.querySelectorAll('.badge-danger').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                url = button.getAttribute('data-url');
+                paymentId = button.closest('tr').getAttribute('data-payment-id');
+        
+                console.log("Botão 'Apagar' clicado. URL para apagar: ", url);
+                console.log("ID do pagamento: ", paymentId);
+            });
+        });
+    
+        // Quando o botão "Eliminar" for clicado no modal
+        confirmDeleteBtn.addEventListener('click', function (event) {
+            event.preventDefault(); // Impede o comportamento padrão do link
+            console.log("Botão 'Eliminar' clicado. Iniciando pedido Ajax para: ", url);
+    
+            // Enviar o pedido de eliminação via Ajax
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log("Resposta recebida: ", response);
+                return response.json();
+            })
+            .then(data => {
+                console.log("Dados da resposta: ", data);
+                if (data.success) {
+                    // Remove a linha da tabela correspondente ao pagamento eliminado
+                    document.querySelector(`tr[data-payment-id="${paymentId}"]`).remove();
+                    console.log("Pagamento removido da tabela. Fechando modal.");
+    
+                    // Fechar o modal
+                    $('#deleteConfirmationModal').modal('hide');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        });
+    });    
+</script>
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+{% comment %} <script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script> {% endcomment %}
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

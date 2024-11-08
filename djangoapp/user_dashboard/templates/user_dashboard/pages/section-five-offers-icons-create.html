@@ -7,75 +7,100 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section Five. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-4">
-                    <h1>Content</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
-                    
-                    <form 
-                        action="{{ form_action }}" 
-                        method="post"
-                        >
-                        {% csrf_token %}
-
-                         <!-- Campo Oferta -->
-                         <div class="form-group col-8 pt-60">
-                            <label for="id_offer">Oferta</label>
-                            <select name="offer" id="id_offer" class="form-control" placeholder="Escolha uma oferta">
-                                <option value="">-- Selecione uma oferta --</option>
-                                {% for offer in offers %}
-                                    <option value="{{ offer.id }}">{{ offer.name }}</option>
-                                {% endfor %}
-                            </select>
-                            {% if form.offer.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.offer.errors %}
-                                        <p>{{ error }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Icons dos cards da página de preços.</p>
+                                <p>Altere os icons dos cards da página de preços ou crie novos.</p>
+                            </div>
                         </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form action="{{ form_action }}" method="post">
+                                    {% csrf_token %}
+                                    <!-- Campo Oferta -->
+                                    <div class="row w-100">
+                                        <div class="col-12 form-group pt-5">
+                                            <label for="id_offer">Oferta</label>
+                                            <select name="offer" id="id_offer" class="form-control nice-select" placeholder="Escolha uma oferta">
+                                                <option value="">-- Selecione uma oferta --</option>
+                                                {% for offer in offers %}
+                                                    <option value="{{ offer.id }}">{{ offer.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            {% if form.offer.errors %}
+                                                <div class="text-danger">
+                                                    {% for error in form.offer.errors %}
+                                                        <p>{{ error }}</p>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
 
-                        <!-- Campo Ícone -->
-                        <div class="form-group col-8 pt-60">
-                            <label for="id_icon">Ícone</label>
-                            <select name="icon" id="id_icon" class="form-control" placeholder="Escolha um ícone">
-                                <option value="">-- Selecione um icon --</option>
-                                {% for obj in form.fields.icon.queryset %}
-                                    <option value="{{ obj.id }}">{{ obj }}</option>
-                                {% endfor %}
-                            </select>
-                            {% if form.icon.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.icon.errors %}
-                                        <p>{{ error }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
+                                    <!-- Campo Ícone -->
+                                    <div class="row w-100">
+                                        <div class="col-12 form-group pt-5">
+                                            <label for="id_icon">Ícone</label>
+                                            <select name="icon" id="id_icon" class="form-control nice-select" placeholder="Escolha um ícone">
+                                                <option value="">-- Selecione um icon --</option>
+                                                {% for obj in form.fields.icon.queryset %}
+                                                <option value="{{ obj.id }}">{{ obj }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            {% if form.icon.errors %}
+                                                <div class="text-danger">
+                                                    {% for error in form.icon.errors %}
+                                                        <p>{{ error }}</p>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
 
-                        <!-- Campo Visível -->
-                        <div class="form-group form-check text-center pt-60">
-                            <input type="checkbox" name="is_visible" id="id_is_visible" class="form-check-input" {% if form.is_visible.value %}checked{% endif %}>
-                            <label class="form-check-label" for="id_is_visible">Visível</label>
-                            {% if form.is_visible.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.is_visible.errors %}
-                                        <p>{{ error }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
+                                    <!-- Campo Visível -->
+                                    <div class="row w-100">
+                                        <div class="col-12 form-group form-check pt-5">
+                                            <div class="d-flex align-items-center">
+                                                <label class="mr-2" for="id_is_visible">Visível</label>
+                                                <input type="checkbox" name="is_visible" id="id_is_visible" class="" {% if form.is_visible.value %}checked{% endif %}>
+                                            </div>
+                                            {% if form.is_visible.errors %}
+                                                <div class="text-danger">
+                                                    {% for error in form.is_visible.errors %}
+                                                        <p>{{ error }}</p>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="pt-60">
+                                        <button class="btn btn-custom-user mb-5 mr-3" type="submit">Adicionar</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="pt-60">
-                            <button class="btn btn-primary btn-xs" type="submit">Adicionar</button>
-                            
-                            <a href="{% url 'user_dashboard:section_five_offers_icons' %}" class="btn btn-primary btn-xs" type="submit">Voltar</a>
-                        </div>
-
-                    </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url 'user_dashboard:section_five_offers_icons' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>             
@@ -107,7 +132,7 @@
 <!-- Date Picker -->
 <script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
 <!-- Nice-select, sticky -->
-<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+{% comment %} <script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script> {% endcomment %}
 <script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
 
 <!-- counter , waypoint,Hover Direction -->

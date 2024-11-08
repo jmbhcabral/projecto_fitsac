@@ -1,15 +1,17 @@
 ''' This file contains the views for the user_profiles app. '''
-from django.forms.models import model_to_dict
-from django.shortcuts import render, redirect
+from collections import defaultdict
+from django.shortcuts import render
 from django.views import View
 from user_profiles.models import UserProfile
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from .user_profile_forms import BaseProfile
+from billing.models import Invoice
+from scheduling.models import ClassSession
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class UserAccountView(BaseProfile):
+class UserAccountView(LoginRequiredMixin, BaseProfile):
     ''' View for the user account page, inherited from BaseProfile. '''
+    login_url = '/login/'
 
     def __init__(self):
         ''' Constructor method. '''
@@ -17,15 +19,37 @@ class UserAccountView(BaseProfile):
         super().__init__()
 
         self.template_name = 'user_profiles/pages/user-account.html'
+        self.context = {}
 
     def get(self, request, *args, **kwargs):
         ''' Default GET method. '''
 
-        return super().get(request, *args, **kwargs)
+        user = request.user
+
+        user_with_overdue_payments = Invoice.objects.filter(
+            status=False,
+            user=user
+        ).order_by('user__first_name', 'invoice_date')
+
+        overdue_payments_by_user = defaultdict(list)
+
+        for item in user_with_overdue_payments:
+            overdue_payments_by_user[item.invoice_date.year].append(item)
+
+        self.context['overdue_payments_by_user'] = overdue_payments_by_user
+
+        # Get all classes attended by the user
+        classes_attended = ClassSession.objects.filter(
+            participants=user).count()
+
+        self.context['classes_attended'] = classes_attended
+
+        return render(request, self.template_name, self.context)
 
 
-class UserAccountLogoutView(BaseProfile):
+class UserAccountLogoutView(LoginRequiredMixin, BaseProfile):
     ''' View for the user account page. '''
+    login_url = '/login/'
 
     def __init__(self):
         ''' Constructor method. '''
@@ -37,8 +61,9 @@ class UserAccountLogoutView(BaseProfile):
         return super().get(request, *args, **kwargs)
 
 
-class UserAccountProfileView(View):
+class UserAccountProfileView(LoginRequiredMixin, View):
     ''' View for the user account page. '''
+    login_url = '/login/'
 
     def __init__(self):
         ''' Constructor method. '''
@@ -61,20 +86,19 @@ class UserAccountProfileView(View):
             try:
                 user_profile = UserProfile.objects.get(user=user)
             except UserProfile.DoesNotExist:
-                user_profile = None  # Handle the case where the profile does not exist
+                # Handle the case where the profile does not exist
+                user_profile = None
 
             postal_code_final = None
 
             if user_profile and user_profile.postal_code:
                 postal_code_db = str(user_profile.postal_code)
-                print(f'Postal code: {postal_code_db}')
 
                 if len(postal_code_db) == 7:
                     postal_code_1 = postal_code_db[:4]
                     postal_code_2 = postal_code_db[4:]
 
                     postal_code_final = f'{postal_code_1}-{postal_code_2}'
-                    print(f'Postal code: {postal_code_final}')
                 else:
                     postal_code_final = None
             else:
@@ -85,6 +109,5 @@ class UserAccountProfileView(View):
                 'user': user,
                 'user_profile': user_profile
             })
-            print(f'Context get useraccountprofileview: {self.context}')
 
         return render(request, self.template_name, self.context)

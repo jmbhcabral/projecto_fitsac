@@ -8,52 +8,58 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="row pt-5 align-items-stretch">
-                
+                <!-- Coluna para as opções de gestão -->
                 {% include "scheduling/partials/_classes_management_nav.html" %}
-                
+                <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2>Gerir alunos</h2>
-                    <form action="" method="get">
-                        <div class="form-group">
-                            <label for="search">Pesquisar aluno</label>
-                            <input type="text" name="q" id="search" class="form-control" placeholder="Pesquisar aluno" autofocus>
-                            <button type="submit" class="btn btn-custom-user mt-2">Pesquisar</button>
-                        </div>
-                        {% if users %}
-                            <div class="form-group">
-                                <h4>Selecione um(a) aluno(a) para visualizar.</h4>
-                                {% for user in users %}
-                                    <p><a href="{% url "physical_evaluations:student_management_single" user.pk %}">{{ user.first_name }} {{ user.last_name }}</a></p>
-                                {% endfor %}
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Avaliações Físicas.</p>
+                                <p>Pesquise um aluno para visualizar os dados.</p>
                             </div>
-                        {% else %}
-                            <p>Não foi encontrado nenhum aluno.</p>
-                        {% endif %}
-                    </form>
-
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form action="" method="get">
+                                    <div class="form-group">
+                                        <label for="search">Pesquisar aluno</label>
+                                        <input type="text" name="q" id="search" class="form-control" placeholder="Pesquisar aluno" autofocus>
+                                        <button type="submit" class="btn btn-custom-user mb-5 mr-3 mt-5">Pesquisar</button>
+                                    </div>
+                                </form>
+                                {% if users %}
+                                    <div class="form-group">
+                                        <h4>Selecione um(a) aluno(a) para visualizar.</h4>
+                                        {% for user in users %}
+                                            <p><a href="{% url "physical_evaluations:student_management_single" user.pk %}">{{ user.first_name }} {{ user.last_name }}</a></p>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p>Não foi encontrado nenhum aluno.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-primary">Voltar</a>
+                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>
-
-        
-        
-        
     </div>
 </main>
 <!-- Scroll Up -->

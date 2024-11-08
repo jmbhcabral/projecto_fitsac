@@ -8,12 +8,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Gerir Aulas</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -24,61 +22,120 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <div>
-                        <h2>Gerir Sessões</h2>
-                        <p>Gerir sessões de aulas.</p>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Gerir Sessões de Aulas.</p>
+                                <p>Crie e edite sessões de aulas.</p>
+                            </div>
+                        </div>
+                        {% if sessions %}
+                            <div class="row pt-5 justify-content-center">
+                                <div class="col-12">
+                                    <h3>Ultimas 10 aulas</h3>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Aula</th>
+                                            <th scope="col">Data</th>
+                                            <th scope="col">Hora</th>
+                                            <th scope="col">Duração</th>
+                                            <th scope="col">Instrutor</th>
+                                            <th scope="col">Acções</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for session in sessions %}
+                                            <tr>
+                                                <td>{{ session.fitness_class.title }}</td>
+                                                <td>{{ session.date|date:"d/m/Y" }}</td>
+                                                <td>{{ session.time }}</td>
+                                                <td>{{ session.fitness_class.duration }}</td>
+                                                <td>{{ session.instructor }}</td>
+                                                <td>
+                                                    <a href="{% url 'scheduling:class_session_edit' session.id %}" class="badge badge-danger">Editar</a>
+                                                    <a href="{% url 'scheduling:session_qrcode' session.id %}" class="badge badge-info">Qrcode</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="row pt-5 justify-content-center">
+                                <div class="col-12">
+                                    <p>Não há sessões de aulas recentes.</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                            <div class="row pt-5 justify-content-center">
+                                <div class="col-12">
+                                    <h3>Procurar Sessão</h3>
+                                </div>
+                            </div>
+                            <form method="get" action="{% url 'scheduling:classes_sessions' %}">
+                                <div class="row mb-5 justify-content-center">
+                                    <div class="col-12">
+                                        <label for="id_date">Data</label>
+                                        <input type="text" name="date" id="id_date" class="">
+                                    </div>
+                                </div>
+                                <div class="row pt-3 justify-content-center">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-custom-user mb-5 mr-3">Procurar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        {% if searched_sessions %}
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Aula</th>
+                                            <th scope="col">Data</th>
+                                            <th scope="col">Hora</th>
+                                            <th scope="col">Duração</th>
+                                            <th scope="col">Instrutor</th>
+                                            <th scope="col">Acções</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for searched_session in searched_sessions %}
+                                            <tr>
+                                                <td>{{ searched_session.fitness_class.title }}</td>
+                                                <td>{{ searched_session.date|date:"d/m/Y" }}</td>
+                                                <td>{{ searched_session.time }}</td>
+                                                <td>{{ searched_session.fitness_class.duration }}</td>
+                                                <td>{{ searched_session.instructor }}</td>
+                                                <td>
+                                                    <a href="{% url 'scheduling:class_session_edit' searched_session.id %}" class="badge badge-danger">Editar</a>
+                                                    {% comment %} <a href="{% url 'scheduling:class_session_delete' searched_session.id %}" class="btn btn-danger">Apagar</a> {% endcomment %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="row pt-5 justify-content-center">
+                                <div class="col-12">
+                                    <p>Não há sessões de aulas recentes.</p>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
-                    <div>
-                        <a href="{% url 'scheduling:class_session_create' instructor.pk %}" class="btn btn-custom-user">Criar Sessão</a>
-                    </div>
-                    <div class="pt-5">
-                        <h3>Ultimas 10 aulas</h3>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Aula</th>
-                                    <th scope="col">Data</th>
-                                    <th scope="col">Hora</th>
-                                    <th scope="col">Duração</th>
-                                    <th scope="col">Instrutor</th>
-                                    <th scope="col">Local</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for session in sessions %}
-                                <tr>
-                                    <th scope="row">{{ session.id }}</th>
-                                    <td>{{ session.class.name }}</td>
-                                    <td>{{ session.date|date:"d/m/Y" }}</td>
-                                    <td>{{ session.time }}</td>
-                                    <td>{{ session.duration }}</td>
-                                    <td>{{ session.instructor }}</td>
-                                    <td>{{ session.location }}</td>
-                                    <td>
-                                        {% comment %} <a href="{% url 'scheduling:session_detail' session.id %}" class="btn btn-primary">Detalhes</a>
-                                        <a href="{% url 'scheduling:session_update' session.id %}" class="btn btn-warning">Editar</a>
-                                        <a href="{% url 'scheduling:session_delete' session.id %}" class="btn btn-danger">Apagar</a> {% endcomment %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-primary">Voltar</a>
+                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>
-
-        
-        
-        
     </div>
 </main>
 <!-- Scroll Up -->
@@ -87,6 +144,36 @@
 </div>
 
 <!-- JS here -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/pikaday.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script>
+    
+    var picker = new Pikaday({
+        field: document.getElementById('id_date'),
+        format: 'YYYY-MM-DD',   // Define o formato da data
+        position: 'bottom right',    // Posiciona o calendário
+        // maxDate: new Date(),    // Impede a seleção de datas futuras
+        i18n: {
+            previousMonth: 'Mês Anterior',
+            nextMonth: 'Próximo Mês',
+            months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            weekdays: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+            weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+        },
+        yearRange: [1900, new Date().getFullYear()], // Years range from 1900 to current year
+        
+        toString: function(date, format) {
+            // Converte a data selecionada no formato desejado
+            return moment(date).format('YYYY-MM-DD');
+        },
+        parse: function(dateString, format) {
+            // Converte a string da data de volta para o objeto Date
+            return moment(dateString, 'YYYY-MM-DD').toDate();
+        }
+       
+    });
+</script>
 
 <script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
 <!-- Jquery, Popper, Bootstrap -->
@@ -107,7 +194,6 @@
 <!-- Date Picker -->
 <script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
 <!-- Nice-select, sticky -->
-<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
 <script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
 
 <!-- counter , waypoint,Hover Direction -->
@@ -118,7 +204,7 @@
 
 <!-- contact js -->
 <script src="{% static 'fitsac/js/contact.js' %}"></script>
-<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+{% comment %} <script src="{% static 'fitsac/js/jquery.form.js' %}"></script> {% endcomment %}
 <script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
 <script src="{% static 'fitsac/js/mail-script.js' %}"></script>
 <script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>

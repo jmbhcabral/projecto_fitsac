@@ -1,16 +1,16 @@
 {% extends "fitsac/base_front.html" %}
 {% load static %}
-{% block content %}<main>
+{% block content %}
+<main>
     <div class="admin-menu">
         <div class="container">
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -21,63 +21,72 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2 class="text-center">Avaliações da composição corporal</h2>
-                    {% if evaluation %}
-                        <p>Nome: {{ evaluation.evaluation.user.first_name}} {{ evaluation.evaluation.user.last_name}}</p>
-                        <!-- TODO: Arranjar o visual da pagina-->
-                        <h3>Actualizar imagens:</h3>
-                        <div class="card-body">
-                            <form method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="table-responsive">
-                                    <table class="table table-borderless text-center">
-                                        <thead>
-                                            <tr>
-                                                <th class="font-weight-bold">{{ evaluation_images.labels.image_front}}</th>
-                                                <th class="font-weight-bold">{{ evaluation_images.labels.image_side}}</th>
-                                                <th class="font-weight-bold">{{ evaluation_images.labels.image_back}}</th>
-                                            </tr>
-                                        </thead>
-                                        
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img src="{{ evaluation_images.image_front.url }}" alt="{{ evaluation_images.image_front.name }}" class="img-fluid image-size-fit">
-                                                    <p>{{evaluation_images.image_front.name|cut:"/:" }}</p>
-                                                    <input type="file" name="image_front" class="form-control-file">
-                                                </td>
-                                                <td>
-                                                    <img src="{{ evaluation_images.image_side.url }}" alt="{{ evaluation_images.image_side.name }}" class="img-fluid image-size-fit">
-                                                    <p>{{evaluation_images.image_side.name|cut:"/:" }}</p>
-                                                    <input type="file" name="image_side" class="form-control-file">
-                                                </td>
-                                                <td>
-                                                    <img src="{{ evaluation_images.image_back.url }}" alt="{{ evaluation_images.image_back.name }}" class="img-fluid image-size-fit">
-                                                    <p>{{evaluation_images.image_back.name|cut:"/:" }}</p>
-                                                    <input type="file" name="image_back" class="form-control-file">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3">
-                                                    <button type="submit" class="btn btn-custom-user">Actualizar</button>
-                                                    <a href="{% url "physical_evaluations:evaluation_images" evaluation.pk %}" class="btn btn-custom-user">Voltar</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </form>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Avaliações Físicas.</p>
+                                <p>Imagens da avaliação física.</p>
+                            </div>
                         </div>
-                    {% endif %}
-                    <div class="pt-10">
-                        <a href="{% url "physical_evaluations:evaluation_images" evaluation_images.pk %}" class="btn btn-custom-user">voltar</a>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if evaluation %}
+                                    <p>Nome: {{ evaluation.user.first_name}} {{ evaluation.user.last_name}}</p>
+                                    <h3>Actualizar imagens:</h3>
+                                    <div class="card-body">
+                                        <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="">
+                                                        <h4 class="font-weight-bold" style="color: #000;">{{ evaluation_images.labels.image_front}}</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <img src="{{ evaluation_images.image_front.url }}" alt="{{ evaluation_images.image_front.name }}" class="img-fluid image-size-fit" style="width: 100%; height: auto;">
+                                                        <p class="mt-2" style="color: #000;">{{evaluation_images.image_front.name|cut:"/:" }}</p>
+                                                        <input type="file" name="image_front" class="form-control-file">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="">
+                                                        <h4 class="font-weight-bold" style="color: #000;">{{ evaluation_images.labels.image_side}}</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <img src="{{ evaluation_images.image_side.url }}" alt="{{ evaluation_images.image_side.name }}" class="img-fluid image-size-fit" style="width: 100%; height: auto;">
+                                                        <p class="mt-2" style="color: #000;">{{evaluation_images.image_side.name|cut:"/:" }}</p>
+                                                        <input type="file" name="image_side" class="form-control-file">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="">
+                                                        <h4 class="font-weight-bold" style="color: #000;">{{ evaluation_images.labels.image_back}}</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <img src="{{ evaluation_images.image_back.url }}" alt="{{ evaluation_images.image_back.name }}" class="img-fluid image-size-fit" style="width: 100%; height: auto;">
+                                                        <p class="mt-2" style="color: #000;">{{evaluation_images.image_back.name|cut:"/:" }}</p>
+                                                        <input type="file" name="image_back" class="form-control-file">
+                                                    </div>
+                                                </div>
+                                            </div>          
+                                            <div class="row pt-5">
+                                                <button type="submit" class="btn btn-custom-user mb-5 mr-3">Actualizar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-custom-user">Voltar</a>
+                    <a href="{% url "physical_evaluations:evaluation_images" evaluation.pk %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>    

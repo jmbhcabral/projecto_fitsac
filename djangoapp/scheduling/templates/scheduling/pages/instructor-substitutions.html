@@ -8,12 +8,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Gerir Aulas</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -24,23 +22,30 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2>Substituição de instrutores</h2>
-                    <p class="mt-5 mb-5">Nesta página pode substituir um instrutor por outro.</p>
-                    <div class="">
-                    <a href="{% url "scheduling:instructor_substitution_create" %}" class="btn btn-custom-user w-30">Substituir Instrutor</a>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Gerir Instrutores.</p>
+                                <p>Crie, edite e delete instrutores.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <div class="text-center">
+                                    <a href="{% url "scheduling:instructor_substitution_create" %}" class="btn btn-custom-user mb-5 mr-3">Substituir Instrutor</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-primary">Voltar</a>
+                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>
-
-        
-        
-        
     </div>
 </main>
 <!-- Scroll Up -->

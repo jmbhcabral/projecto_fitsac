@@ -7,26 +7,49 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section One. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Content</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
-                    <form 
-                    action="{{ form_action }}"
-                    method="post"
-                    enctype="multipart/form-data"
-                    >
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <div class="pt-60">
-                            <button class="btn btn-primary btn-xs" type="submit">Adicionar</button>
-                            <a href="{% url "user_dashboard:admin_home" %}" class="btn btn-primary btn-xs" type="submit">Voltar</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Adicionar uma foto à galeria de fotos do estúdio.</p>
+                            </div>
                         </div>
-                    </form>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form 
+                                action="{{ form_action }}"
+                                method="post"
+                                enctype="multipart/form-data"
+                                >
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <div class="pt-60">
+                                        <button class="btn btn-custom-user mb-5 mr-3" type="submit">Adicionar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div> 
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:section_four" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
             </div>
         </div>     
     </div>

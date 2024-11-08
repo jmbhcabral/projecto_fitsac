@@ -9,7 +9,7 @@ from scheduling.models import (
 @admin.register(Instructor)
 class InstructorAdmin(admin.ModelAdmin):
     ''' Admin class for the Instructor model. '''
-    list_display = ('instructor', 'bio')
+    list_display = ('id', 'instructor', 'bio')
     search_fields = ('instructor', 'bio')
     list_filter = ('instructor', 'bio')
 

@@ -1,0 +1,189 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <div class="container">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12">
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Bem-vindo à área de administração. Aqui poderá gerir várias partes do sistema, como instrutores, aulas semanais e avaliações físicas.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Secção 1 - Fotografia principal e textos</h3>
+                                <p>
+                                    Fotografia principal: A fotografia principal é a imagem que aparece na página inicial do site. Ela deve ser uma imagem clara e de alta qualidade que represente o estúdio e o que oferece. Textos: Os textos da página inicial são fundamentais para descrever o que o estúdio oferece e para atrair os visitantes. Certifique-se de que os textos são claros, concisos e que transmitam a mensagem correta sobre o estúdio. A segunda fotografia é a que aparece em galeria.
+                                </p>
+                                <a href="{% url "user_dashboard:section_one" %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Secção 2 - Serviços principais</h3>
+                                <p>
+                                    Aqui pode gerir os serviços principais do estúdio, dois blocos horizontais com imagens e textos.
+                                </p>
+                                <a href="{% url "user_dashboard:section_two" %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Secção 3 - Beneficios e vantagens</h3>
+                                <p>
+                                    Aqui pode gerir os benefícios e vantagens do estúdio.
+                                </p>
+                                <a href="{% url "user_dashboard:section_three" %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Secção 4 - Galeria de fotos</h3>
+                                <p>
+                                    Aqui pode gerir a galeria de fotos do estúdio.
+                                </p>
+                                <a href="{% url "user_dashboard:section_four" %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Secção 5 - Cards</h3>
+                                <p>
+                                    Aqui pode gerir os cards da página de preços.
+                                </p>
+                                <a href="{% url "user_dashboard:section_five" %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Secção 6 - Acerca de nós</h3>
+                                <p>
+                                    Aqui pode gerir o texto e a fotografia da secção "Acerca de nós".
+                                </p>
+                                <a href="{% url "user_dashboard:section_six" %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Secção 7 - Blog</h3>
+                                <p>
+                                    Aqui pode gerir o blog do site.
+                                </p>
+                                <a href="#" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Secção 8 - Videos</h3>
+                                <p>
+                                    Aqui pode gerir os videos da página de preços.
+                                </p>
+                                <a href="{% url "user_dashboard:section_eight" %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Secção 9 - Contactos Localização</h3>
+                                <p>
+                                    Aqui pode gerir os contactos e localização do site.
+                                </p>
+                                <a href="{% url "user_dashboard:section_nine" %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Aulas</h3>
+                                <p>
+                                    Aqui pode gerir os tipos de aulas do site.
+                                </p>
+                                <a href="{% url "user_dashboard:classes_type" %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:admin_home" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+                {% comment %} <a href="{% url "scheduling:classes_management" %}" class="btn btn-custom-user mb-5 mr-3">Gerir aulas</a>
+                <a href="{% url "user_dashboard:section_one" %}" class="btn btn-custom-user mb-5 mr-3">Secção 1</a>
+                <a href="{% url "user_dashboard:section_two" %}" class="btn btn-custom-user mb-5 mr-3">Secção 2</a>
+                <a href="{% url "user_dashboard:section_three" %}" class="btn btn-custom-user mb-5 mr-3">Secção 3</a>
+                <a href="{% url "user_dashboard:section_four" %}" class="btn btn-custom-user mb-5 mr-3">Secção 4</a>
+                <a href="{% url "user_dashboard:section_five" %}" class="btn btn-custom-user mb-5 mr-3">Secção 5</a>
+                <a href="{% url "user_dashboard:section_six" %}" class="btn btn-custom-user mb-5 mr-3">Secção 6</a>
+                <a href="{% url "user_dashboard:section_seven" %}" class="btn btn-custom-user mb-5 mr-3">Secção 7</a>
+                <a href="{% url "user_dashboard:section_eight" %}" class="btn btn-custom-user mb-5 mr-3">Secção 8</a>
+                <a href="{% url "user_dashboard:section_nine" %}" class="btn btn-custom-user mb-5 mr-3">Secção 9</a>
+                <a href="{% url "user_dashboard:classes_type" %}" class="btn btn-custom-user mb-5 mr-3">Tipo de Aulas</a> {% endcomment %}
+
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

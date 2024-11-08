@@ -7,11 +7,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -22,130 +21,130 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2 class="text-center">Avaliação da composição corporal</h2>
-                    <p>Nome: {{ body_composition_single.user.first_name}} {{ body_composition_single.user.last_name}}</p>
-                    <form action="" method="post">
-                        {% csrf_token %}
-
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-responsive-md">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Campo</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Nome</td>
-                                    <td>{{ student.first_name}} {{ student.last_name}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Instrutor</td>
-                                    <td>{{ instructor.instructor.first_name}} {{ instructor.instructor.last_name}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Data</td>
-                                    <td>{{ form.date }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Idade</td>
-                                    <td>{{ age }} anos</td>
-                                </tr>
-                                <tr>
-                                    <td>Tipo Corpo</td>
-                                    <td>{{ form.body_type }} anos</td>
-                                </tr>
-                                <tr>
-                                    <td>Altura</td>
-                                    <td>{{ form.height }} m</td>
-                                </tr>
-                                <tr>
-                                    <td>Peso</td>
-                                    <td>{{ form.weight }} kg</td>
-                                </tr>
-                                <tr>
-                                    <td>Circunferência da Cintura</td>
-                                    <td>{{ form.waist_circumference }} cm</td>
-                                </tr>
-                                <tr>
-                                    <td>Circunferência Abdominal</td>
-                                    <td>{{ form.belly_circumference }} cm</td>
-                                </tr>
-                                <tr>
-                                    <td>Circunferência do Quadril</td>
-                                    <td>{{ form.hip_circumference }} cm</td>
-                                </tr>
-                                <tr>
-                                    <td>Circunferência da Perna</td>
-                                    <td>{{ form.leg_circumference }} cm</td>
-                                </tr>
-                                <tr>
-                                    <td>Circunferência do Braço</td>
-                                    <td>{{ form.arm_circumference }} cm</td>
-                                </tr>
-                                <tr>
-                                    <td>Percentagem de Gordura Corporal</td>
-                                    <td>{{ form.body_fat_percentage }}%</td>
-                                </tr>
-                                <tr>
-                                    <td>Percentagem Total de Água</td>
-                                    <td>{{ form.total_water_percentage }}%</td>
-                                </tr>
-                                <tr>
-                                    <td>Massa Muscular</td>
-                                    <td>{{ form.muscle_mass_percentage }}%</td>
-                                </tr>
-                                <tr>
-                                    <td>Nível de Aptidão Física</td>
-                                    <td>{{ form.fitness_level }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Calorias Queimadas</td>
-                                    <td>{{ form.calories_burned }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Idade Metabólica</td>
-                                    <td>{{ form.metabolic_age }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Massa Óssea</td>
-                                    <td>{{ form.bone_mass }} kg</td>
-                                </tr>
-                                <tr>
-                                    <td>Percentagem de Gordura Visceral</td>
-                                    <td>{{ form.visceral_fat_percentage }}%</td>
-                                </tr>
-                                <tr>
-                                    <td>IMC</td>
-                                    <td>{{ form.imc }}</td>
-                                </tr>
-                                <tr>
-                                    <td>FP</td>
-                                    <td>{{ form.fp }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Observações</td>
-                                    <td>{{ form.observations }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="pt-10">
-                            <button type="submit" class="btn btn-custom-user">Actualizar</button>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Avaliação Física.</p>
+                                <p>Altere os dados necessários e clique em "Actualizar" para salvar as alterações.</p>
+                            </div>
                         </div>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-responsive-md">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Campo</th>
+                                            <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Nome</td>
+                                            <td>{{ student.first_name}} {{ student.last_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Instrutor</td>
+                                            <td>{{ instructor.instructor.first_name}} {{ instructor.instructor.last_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Data avaliação</td>
+                                            <td>{{ form.date }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Idade</td>
+                                            <td>{{ age }} anos</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tipo Corpo</td>
+                                            <td>{{ form.body_type }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Altura</td>
+                                            <td>{{ form.height }} m</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Peso</td>
+                                            <td>{{ form.weight }} kg</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Circunferência da Cintura</td>
+                                            <td>{{ form.waist_circumference }} cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Circunferência Abdominal</td>
+                                            <td>{{ form.belly_circumference }} cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Circunferência do Quadril</td>
+                                            <td>{{ form.hip_circumference }} cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Circunferência da Perna</td>
+                                            <td>{{ form.leg_circumference }} cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Circunferência do Braço</td>
+                                            <td>{{ form.arm_circumference }} cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Percentagem de Gordura Corporal</td>
+                                            <td>{{ form.body_fat_percentage }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Percentagem Total de Água</td>
+                                            <td>{{ form.total_water_percentage }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Massa Muscular</td>
+                                            <td>{{ form.muscle_mass_percentage }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nível de Aptidão Física</td>
+                                            <td>{{ form.fitness_level }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Calorias Queimadas</td>
+                                            <td>{{ form.calories_burned }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Idade Metabólica</td>
+                                            <td>{{ form.metabolic_age }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Massa Óssea</td>
+                                            <td>{{ form.bone_mass }} kg</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Percentagem de Gordura Visceral</td>
+                                            <td>{{ form.visceral_fat_percentage }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>IMC</td>
+                                            <td>{{ body_composition_instance.imc }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>FP</td>
+                                            <td>{{ body_composition_instance.fp }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Observações</td>
+                                            <td>{{ form.observations }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="pt-10">
+                                <button type="submit" class="btn btn-custom-user mb-5 mr-3">Actualizar</button>
+                            </div>
+                        </form>
                     </div>
-                    </form>
-                    </div>
-                    <div class="pt-10">
-                        <a href="#" class="btn btn-custom-user">Editar</a>
-                    </div>
-
-
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-custom-user">Voltar</a>
+                    <a href="{% url 'physical_evaluations:body_composition_single' body_composition_instance.pk %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>    

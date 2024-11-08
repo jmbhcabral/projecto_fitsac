@@ -1,6 +1,7 @@
 {% extends "fitsac/base_front.html" %}
 {% load static %}
 {% block content %}
+{% load custom_filters %}
 <main>
     <div class="admin-menu">
         <!-- Cabeçalho da página -->
@@ -16,12 +17,20 @@
             <!-- Conteúdo Principal -->
             <div id="content" class="col-12 col-md-9 content-area p-4 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
                 <h2 class="text-center">Informações do Utilizador</h2>
-                <p>{{ user.username }}</p>
+                <p class="text-center pt-5">Bem-vindo de volta, <strong>{{ user.get_full_name }}</strong>! Estamos entusiasmados por tê-lo novamente connosco. Que hoje seja mais um passo rumo ao seu sucesso. Vamos juntos alcançar grandes conquistas!</p>
+                <!-- Pagamentos em divida -->
+                 {% if overdue_payments_by_user %}
+                    {% include "user_profiles/partials/_account_debt.html" %}
+                {% else %}
+                    <p>Pagamentos: <span class="text-success">Em dia</span></p>
+                {% endif %}
                 
-                <!-- Texto Exemplo -->
-                <p class="text-wrap">Este é um exemplo de conteúdo com muito texto que pode ser adaptado para diferentes resoluções de ecrã. Ajusta o CSS para garantir que fica agradável em todos os dispositivos.</p>
                 
-                <!-- Adicionar mais conteúdo aqui conforme necessário -->
+                <!-- Atividades Recentes -->
+                <h3>Atividades Recentes</h3>
+                <span>Último Login: {{ user.last_login|date:"d/m/Y H:i" }}</span>
+                <span>Aulas assistidas: {{ classes_attended }}</span>
+                </ul>
             </div>
         </div>
     </div>

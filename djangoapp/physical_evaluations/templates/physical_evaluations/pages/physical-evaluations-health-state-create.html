@@ -7,35 +7,50 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
                 {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2 class="text-center">Estado de saúde</h2>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        {% for field in form %}
-                            <div class="form-group">
-                                <label for="{{ field.id_for_label }}">{{ field.label }}?</label>
-                                {{ field }}
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Estado de saúde.</p>
+                                <p>Criar estado de saúde.</p>
                             </div>
-                        {% endfor %}
-                        <button type="submit" class="btn btn-custom-user">Enviar Respostas</button>
-                    </form>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                    {% for field in form %}
+                                        <div class="col-12 border-fit">
+                                            <label for="{{ field.id_for_label }}" class="w-50">{{ field.label }}?</label>
+                                            {{ field }}
+                                        </div>
+                                    {% endfor %}
+                                    </div>
+                                    <button type="submit" class="btn btn-custom-user mt-5 mr-3">Enviar Respostas</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-custom-user">Voltar</a>
+                    <a href="{% url 'physical_evaluations:body_composition_single' evaluation.pk %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>    

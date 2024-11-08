@@ -7,41 +7,66 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section One. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Content</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
-                    {% if photo %}
-                        <div class="row justify-content-center pt-80">
-                            <div class="col-lg-6">
-                                <div class="box">
-                                    <div class="gallery-img" style="background-image: url('{{ photo.image.url }}'); height: 400px; background-size: cover; background-position: center;"></div>
-                                    <p style="text-align: center">Tag: {{ photo.tag }}</p>
-                                    <p style="text-align: center">Ordem: {{ photo.order }}</p>
-                                </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Galeria de fotos do estúdio.</p>
+                                <p>Selecione uma foto para ver detalhes ou editar.</p>
                             </div>
                         </div>
-                        <div class="row justify-content-center pt-60">
-                            <div class="col-12 text-center d-flex gap-4">
-                                <a href="{% url 'user_dashboard:section_four_single_photo_update' photo.id %}" class="btn btn-primary btn-xs">Editar foto</a>
-                                <div class="">
-                                    <form action="{% url 'user_dashboard:section_four_single_photo_delete' photo.id %}" method='POST'>
-                                        {% csrf_token %}
-                                        {% if confirmation == 'yes' %}
-                                            <input type="hidden" name="confirmation" value="{{ confirmation }}">
-                                            <button class="btn btn-primary btn-xs" type="submit">Confirma?</button>
-                                        {% else %}
-                                            <button class="btn btn-primary btn-xs" type="submit">Apagar</button>
-                                            <a href="{% url "user_dashboard:section_four" %}" class="btn btn-secondary btn-xs">Voltar</a>
-                                        {% endif %}
-                                    </form>
-                                </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if photo %}
+                                    <div class="row justify-content-center pt-80">
+                                        <div class="col-lg-6">
+                                            <div class="box">
+                                                <div class="gallery-img" style="background-image: url('{{ photo.image.url }}'); height: 400px; background-size: cover; background-position: center; border-radius: 10px;"></div>
+                                                <p style="text-align: center">Tag: {{ photo.tag }}</p>
+                                                <p style="text-align: center">Ordem: {{ photo.order }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center pt-60">
+                                        <div class="col-12 text-center d-flex gap-4">
+                                            <a href="{% url 'user_dashboard:section_four_single_photo_update' photo.id %}" class="btn btn-custom-user mb-5 mr-3">Editar foto</a>
+                                            <div class="">
+                                                <form action="{% url 'user_dashboard:section_four_single_photo_delete' photo.id %}" method='POST'>
+                                                    {% csrf_token %}
+                                                    {% if confirmation == 'yes' %}
+                                                        <input type="hidden" name="confirmation" value="{{ confirmation }}">
+                                                        <button class="btn btn-custom-user mb-5 mr-3" type="submit">Confirma?</button>
+                                                    {% else %}
+                                                        <button class="btn btn-custom-user mb-5 mr-3" type="submit">Apagar</button>
+                                                    {% endif %}
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
-                    {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:section_four" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>     

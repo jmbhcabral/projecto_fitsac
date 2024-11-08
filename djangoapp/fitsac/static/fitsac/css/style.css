@@ -621,9 +621,9 @@ hr {
   font-size: 18px;
   font-weight: 600;
   border: 2px solid #fff;
-  color: #fff;
+  color: #2ce806;
   background: none;
-  border-radius: 0px;
+  border-radius: 30px;
   text-transform: uppercase;
   padding: 14px 43px;
   -moz-user-select: none;
@@ -3303,7 +3303,7 @@ hr {
 
 /* line 169, C:/Users/HP/Desktop/July-HTML/292 Health coach/assets/scss/_headerMenu.scss */
 .mobile_menu .slicknav_menu .slicknav_btn .slicknav_icon-bar {
-  background-color: #126402 !important;
+  background-color: #27541e !important;
 }
 
 /* line 173, C:/Users/HP/Desktop/July-HTML/292 Health coach/assets/scss/_headerMenu.scss */
@@ -6211,7 +6211,7 @@ hr {
 /* line 61, C:/Users/HP/Desktop/July-HTML/292 Health coach/assets/scss/_contact.scss */
 .form-contact .form-control {
   border: 1px solid #2ce806;
-  border-radius: 0px;
+  border-radius: 10px;
   height: 48px;
   padding-left: 18px;
   font-size: 13px;
@@ -6615,7 +6615,7 @@ hr {
 /* line 47, C:/Users/HP/Desktop/July-HTML/292 Health coach/assets/scss/_extend.scss */
 .header-area .menu-wrapper .main-menu ul ul.submenu, .header-sticky.sticky-bar {
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#2ce806+0,26a004+50,135b02+100 */
-background: linear-gradient(to bottom, #2ce806 0%,#26a004 50%,#135b02 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+background: linear-gradient(to bottom, #000000 0%,#000000 50%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 /* line 76, C:/Users/HP/Desktop/July-HTML/292 Health coach/assets/scss/_elements.scss */
@@ -8377,3 +8377,66 @@ input[type="file"]::file-selector-button {
   justify-content: center;
   min-height: 100vh;  
 }
+
+.black-font {
+  color: black;
+}
+
+.border-card {
+  border: 1px solid #2ce806;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.modal {
+  z-index: 1050 !important;
+}
+.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.account-debt,
+.account-debt {
+  color: red;
+  font-size: 20px;
+}
+
+.hover-effect {
+  transition: transform 0.3s ease; /* Transição suave */
+}
+
+.hover-effect:hover {
+  transform: scale(1.05) rotate(5deg); /* Aumenta e roda ligeiramente */
+}
+
+/* Forms custom-form.as_p */
+.custom-form p {
+  margin-left: 20px;
+}
+
+/* Section Six form.as_p */
+.custom-form-six p textarea {
+  display: block;
+  width: 100%;
+}
+
+.custom-form-six p label {
+  display: block;
+  margin-bottom: 5px; /* Espaço entre o label e a text area */
+}
+
+/* Password toggle */
+.input-group {
+  position: relative;
+}
+.input-group .input-group-text {
+  background: none;
+  border: none;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+.input-group .form-control {
+  padding-right: 2.5rem;

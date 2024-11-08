@@ -1,0 +1,24 @@
+{% load custom_filters %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 account-debt p-4 shadow-sm rounded">
+            <h4 class="mb-3 text-danger text-center">Pagamentos em Atraso</h4>
+            <p class="text-center">Ainda não procedeu ao pagamento dos seguintes meses:</p> 
+            <ul class="list-unstyled">
+                {% for item in overdue_payments_by_user %}
+                    <li class="mb-2">
+                        <strong class="text-primary">Ano: {{ item }}</strong>
+                        <ul class="list-inline mt-2">
+                            {% for payment in overdue_payments_by_user|get_item:item %}   
+                                <li class="list-inline-item pb-2">
+                                    <span class="badge badge-warning">{{ payment.get_month_name }}{% if forloop.last %}.{% else %},{% endif %}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>   
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

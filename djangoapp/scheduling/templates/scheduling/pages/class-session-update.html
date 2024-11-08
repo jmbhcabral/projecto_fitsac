@@ -8,12 +8,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Gerir Aulas</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -24,21 +22,62 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <div>
-                        <h2>Gerir Sessões</h2>
-                        <p>Finalizar a sessão da aula.</p>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Gerir Sessões de Aulas.</p>
+                                <p>Finalizar Sessão de Aula.</p>
+                            </div>
+                        </div>
+                        {% if session %}
+                            <div class="row pt-5 justify-content-center">
+                                <div class="col-12">
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        
+                                        <div class="row">
+                                            {% for participant in participants %}
+                                                <div class="col-12 col-md-6 col-lg-4 mb-2">
+                                                    <div class="">
+                                                        <input class="" type="checkbox" value="{{ participant.id }}" id="participant-{{ participant.id }}" name="participants" {% if participant in session.participants.all %}checked{% endif %}>
+                                                        <label class="" for="participant-{{ participant.id }}">
+                                                            {{ participant.first_name }} {{ participant.last_name }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                {% if forloop.counter|divisibleby:10 %}
+                                                    </div><div class="row">
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label for="notes">Observações:</label>
+                                                    {{ form.notes }}
+                                            </div>
+                                        </div>
+                                        <div class="row pt-5">
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-custom-user mb-5 mr-3">Finalizar Sessão</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row pt-5 justify-content-center">
+                                <div class="col-12">
+                                    <p>Erro a carregar a sessão.</p>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
-                    <div>
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <button type="submit" class="btn btn-custom-user">Finalizar Sessão</button>
-                        </form>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-primary">Voltar</a>
+                    <a href="{% url 'scheduling:classes_sessions' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>
@@ -74,7 +113,7 @@
 <!-- Date Picker -->
 <script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
 <!-- Nice-select, sticky -->
-<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+{% comment %} <script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script> {% endcomment %}
 <script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
 
 <!-- counter , waypoint,Hover Direction -->

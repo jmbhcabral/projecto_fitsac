@@ -169,7 +169,8 @@ class ClassTimeException(models.Model):
 
 
 class ClassSession(models.Model):
-    fitness_class = models.ForeignKey(WeeklyClass, on_delete=models.CASCADE)
+    fitness_class = models.ForeignKey(
+        WeeklyClass, on_delete=models.CASCADE, related_name='class_session')
     instructor = models.ForeignKey(
         Instructor, on_delete=models.SET_NULL, null=True)
     date = models.DateField()

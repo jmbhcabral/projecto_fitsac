@@ -7,50 +7,75 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section One. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Content</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
-                    <form 
-                    action="{{ form_action }}"
-                    method="post"
-                    enctype="multipart/form-data"
-                    >
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <!-- Visualizar a imagem atual -->
-                            {% if photo.image %}
-                                <div class="current-image mb-3">
-                                    <label>Imagem Atual:</label>
-                                    <div class="image-preview mb-2" style="background-image: url('{{ photo.image.url }}'); height: 400px; background-size: cover; background-position: center;"></div>
-                                    <p>Nome do Arquivo: {{ photo.image.name }}</p>
-                                </div>
-                            {% endif %}
-                            <!-- Campo para atualizar a imagem -->
-                            <label for="id_image">Alterar Imagem:</label>
-                            {{ form.image }}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Galeria de fotos do estúdio.</p>
+                                <p>Selecione uma foto para ver detalhes ou editar.</p>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="id_tag">Tag:</label>
-                            {{ form.tag }}
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form 
+                                action="{{ form_action }}"
+                                method="post"
+                                enctype="multipart/form-data"
+                                >
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <!-- Visualizar a imagem atual -->
+                                        {% if photo.image %}
+                                            <div class="current-image mb-3">
+                                                <label>Imagem Atual:</label>
+                                                <div class="image-preview mb-2" style="background-image: url('{{ photo.image.url }}'); height: 400px; background-size: cover; background-position: center; border-radius: 10px;"></div>
+                                                <p>Nome do Arquivo: {{ photo.image.name }}</p>
+                                            </div>
+                                        {% endif %}
+                                        <!-- Campo para atualizar a imagem -->
+                                        <label for="id_image">Alterar Imagem:</label>
+                                        {{ form.image }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_tag">Tag:</label>
+                                        {{ form.tag }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_order">Ordem:</label>
+                                        {{ form.order }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_visibility">Visibilidade:</label>
+                                        {{ form.is_visible }}
+                                    </div>
+                                    <div class="pt-60">
+                                        <button class="btn btn-custom-user mb-5 mr-3" type="submit">Actualizar</button>
+
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="id_order">Ordem:</label>
-                            {{ form.order }}
-                        </div>
-                        <div class="form-group">
-                            <label for="id_visibility">Visibilidade:</label>
-                            {{ form.is_visible }}
-                        </div>
-                        <div class="pt-60">
-                            <button class="btn btn-primary btn-xs" type="submit">Actualizar</button>
-                            <a href="{% url 'user_dashboard:section_four_single_photo' photo.id %}" class="btn btn-primary btn-xs">Voltar</a>
-                        </div>
-                    </form>
-                </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url 'user_dashboard:section_four_single_photo' photo.id %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
             </div>
         </div>     
     </div>

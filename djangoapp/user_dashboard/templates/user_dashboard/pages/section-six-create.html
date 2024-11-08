@@ -1,34 +1,55 @@
 {% extends "fitsac/base_front.html" %}
 {% load static %}
 {% block content %}
-<main class="pt-80">
-    <section class="pricing-area section-padding40 fix">
+<main>
+    <div class="admin-menu">
         <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="section-tittle text-center mb-55 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
-                        <h1>Admin Dashboard</h1>
-                        <p>Welcome to the Section Five. Here you can manage the website.</p>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12">
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Texto e fotografia da secção "Acerca de nós".</p>
+                                <p>Criar novo item.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">   
+                                <form action="{{form_action}}" method="post" enctype="multipart/form-data" class="custom-form-six">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row pt-60">
+                            <button type="submit" class="btn btn-custom-user mb-5 mr-3">Salvar</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            {% include "fitsac/partials/_messages.html" %}
-            <div class="row">    
-                <form action="{{form_action}}"
-                    method="post"
-                    enctype="multipart/form-data"    
-                >
-                    {% csrf_token %}
-                    {{ form.as_p }}
-               
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:section_six" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
             </div>
-            <div class="row pt-60">
-                <button type="submit" class="btn btn-primary btn-xs">Salvar</button>
-                <a href="{% url "user_dashboard:section_six" %}" class="btn btn-secondary btn-xs">Voltar</a>
-            </div>
-            </form>      
         </div>     
-    </section>
+    </div>
 </main>
 <!-- Scroll Up -->
 <div id="back-top" >

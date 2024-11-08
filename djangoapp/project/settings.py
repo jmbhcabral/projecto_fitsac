@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'scheduling',
     'user_profiles',
     'physical_evaluations',
+    'billing',
 ]
 
 MIDDLEWARE = [

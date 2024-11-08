@@ -3,34 +3,50 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from scheduling.forms import InstructorForm, WeeklyClassForm
-from scheduling.models import Instructor, WeeklyClass
+from scheduling.forms import InstructorForm
+from scheduling.models import Instructor
 from django.db.models import Q
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import JsonResponse
+from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='/login/')
 def search_users(request):
     ''' Search for users. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     query = request.GET.get('q', '')
 
     if query:
         # Filter users by first name, last name, or email
-        users = User.objects.filter(
+        users = get_user_model().objects.filter(
             Q(first_name__icontains=query) |
             Q(last_name__icontains=query) |
             Q(email__icontains=query)
         )
-        results = [{'id': user.id, 'text': f'{user.get_full_name()} ({user.email})'}
-                   for user in users]
+        results = [
+            {'id': user.id, 'text': f'{user.get_full_name()} ({user.email})'}
+            for user in users
+        ]
     else:
         results = []
 
     return JsonResponse({'results': results})
 
 
+@login_required(login_url='/login/')
 def instructor_create(request):
     ''' Create a new instructor. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     action_form = reverse('scheduling:instructor_create')
     if request.method == 'POST':
         form = InstructorForm(request.POST, request.FILES)
@@ -52,6 +68,9 @@ def instructor_create(request):
 
             # Save the instructor instance
             instructor_instance.save()
+
+            # Add the instructor to the group
+            instructor_user.groups.add(Group.objects.get(name='_admin'))
 
             messages.success(request, 'Instrutor criado com sucesso.')
             return redirect('scheduling:instructors_management')
@@ -80,11 +99,17 @@ def instructor_create(request):
     )
 
 
+@login_required(login_url='/login/')
 def instructor_edit(request, id):
     ''' Edit an existing instructor. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     instructor = get_object_or_404(Instructor, id=id)
     form_action = reverse('scheduling:instructor_edit', args=[id])
-    print(f'Instructor: {instructor.instructor.id}')
+
     if request.method == 'POST':
         form = InstructorForm(request.POST, request.FILES, instance=instructor)
 
@@ -96,12 +121,12 @@ def instructor_edit(request, id):
 
         if form.is_valid():
             bio = form.cleaned_data.get('bio')
-            print(f'Bio: {bio}')
+
             instructor_instance = form.save(commit=False)
             instructor_instance.instructor.id = instructor.instructor.id
             instructor_instance.bio = bio
             instructor_instance.save()
-            print(f'Instructor: {instructor.id}')
+
             messages.success(request, 'Instrutor editado com sucesso.')
             return redirect('scheduling:instructors_management')
         else:
@@ -130,8 +155,14 @@ def instructor_edit(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def instructor_delete(request, id):
     ''' Delete an existing instructor. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     instructor = get_object_or_404(Instructor, id=id)
 
     if request.method == 'POST':
@@ -140,6 +171,15 @@ def instructor_delete(request, id):
 
         if confirmation == 'yes':
             instructor.delete()
+
+            # Remove the instructor from the group
+            instructor.instructor.groups.remove(
+                Group.objects.get(name='_admin'))
+
+            # Remove the instructor from the user profile
+            instructor.instructor.profile.is_instructor = False
+            instructor.instructor.profile.save()
+
             messages.success(request, 'Instrutor deletado com sucesso.')
             return redirect('scheduling:instructors_management')
         else:
@@ -150,8 +190,10 @@ def instructor_delete(request, id):
             return render(
                 request,
                 'scheduling/pages/instructor-single-view.html',
-                {'instructor': instructor,
-                 'confirmation': 'yes'}
+                {
+                    'instructor': instructor,
+                    'confirmation': 'yes'
+                }
             )
 
     return render(

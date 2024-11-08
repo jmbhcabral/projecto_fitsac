@@ -2,47 +2,74 @@
 {% load static %}
 {% block content %}
 <main>
-    <section class="services-area">
+    <div class="admin-menu">
         <div class="container">
-            <div class="row justify-content-between pt-80">
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8">
-                    {% if services %}
-                    <div class="row">
-                        {% for service in services %}
-                            <div class="single-services mb-40 wow fadeInUp pt-80" data-wow-duration="1s" data-wow-delay=".1s">
-                                <div class=" about-icon">
-                                    {% if service.icon %}
-                                    <img src="{{ service.icon.url }}" alt="">
-                                    {% else %}
-                                    <i class="fas fa-{{ service.icon }}">Não tem icon.</i>
-                                    {% endif %}
-                                </div>
-                                <div class="features-caption">
-                                    <h3>{{ service.name }}</h3>
-                                    <p>{{ service.text_field_1 }}</p>
-                                    <p>{{ service.text_field_2 }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        <div class="row pt-80">
-                            <a href="{% url "user_dashboard:section_nine_create" %}" class="btn btn-primary btn-xs">Criar</a>
-                            <a href="{% url "user_dashboard:admin_home" %}" class="btn btn-primary btn-xs">Voltar</a>
-                        </div>
-                    {% else %}
-                        <div class="pt-80">
-                            <h3>Ainda não criou nenhum serviço!</h3>
-                        </div>
-                        <div class="row pt-80">
-                            <a href="{% url "user_dashboard:section_nine_create" %}" class="btn btn-primary btn-xs">Criar</a>
-                            <a href="{% url "user_dashboard:admin_home" %}" class="btn btn-primary btn-xs">Voltar</a>
-                        </div>
-                    
-                    {% endif %}
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12">
+                    {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
         </div>
-    </section>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Serviços da secção.</p>
+                                <p>Altere os serviços da secção.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if services %}
+                                    {% for service in services %}
+                                        <div class="single-services mb-40 wow fadeInUp pt-80" data-wow-duration="1s" data-wow-delay=".1s">
+                                            <div class=" about-icon">
+                                                {% if service.icon %}
+                                                    <img src="{{ service.icon.url }}" alt="">
+                                                {% else %}
+                                                    <i class="fas fa-{{ service.icon }}">Não tem icon.</i>
+                                                {% endif %}
+                                            </div>
+                                            <div class="features-caption">
+                                                <h3>{{ service.name }}</h3>
+                                                <p>{{ service.text_field_1 }}</p>
+                                                <p>{{ service.text_field_2 }}</p>
+                                            </div>
+                                            <div class="row pt-5">
+                                                <a href="{% url "user_dashboard:section_nine_update" service.id %}" class="btn btn-custom-user mb-5 mr-3">Editar</a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="row pt-10">
+                                        <a href="{% url "user_dashboard:section_nine_create" %}" class="btn btn-custom-user mb-5 mr-3">Criar</a>
+                                    </div>
+                                {% else %}
+                                    <p>Ainda não criou nenhum serviço.</p>
+                                    <a href="{% url "user_dashboard:section_nine_create" %}" class="btn btn-custom-user mb-5 mr-3">Criar</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:admin_site_config" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <!-- Scroll Up -->
 <div id="back-top" >

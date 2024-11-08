@@ -4,10 +4,29 @@ from django.contrib import messages
 from django.views import View
 from ..forms import InstructorSubstitutionForm
 from ..models import InstructorSubstitution, Instructor, WeeklyClass
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
-class InstructorSubstitutionCreateView(View):
+class InstructorSubstitutionCreateView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    View
+):
     ''' View for the instructor substitution creation. '''
+
+    login_url = '/login/'
+
+    def test_func(self):
+        return (
+            self.request.user.is_authenticated
+            and hasattr(self.request.user, 'groups')
+            and self.request.user.groups
+            .filter(name='_access_restricted').exists()
+        )
+
+    def handle_no_permission(self):
+        ''' Redirect to the admin home page. '''
+        return redirect('user_profiles:user_account')
 
     def __init__(self):
         ''' Constructor method. '''

@@ -6,7 +6,7 @@
                     <div class="menu-wrapper d-flex align-items-center justify-content-between">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.html"><img src="{% static 'fitsac/img/logo/fitsac-logo.png' %}" alt=""></a>
+                            <a href="{% url "fitsac:index" %}"><img src="{% static 'fitsac/img/logo/fitsac_logo_3_novas cores_fundo_preto.png' %}" alt=""></a>
                         </div>
                         <!-- Main-menu -->
                         <div class="main-menu f-right d-none d-lg-block">
@@ -14,7 +14,7 @@
                                 <ul id="navigation">
                                     {% for link in site_setup.menulink_set.all %}
                                         {% if link.text == "Admin" %}
-                                            {% if request.user|in_group:"_access_restricted" %}
+                                            {% if request.user|in_group:"_admin" %}
                                                 <li>
                                                     <a href="{{ link.url_or_path }}">{{link.text}}</a>
                                                 </li>

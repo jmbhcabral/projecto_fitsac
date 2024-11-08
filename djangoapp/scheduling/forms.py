@@ -520,8 +520,17 @@ class ClassSessionEndForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple(
             attrs={
                 'class': 'form-control',
+
             }
         )
+    )
+    notes = forms.CharField(
+        label='Observações',
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        ),
     )
 
     def clean(self):
@@ -529,6 +538,7 @@ class ClassSessionEndForm(forms.ModelForm):
         cleaned_data = super().clean()
         participants = cleaned_data.get('participants')
         notes = cleaned_data.get('notes')
+        print(f'Participants: {participants}')
 
         erros = {}
 

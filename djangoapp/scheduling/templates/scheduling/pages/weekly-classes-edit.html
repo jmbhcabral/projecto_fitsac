@@ -8,12 +8,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de instrutores. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Gerir Aulas</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -24,76 +22,88 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <form action="{{ form_action }}" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
-                            {{ form.title }}
-                            <small class="form-text text-muted">{{ form.title.help_text }}</small>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Gerir aulas semanais.</p>
+                                <p>Edite e delete aulas semanais.</p>
+                            </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
-                            {{ form.description }}
-                            <small class="form-text text-muted">{{ form.description.help_text }}</small>
-                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form action="{{ form_action }}" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                                        {{ form.title }}
+                                        <small class="form-text text-muted">{{ form.title.help_text }}</small>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                                        {{ form.description }}
+                                        <small class="form-text text-muted">{{ form.description.help_text }}</small>
+                                    </div>
 
-                        <div class="form-group">
-                            <label for="{{ form.instructor.id_for_label }}">{{ form.instructor.label }}</label>
-                            {{ form.instructor }}
-                            <small class="form-text text-muted">{{ form.instructor.help_text }}</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.substitute_instructor.id_for_label }}">{{ form.substitute_instructor.label }}</label>
-                            {{ form.substitute_instructor }}
-                            <small class="form-text text-muted">{{ form.substitute_instructor.help_text }}</small>
-                        </div>
+                                    <div class="form-group">
+                                        <label for="{{ form.instructor.id_for_label }}">{{ form.instructor.label }}</label>
+                                        {{ form.instructor }}
+                                        <small class="form-text text-muted">{{ form.instructor.help_text }}</small>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="{{ form.substitute_instructor.id_for_label }}">{{ form.substitute_instructor.label }}</label>
+                                        {{ form.substitute_instructor }}
+                                        <small class="form-text text-muted">{{ form.substitute_instructor.help_text }}</small>
+                                    </div>
 
-                        <div class="form-group">
-                            <label for="{{ form.duration.id_for_label }}">{{ form.duration.label }}</label>
-                            {{ form.duration }}
-                            <small class="form-text text-muted">{{ form.duration.help_text }}</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.day_of_week.id_for_label }}">{{ form.day_of_week.label }}</label>
-                            {{ form.day_of_week }}
-                            <small class="form-text text-muted">{{ form.day_of_week.help_text }}</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.time.id_for_label }}">{{ form.time.label }}</label>
-                            {{ form.time }}
-                            <small class="form-text text-muted">{{ form.time.help_text }}</small>
-                        </div>
+                                    <div class="form-group">
+                                        <label for="{{ form.duration.id_for_label }}">{{ form.duration.label }}</label>
+                                        {{ form.duration }}
+                                        <small class="form-text text-muted">{{ form.duration.help_text }}</small>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="{{ form.day_of_week.id_for_label }}">{{ form.day_of_week.label }}</label>
+                                        {{ form.day_of_week }}
+                                        <small class="form-text text-muted">{{ form.day_of_week.help_text }}</small>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="{{ form.time.id_for_label }}">{{ form.time.label }}</label>
+                                        {{ form.time }}
+                                        <small class="form-text text-muted">{{ form.time.help_text }}</small>
+                                    </div>
 
-                        <div class="form-group">
-                            <label for="{{ form.max_participants.id_for_label }}">{{ form.max_participants.label }}</label>
-                            {{ form.max_participants }}
-                            <small class="form-text text-muted">{{ form.max_participants.help_text }}</small>
+                                    <div class="form-group">
+                                        <label for="{{ form.max_participants.id_for_label }}">{{ form.max_participants.label }}</label>
+                                        {{ form.max_participants }}
+                                        <small class="form-text text-muted">{{ form.max_participants.help_text }}</small>
+                                    </div>
+                                    
+                                    <div class="form-group form-check">
+                                        {{ form.is_visible }}
+                                        <label class="form-check-label" for="{{ form.is_visible.id_for_label }}">{{ form.is_visible.label }}</label>
+                                        <small class="form-text text-muted">{{ form.is_visible.help_text }}</small>
+                                    </div>
+                                    <div class="row pt-5 justify-content-center">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-custom-user mb-5 mr-3">Actualizar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        
-                        <div class="form-group form-check">
-                            {{ form.is_visible }}
-                            <label class="form-check-label" for="{{ form.is_visible.id_for_label }}">{{ form.is_visible.label }}</label>
-                            <small class="form-text text-muted">{{ form.is_visible.help_text }}</small>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
-                    </form>
-                </div>
-            </div>
-            <div class="row pt-60">
-                <div class="col-12">
-                    <a href="{% url 'scheduling:weekly_classes_management' %}" class="btn btn-primary">Voltar</a>
+                    </div>
                 </div>
             </div>
         </div>
-
-        
-        
-        
+        <div class="row pt-5 justify-content-center">
+            <div class="col-12">
+                <a href="{% url 'scheduling:weekly_classes_management' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+            </div>
+        </div>
     </div>
 </main>
 <!-- Scroll Up -->

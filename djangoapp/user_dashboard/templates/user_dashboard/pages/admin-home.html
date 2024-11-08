@@ -1,33 +1,87 @@
 {% extends "fitsac/base_front.html" %}
 {% load static %}
 {% block content %}
+{% load custom_tags %}
 <main>
     <div class="admin-menu">
         <div class="container">
-            <div class="row pt-80">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
                 <div class="col-12">
-                    
-            <h1 style="text-align: center">Admin Dashboard</h1>
-            <p style="text-align: center">Welcome to the admin dashboard. Here you can manage the website.</p>
-        <div class="d-flex flex-row flex-wrap">
-            <div class="p-2">
-                <a href="{% url "scheduling:classes_management" %}" class="btn btn-custom-user mb-5 mr-3">Gerir aulas</a>
-                <a href="{% url "user_dashboard:section_one" %}" class="btn btn-custom-user mb-5 mr-3">Secção 1</a>
-                <a href="{% url "user_dashboard:section_two" %}" class="btn btn-custom-user mb-5 mr-3">Secção 2</a>
-                <a href="{% url "user_dashboard:section_three" %}" class="btn btn-custom-user mb-5 mr-3">Secção 3</a>
-                <a href="{% url "user_dashboard:section_four" %}" class="btn btn-custom-user mb-5 mr-3">Secção 4</a>
-                <a href="{% url "user_dashboard:section_five" %}" class="btn btn-custom-user mb-5 mr-3">Secção 5</a>
-                <a href="{% url "user_dashboard:section_six" %}" class="btn btn-custom-user mb-5 mr-3">Secção 6</a>
-                <a href="{% url "user_dashboard:section_seven" %}" class="btn btn-custom-user mb-5 mr-3">Secção 7</a>
-                <a href="{% url "user_dashboard:section_eight" %}" class="btn btn-custom-user mb-5 mr-3">Secção 8</a>
-                <a href="{% url "user_dashboard:section_nine" %}" class="btn btn-custom-user mb-5 mr-3">Secção 9</a>
-                <a href="{% url "user_dashboard:classes_type" %}" class="btn btn-custom-user mb-5 mr-3">Tipo de Aulas</a>
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
             </div>
         </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Bem-vindo à área de administração. Aqui poderá gerir várias partes do sistema, como instrutores, aulas semanais e avaliações físicas.</p>
+                            </div>
+                        </div>
+                        {% if request.user|in_group:"_access_restricted" %}
+                            <div class="row pt-5 w-100">
+                                <div class="col-12">
+                                    <h3>Gestão de Configuração do Site</h3>
+                                    <p>Aqui poderá gerir o conteúdo visível aos visitantes do site, incluindo a atualização de textos, imagens e outras informações essenciais para uma boa experiência de navegação. Certifique-se de que o conteúdo do site está atualizado, claro e relevante para captar a atenção dos visitantes e fornecer-lhes as informações necessárias sobre os serviços e atividades do estúdio.</p>
+                                </div>
+                            </div>
+                            <div class="row pt-5 w-100">
+                                <div class="col-12">
+                                    <h3>Gestão de Instrutores</h3>
+                                    <p>Aqui pode gerir os instrutores do estúdio, adicionando novos instrutores, atualizando as suas informações ou removendo instrutores que já não fazem parte da equipa.</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Calendário de Aulas Semanais</h3>
+                                <p>Esta secção permite gerir o calendário de aulas semanais, incluindo a criação e ajuste de horários. Certifique-se de que os horários estão corretos e que cada aula tem um instrutor atribuído.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <h3>Sessões de Aulas</h3>
+                                <p>Esta secção permite gerir as sessões de aulas, incluindo a criação e ajuste de horários. Certifique-se de que os horários estão corretos e que cada sessão tem um instrutor atribuído.</p>
+                            </div>
+                        </div>
+                        {% if request.user|in_group:"_access_restricted" %}
+                            <div class="row pt-5 w-100">
+                                <div class="col-12">
+                                <h3>Avaliações Físicas</h3>
+                                <p>Aqui poderá gerir as avaliações físicas dos alunos. Cada avaliação inclui várias métricas importantes para monitorizar o progresso dos alunos ao longo do tempo.</p>
+                                </div>
+                            </div>
+                            <div class="row pt-5 w-100">
+                                <div class="col-12">
+                                    <h3>Relatórios de Aulas</h3>
+                                    <p>Na secção de relatórios de aulas, poderá visualizar o desempenho das aulas, incluindo a participação de alunos e os dados sobre a frequência das aulas.</p>
+                                </div>
+                            </div>
+                            <div class="row pt-5 w-100">
+                                <div class="col-12">
+                                    <h3>Relatórios Financeiros</h3>
+                                    <p>Aqui poderá gerar relatórios financeiros, como pagamentos recebidos e o estado atual das subscrições dos alunos. Estes relatórios são importantes para acompanhar a saúde financeira do estúdio.</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>        
+                </div>
+            </div>
         </div>
-        </div>     
     </div>
 </main>
+
 <!-- Scroll Up -->
 <div id="back-top" >
     <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>

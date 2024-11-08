@@ -2,11 +2,10 @@
 from django.urls import path
 
 from scheduling.views import (
-    classes_management, instructors_management,
-    weekly_classes_management, instructor_create, instructor_edit,
-    instructor_single_view, instructor_delete, weekly_classes_create,
-    weekly_classes_single_class, weekly_classes_edit,
-    weekly_classes_delete, search_users
+    instructors_management, weekly_classes_management,
+    instructor_create, instructor_edit, instructor_single_view,
+    instructor_delete, weekly_classes_create, weekly_classes_single_class,
+    weekly_classes_edit, weekly_classes_delete, search_users
 )
 from scheduling.views import (
     ClassesNextDayView, BookingClassView, CancelBookingView,
@@ -19,7 +18,6 @@ from scheduling.views import (
 app_name = 'scheduling'
 
 urlpatterns = [
-    path('scheduling/', classes_management, name='classes_management'),
     # instructors
     path('scheduling/instructors/', instructors_management,
          name='instructors_management'),

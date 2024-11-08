@@ -7,66 +7,64 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section Five. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8 text-center">
-                    <h1>Content</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
-                    {% if formset %}
-                        <form action="{{ form_action }}" method="post" enctype="multipart/form-data" class="pt-60 ">
-                            {% csrf_token %}
-                            {{ formset.management_form }}
-                            {% for form in formset %}
-                                {{form.as_p}}
-                                    {% comment %} {{ form.id}}
-                                    <!-- Campo de Oferta -->
-                                    <div class="pt-60">
-                                        <label for="{{ form.offer.id_for_label }}">{{ form.offer.label }}</label>
-                                        <select name="{{ form.offer.name }}" id="{{ form.offer.id_for_label }}">
-                                            {% for offer in form.offer.field.queryset %}
-                                                <option value="{{ offer.pk }}" {% if offer.pk == form.initial.offer.pk %}selected{% endif %}>
-                                                    {{ offer.name }}
-                                                </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <!-- Campo de Ícone -->
-                                    <div class="pt-30">
-                                        <label for="{{ form.icon.id_for_label }}">{{ form.icon.label }}</label>
-                                        <select name="{{ form.icon.name }}" id="{{ form.icon.id_for_label }}">
-                                            {% for icon in form.icon.field.queryset %}
-                                                <option value="{{ icon.pk }}" {% if icon.pk == form.initial.icon.pk %}selected{% endif %}>
-                                                    {{ icon.name }}
-                                                </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <!-- Campo Visível -->
-                                    <div class="pt-30">
-                                        <label for="{{ form.is_visible.id_for_label }}">{{ form.is_visible.label }}</label>
-                                        <input type="checkbox" name="{{ form.is_visible.name }}" id="{{ form.is_visible.id_for_label }}" {% if form.initial.is_visible %}checked{% endif %}>
-                                    </div>{% endcomment %}
-                                    {% endfor %} 
-                                    <div class="pt-60">
-                                <button class="btn btn-primary btn-xs" type="submit">Atualizar</button>
-                            </div>
-                            <div class="row pt-60">
-                                <a href="{% url 'user_dashboard:section_five_offers_icons_create' %}" class="btn btn-primary btn-xs">Criar Ofertas</a>
-                                <a href="{% url 'user_dashboard:section_five_offers_icons_delete' %}" class="btn btn-primary btn-xs">Apagar Ofertas</a>
-                                <a href="{% url 'user_dashboard:section_five_create' %}" class="btn btn-primary btn-xs">Voltar</a>
-                            </div>
-                        </form>
-                    {% else %}
-                        <div class="pt-80">
-                            <h1>Ainda não tem Icons na secção.</h1>
-                            <div class="pt-60">
-                                <a href="{% url 'user_dashboard:section_five_offers_icons_create' %}" class="btn btn-primary btn-xs">Criar</a>
-                                <a href="{% url 'user_dashboard:section_five_create' %}" class="btn btn-primary btn-xs">Voltar</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Icons dos cards da página de preços.</p>
+                                <p>Altere os icons dos cards da página de preços ou crie novos.</p>
                             </div>
                         </div>
-                    {% endif %}
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if formset %}
+                                    <form action="{{ form_action }}" method="post" enctype="multipart/form-data" class="custom-form">
+                                        {% csrf_token %}
+                                        {{ formset.management_form }}
+                                        {% for form in formset %}
+                                            <div class="row border-fit">
+                                                {{form.as_p}}
+                                            </div>
+                                        {% endfor %} 
+                                        <div class="pt-60">
+                                            <button class="btn btn-custom-user mb-5 mr-3" type="submit">Atualizar</button>
+                                        </div>
+                                        <div class="row pt-60">
+                                            <a href="{% url 'user_dashboard:section_five_offers_icons_create' %}" class="btn btn-custom-user mb-5 mr-3">Criar Ofertas</a>
+                                            <a href="{% url 'user_dashboard:section_five_offers_icons_delete' %}" class="btn btn-custom-user mb-5 mr-3">Apagar Ofertas</a>
+                                        </div>
+                                    </form>
+                                {% else %}
+                                    <div class="pt-80">
+                                        <h1>Ainda não tem Icons na secção.</h1>
+                                        <div class="pt-60">
+                                            <a href="{% url 'user_dashboard:section_five_offers_icons_create' %}" class="btn btn-custom-user mb-5 mr-3">Criar</a>
+
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-60 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url 'user_dashboard:section_five_create' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>     

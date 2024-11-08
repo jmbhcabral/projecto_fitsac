@@ -2,23 +2,24 @@
 
 from django.views.generic.edit import FormView
 from scheduling.forms import BookingForm, CancelBookingForm
-from scheduling.models import WeeklyClass, Booking, InstructorSubstitution
+from scheduling.models import WeeklyClass, Booking
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class BookingClassView(FormView):
+class BookingClassView(LoginRequiredMixin, FormView):
     template_name = 'user_profiles/pages/user-booking-class.html'
     form_class = BookingForm
 
+    login_url = '/login/'
+
     def form_valid(self, form):
         ''' Handle the form submission. '''
-        print('Form is valid')
-        post_data = self.request.POST
-        print(f'Dados do POST: {post_data}')
+
         classes = form.cleaned_data.get('fitness_class')
-        print(f'Classes from valid: {classes}')
+
         user = self.request.user
 
         # Check if classes is not None
@@ -83,7 +84,8 @@ class BookingClassView(FormView):
         # Filter the booked classes
         future_bookings = [
             booking.fitness_class for booking in booked_classes
-            if booking.fitness_class.day_of_week == today_day_of_week and booking.fitness_class.time > current_time or
+            if booking.fitness_class.day_of_week == today_day_of_week
+            and booking.fitness_class.time > current_time or
             booking.fitness_class.day_of_week == tomorrow_day_of_week
         ]
 
@@ -154,7 +156,8 @@ class BookingClassView(FormView):
         # Filter the booked classes
         future_bookings = [
             booking.fitness_class for booking in booked_classes
-            if booking.fitness_class.day_of_week == today_day_of_week and booking.fitness_class.time > current_time or
+            if booking.fitness_class.day_of_week == today_day_of_week
+            and booking.fitness_class.time > current_time or
             booking.fitness_class.day_of_week == tomorrow_day_of_week
         ]
 
@@ -192,10 +195,6 @@ class BookingClassView(FormView):
                 'instructor': instructor,
                 'time': fitness_class.time,
             })
-            print(
-                f'Clsses with instructors: { classes_with_instructors}')
-
-            print(f'Clsses with instructors: {classes_with_instructors}')
 
         # Add the form to the context
         context = {
@@ -218,10 +217,12 @@ class BookingClassView(FormView):
             return self.form_invalid(form)
 
 
-class CancelBookingView(FormView):
+class CancelBookingView(LoginRequiredMixin, FormView):
     ''' View to cancel a booking. '''
     template_name = 'user_profiles/pages/user-booking-class-cancel.html'
     form_class = CancelBookingForm
+
+    login_url = '/login/'
 
     def get(self, request):
         ''' Handle GET requests. '''
@@ -236,8 +237,6 @@ class CancelBookingView(FormView):
         )\
             .select_related('fitness_class')\
             .order_by('fitness_class__day_of_week', 'fitness_class__time')
-
-        print(f'Booked Classes: {booked_classes}')
 
         # Filter only classes that didn't happen yet
         future_bookings = [
@@ -269,12 +268,11 @@ class CancelBookingView(FormView):
         form = self.form_class(request.POST)
 
         # Capturing the booking IDs from the POST
-        booking_ids_post = request.POST.getlist('booking_ids')
+        # TODO: Remove this
+        # booking_ids_post = request.POST.getlist('booking_ids')
 
         # Fill the form with the classes
         form = self.form_class(request.POST,)
-
-        # Update the queryset before validation
 
         # Get the current timezone-aware datetime
         now = timezone.now()
@@ -297,10 +295,12 @@ class CancelBookingView(FormView):
         print(f'Booking IDs no queryset: {list(booking_ids_queryset)}')
 
         # Comparar os IDs do POST com os do queryset
-        ids_comparison = set(booking_ids_post).intersection(
-            set(map(str, booking_ids_queryset)))
-        print(
-            f'Booking IDs que coincidem entre POST e queryset: {ids_comparison}')
+        # TODO: Remove this
+        # ids_comparison = set(booking_ids_post).intersection(
+        #     set(map(str, booking_ids_queryset)))
+        # print(
+        #     f'Booking IDs que coincidem entre POST e queryset: '
+        #     f'{ids_comparison}')
 
         booking_to_cancel = None
 
@@ -322,8 +322,11 @@ class CancelBookingView(FormView):
 
             if numbre_of_bookings_canceled > 1:
                 messages.success(
-                    self.request, (f'{numbre_of_bookings_canceled} '
-                                   'presenças canceladas com sucesso!'))
+                    self.request, (
+                        f'{numbre_of_bookings_canceled} '
+                        'presenças canceladas com sucesso!'
+                    )
+                )
             elif numbre_of_bookings_canceled == 1:
                 messages.success(
                     self.request, 'Presença cancelada com sucesso!')
@@ -331,9 +334,7 @@ class CancelBookingView(FormView):
             for field, errors in form.errors.items():
                 label = form[field].label
                 for error in errors:
-                    print(f'Error: {error}')
                     messages.error(self.request, f"{label}: {error}")
-            print('Nenhuma presença foi selecionada.')
             messages.error(
                 self.request, 'Nenhuma presença foi selecionada.')
             return redirect('scheduling:user_cancel_booking')
@@ -342,10 +343,8 @@ class CancelBookingView(FormView):
 
     def form_invalid(self, form):
         ''' Handle the form submission. '''
-        print('Form is invalid')
         for field, errors in form.errors.items():
             label = form[field].label
             for error in errors:
-                print(f'Error: {error}')
                 messages.error(self.request, f"{label}: {error}")
         return super().form_invalid(form)

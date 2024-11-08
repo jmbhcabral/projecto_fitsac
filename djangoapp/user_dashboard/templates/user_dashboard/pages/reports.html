@@ -1,0 +1,199 @@
+{% extends "fitsac/base_front.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<main>
+    <div class="admin-menu">
+        <div class="container">
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>Admin Dashboard</h1>
+                </div>
+            </div>
+            <div class="row pt-80 justify-content-center">
+                <div class="col-12">
+                    {% include "fitsac/partials/_messages.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Relatórios.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <div class="row pt-5 w-100">
+                                    <div class="col">
+                                        <div class="text-center pt-3">
+                                            <h3>Totais</h3>
+                                        </div>
+                                        <table class="table table-bordered table-responsive-md">
+                                            <thead class="thead-light text-center">
+                                                <tr>
+                                                    <th>Totais</th>
+                                                    <th>Semanal</th>
+                                                    <th>Mensal</th>
+                                                    <th>Anual</th>
+                                                    <th>De sempre</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for report in reports %}
+                                                    <tr>
+                                                        <td>{{ report.description }}</td>
+                                                        <td>{{ report.week }}</td>
+                                                        <td>{{ report.month }} </td>
+                                                        <td>{{ report.year }}</td>
+                                                        <td>{{ report.total }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <div class="pt-1">
+                                            <a href="{% url "user_dashboard:reports_filter" %}" class="btn btn-custom-user">filtros</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pt-3 w-100">
+                                    <div class="col">
+                                        <div class="text-center pt-3">
+                                            <h3>Alunos por aula</h3>
+                                        </div>
+                                        <table class="table table-bordered table-responsive-md">
+                                            <thead class="thead-light text-center">
+                                                <tr>
+                                                    <th>Aula</th>
+                                                    <th>semanal</th>
+                                                    <th>Mensal</th>
+                                                    <th>Anual</th>
+                                                    <th>De sempre</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for class in weekly_classes %}
+                                                <tr>
+                                                    <td>{{ class.title }} - {{ class.get_day_of_week_display }} - {{ class.time }} - {{ class.instructor }}</td>
+                                                    <td>{{ class.participants_week|default:0 }}</td>
+                                                    <td>{{ class.participants_month|default:0 }}</td>
+                                                    <td>{{ class.participants_year|default:0 }}</td>
+                                                    <td>{{ class.total_participants|default:0 }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row pt-3 w-100">
+                                    <form method="GET" id="sort-form">
+                                        <label for="order_by">Ordenar por:</label>
+                                        <select name="order_by" id="order_by" onchange="document.getElementById('sort-form').submit();" class="nice-select-user">
+                                            <option value="name_asc" {% if request.GET.order_by == 'name_asc' %}selected{% endif %}>Nome (Ascendente)</option>
+                                            <option value="name_desc" {% if request.GET.order_by == 'name_desc' %}selected{% endif %}>Nome (Descendente)</option>
+                                            <option value="week_asc" {% if request.GET.order_by == 'week_asc' %}selected{% endif %}>Semana (Ascendente)</option>
+                                            <option value="week_desc" {% if request.GET.order_by == 'week_desc' %}selected{% endif %}>Semana (Descendente)</option>
+                                            <option value="month_asc" {% if request.GET.order_by == 'month_asc' %}selected{% endif %}>Mês (Ascendente)</option>
+                                            <option value="month_desc" {% if request.GET.order_by == 'month_desc' %}selected{% endif %}>Mês (Descendente)</option>
+                                            <option value="year_asc" {% if request.GET.order_by == 'year_asc' %}selected{% endif %}>Ano (Ascendente)</option>
+                                            <option value="year_desc" {% if request.GET.order_by == 'year_desc' %}selected{% endif %}>Ano (Descendente)</option>
+                                            <option value="total_asc" {% if request.GET.order_by == 'total_asc' %}selected{% endif %}>Total (Ascendente)</option>
+                                            <option value="total_desc" {% if request.GET.order_by == 'total_desc' %}selected{% endif %}>Total (Descendente)</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div class="row pt-3 w-100">
+                                    <div class="col">
+                                        <div class="text-center pt-1">
+                                            <h3>Presenças</h3>
+                                        </div>
+                                        <table class="table table-bordered table-responsive-md">
+                                            <thead class="thead-light text-center">
+                                                <tr>
+                                                    <th>Nome</th>
+                                                    <th>Semanal</th>
+                                                    <th>Mensal</th>
+                                                    <th>Anual</th>
+                                                    <th>De sempre</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for attendance in students_attendance %}
+                                                <tr>
+                                                    <td>{{ attendance.name }}</td>
+                                                    <td>{{ attendance.week }} </td>
+                                                    <td>{{ attendance.month }}</td>
+                                                    <td>{{ attendance.year }}</td>
+                                                    <td>{{ attendance.total }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Scroll Up -->
+<div id="back-top" >
+    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+<!-- JS here -->
+
+<script src="{% static 'fitsac/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'fitsac/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'fitsac/js/popper.min.js' %}"></script>
+<script src="{% static 'fitsac/js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'fitsac/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'fitsac/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'fitsac/js/slick.min.js' %}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'fitsac/js/wow.min.js' %}"></script>
+<script src="{% static 'fitsac/js/animated.headline.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Date Picker -->
+<script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
+<!-- Nice-select, sticky -->
+{% comment %} <script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script> {% endcomment %}
+<script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
+
+<!-- counter , waypoint,Hover Direction -->
+<script src="{% static 'fitsac/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'fitsac/js/waypoints.min.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'fitsac/js/hover-direction-snake.min.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'fitsac/js/contact.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.form.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'fitsac/js/mail-script.js' %}"></script>
+<script src="{% static 'fitsac/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->	
+<script src="{% static 'fitsac/js/plugins.js' %}"></script>
+<script src="{% static 'fitsac/js/main.js' %}"></script>
+{% endblock %}

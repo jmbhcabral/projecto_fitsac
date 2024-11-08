@@ -1,16 +1,16 @@
 {% extends "fitsac/base_front.html" %}
 {% load static %}
-{% block content %}<main>
+{% block content %}
+<main>
     <div class="admin-menu">
         <div class="container">
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -21,31 +21,41 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2 class="text-center">Avaliações da composição corporal</h2>
-                    {% if body_composition_assessments %}
-                        <p>Nome: {{ user.first_name}}</p>
-                        <p>Última avaliação: <a href="{% url "physical_evaluations:body_composition_single" body_composition_assessments.0.pk %}">{{ body_composition_assessments.0.created_at|date:"d/m/Y" }}</a></p>
-                        <h3>Avaliações:</h3>
-                        <ul>
-                            {% for evaluation in body_composition_assessments %}
-                                <li>Data: <a href="{% url "physical_evaluations:body_composition_single" evaluation.pk %}">{{ evaluation.created_at|date:"d/m/Y" }}</a></li>
-                            {% endfor %}
-                        </ul>
-
-
-                    {% else %}
-                        <p>Nome: {{ user.first_name}}</p>
-                        <p>Ainda não efectuou uma avaliação da composição corporal.</p>
-                    {% endif %}
-                    <div class="pt-10">
-                        <a href="{% url "physical_evaluations:body_composition_create" user.pk %}" class="btn btn-custom-user">Fazer avaliação</a>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Avaliações Físicas.</p>
+                                <p>Avaliações da composição corporal.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if body_composition_assessments %}
+                                    <p>Nome: {{ user.first_name}}</p>
+                                    <p>Última avaliação: <a href="{% url "physical_evaluations:body_composition_single" body_composition_assessments.0.pk %}">{{ body_composition_assessments.0.created_at|date:"d/m/Y" }}</a></p>
+                                    <h3>Avaliações:</h3>
+                                    <p>Selecione uma avaliação para visualizar os dados.</p>
+                                    <ul>
+                                        {% for evaluation in body_composition_assessments %}
+                                            <li>Data: <a href="{% url "physical_evaluations:body_composition_single" evaluation.pk %}">{{ evaluation.created_at|date:"d/m/Y" }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p>Nome: {{ user.first_name}}</p>
+                                    <p>Ainda não efectuou uma avaliação da composição corporal.</p>
+                                {% endif %}
+                                <div class="pt-10">
+                                    <a href="{% url "physical_evaluations:body_composition_create" user.pk %}" class="btn btn-custom-user mt-5 mr-3">Fazer avaliação</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-custom-user">Voltar</a>
+                    <a href="{% url 'physical_evaluations:student_management_single' user.pk %}" class="btn btn-custom-user">Voltar</a>
                 </div>
             </div>
         </div>    

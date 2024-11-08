@@ -12,6 +12,7 @@ from user_profiles.views import (
 
 app_name = 'user_profiles'
 
+
 urlpatterns = [
     path('register/', CreateView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),

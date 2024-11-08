@@ -8,12 +8,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Gerir Aulas</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -24,50 +22,57 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2>Substituição de instrutores</h2>
-                    <p class="mt-5 mb-5">Submeta o formulário para substituir um instrutor por outro.</p>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="id_class">Aula</label>
-                            <select name="fitness_class" id="id_fitness_class" class="form-control" required>
-                                <option value="">Selecione uma aula</option>
-                                {% for class in classes %}
-                                    <option value="{{ class.id }}">{{ class.get_day_of_week_display }} - {{ class.title }} - {{ class.instructor }} - {{ class.time }}</option>
-                                {% endfor %}
-                            </select>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Substituir Instrutor.</p>
+                                <p>Submeta o formulário para substituir um instrutor por outro.</p>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="id_instructor">Instrutor substituto</label>
-                            <select name="substitute_instructor" id="id_substitute_instructor" class="form-control" required>
-                                <option value="">Selecione um instrutor</option>
-                                {% for instructor in instructors %}
-                                    <option value="{{ instructor.id }}">{{ instructor.name }}</option>
-                                {% endfor %}
-                            </select>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="id_class">Aula</label>
+                                        <select name="fitness_class" id="id_fitness_class" class="form-control" required>
+                                            <option value="">Selecione uma aula</option>
+                                            {% for class in classes %}
+                                                <option value="{{ class.id }}" data-instructor="{{ class.instructor }}">{{ class.get_day_of_week_display }} - {{ class.title }} - {{ class.instructor }} - {{ class.time }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_instructor">Instrutor substituto</label>
+                                        <select name="substitute_instructor" id="id_substitute_instructor" class="form-control" required>
+                                            <option value="">Selecione um instrutor</option>
+                                            {% for instructor in instructors %}
+                                                <option value="{{ instructor.id }}">{{ instructor.instructor.get_full_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="date">Data da substituição</label>
+                                        <input type="text" name="date" id="date" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reason">Motivo</label>
+                                        <textarea name="reason" id="reason" class="form-control" rows="5"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-custom-user w-30">Substituir Instrutor</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="date">Data da substituição</label>
-                            <input type="text" name="date" id="date" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reason">Motivo</label>
-                            <textarea name="reason" id="reason" class="form-control" rows="5"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-custom-user w-30">Substituir Instrutor</button>
-                    </form>
+                    </div>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-primary">Voltar</a>
+                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>
-
-        
-        
-        
     </div>
 </main>
 <!-- Scroll Up -->
@@ -142,4 +147,24 @@
 <!-- Jquery Plugins, main Jquery -->	
 <script src="{% static 'fitsac/js/plugins.js' %}"></script>
 <script src="{% static 'fitsac/js/main.js' %}"></script>
+
+<!-- Adicionando o script para desabilitar o instrutor correspondente -->
+<script>
+    document.getElementById('id_fitness_class').addEventListener('change', function() {
+        var selectedInstructor = this.options[this.selectedIndex].getAttribute('data-instructor');
+        var instructorSelect = document.getElementById('id_substitute_instructor');
+        
+        // Habilita todas as opções antes de desabilitar a selecionada
+        for (var i = 0; i < instructorSelect.options.length; i++) {
+            instructorSelect.options[i].disabled = false;
+        }
+
+        // Desabilita a opção correspondente ao instrutor da aula selecionada
+        for (var i = 0; i < instructorSelect.options.length; i++) {
+            if (instructorSelect.options[i].text === selectedInstructor) {
+                instructorSelect.options[i].disabled = true;
+            }
+        }
+    });
+</script>
 {% endblock %}

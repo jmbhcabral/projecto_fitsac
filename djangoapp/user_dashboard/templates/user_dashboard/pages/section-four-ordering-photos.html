@@ -7,44 +7,67 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Section One. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Content</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
-                    {% if photos %}
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="row pt-80">
-                                {% for photo in photos %} 
-                                    <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
-                                        <div class="box snake">
-                                            <div class="gallery-img big-img" style="background-image: url('{{ photo.image.url }}'); height: 200px; background-size: cover; background-position: center;"></div>
-                                            <p>Tag: {{ photo.tag }}</p>
-                                            <p>
-                                                Ordem:
-                                                <input type="number" name="photo-{{ photo.id }}" value="{{ photo.order }}" class="form-control">
-                                            </p>
-                                            <p>Visibilidade: {{ photo.is_visible }}</p>
-                                        </div>
-                                    </div>    
-                                {% endfor %}
-                            </div>
-                            <div class="pt-60">
-                                <button type="submit" class="btn btn-primary btn-xs">Salvar Ordem</button>
-                                <a href="{% url "user_dashboard:admin_home" %}" class="btn btn-secondary btn-xs">Voltar</a>
-                            </div>
-                        </form>   
-                    {% else %}
-                        <div class="pt-80">
-                            <h1>Ainda não tem fotografias na secção.</h1>
-                            <div class="pt-60">
-                                <a href="{% url "user_dashboard:section_four_create" %}" class="btn btn-primary btn-xs">Adicionar foto</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 align-items-stretch">
+                <!-- Coluna para as opções de gestão -->
+                {% include "scheduling/partials/_classes_management_nav.html" %}
+                <!-- Coluna para o conteúdo principal -->
+                <div class="col-12 col-md-9 border-fit d-flex flex-column">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Ordenar as fotografias da galeria de fotos do estúdio. As primeiras seis fotografias serão as que ficam visíveis na página inicial do site.</p>
                             </div>
                         </div>
-                    {% endif %}
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if photos %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="row pt-80">
+                                            {% for photo in photos %} 
+                                                <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
+                                                    <div class="box snake">
+                                                        <div class="gallery-img big-img" style="background-image: url('{{ photo.image.url }}'); height: 200px; background-size: cover; background-position: center;"></div>
+                                                        <p>Tag: {{ photo.tag }}</p>
+                                                        <p>
+                                                            Ordem:
+                                                            <input type="number" name="photo-{{ photo.id }}" value="{{ photo.order }}" class="form-control">
+                                                        </p>
+                                                        <p>Visibilidade: {{ photo.is_visible }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="pt-60">
+                                            <button type="submit" class="btn btn-custom-user mb-5 mr-3">Salvar Ordem</button>
+                                        </div>
+                                    </form>   
+                                {% else %}
+                                    <div class="pt-80">
+                                        <h1>Ainda não tem fotografias na secção.</h1>
+                                    </div>
+                                    <div class="pt-60">
+                                        <a href="{% url "user_dashboard:section_four_create" %}" class="btn btn-primary btn-xs">Adicionar foto</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5 justify-content-center">
+                <div class="col-12">
+                    <a href="{% url "user_dashboard:section_four" %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>     

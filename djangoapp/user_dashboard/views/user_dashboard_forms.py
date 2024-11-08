@@ -1,6 +1,7 @@
 
 from django.contrib import messages
-from django.shortcuts import render, reverse, redirect, get_object_or_404
+from django.urls import reverse
+from django.shortcuts import render, redirect, get_object_or_404, redirect
 from user_dashboard.forms import (
     SectionOneForm, SectionTwoForm,
     SectionThreeForm, SectionFourForm, SectionFiveHeaderForm,
@@ -16,9 +17,16 @@ from user_dashboard.models import (
     SectionNine, TiposDeAulas
 )
 from django.forms import modelformset_factory
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
+@login_required(login_url='/login/')
 def section_one_create(request):
+    ''' Section one create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     section_one = SectionOne.objects.all().first()
 
@@ -39,16 +47,19 @@ def section_one_create(request):
             return redirect('user_dashboard:section_one')
         else:
             messages.error(request, 'Erro ao adicionar imagem.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-one-create.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-one-create.html',
+            context
+        )
+
     context = {
         'form': SectionOneForm(),
         'section_one': section_one,
         'form_action': form_action,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-one-create.html',
@@ -56,15 +67,25 @@ def section_one_create(request):
     )
 
 
+@login_required(login_url='/login/')
 def section_one_update(request, id):
+    ''' Section one update page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     section_one = get_object_or_404(SectionOne, id=id)
 
     form_action = reverse(
         'user_dashboard:section_one_update', args=[section_one.id])
 
     if request.method == 'POST':
-        form = SectionOneForm(request.POST, request.FILES,
-                              instance=section_one)
+        form = SectionOneForm(
+            request.POST,
+            request.FILES,
+            instance=section_one
+        )
 
         context = {
             'form': form,
@@ -74,19 +95,25 @@ def section_one_update(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Imagem atualizada com sucesso.')
-            return redirect('user_dashboard:section_one_update', id=section_one.id)
+            return redirect(
+                'user_dashboard:section_one_update',
+                id=section_one.id
+            )
         else:
             messages.error(request, 'Erro ao atualizar imagem.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-one-update.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-one-update.html',
+            context
+        )
+
     context = {
         'form': SectionOneForm(instance=section_one),
         'section_one': section_one,
         'form_action': form_action,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-one-update.html',
@@ -96,11 +123,19 @@ def section_one_update(request, id):
 # Section Two
 
 
+@login_required(login_url='/login/')
 def section_two_create(request):
+    ''' Section two create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     section_two = SectionTwo.objects.all().first()
 
     form_action = reverse('user_dashboard:section_two_create')
+
+    form = SectionTwoForm()
 
     if request.method == 'POST':
         form = SectionTwoForm(request.POST, request.FILES, )
@@ -116,23 +151,45 @@ def section_two_create(request):
             return redirect('user_dashboard:section_two')
         else:
             messages.error(request, 'Erro ao adicionar secção.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-two-create.html',
-                      context
-                      )
-    return render(request, 'user_dashboard/pages/section-two-create.html')
+        return render(
+            request,
+            'user_dashboard/pages/section-two-create.html',
+            context
+        )
+
+    context = {
+        'form': form,
+        'section_two': section_two,
+        'form_action': form_action,
+    }
+
+    return render(
+        request,
+        'user_dashboard/pages/section-two-create.html',
+        context
+    )
 
 
+@login_required(login_url='/login/')
 def section_two_update(request, id):
+    ''' Section two update page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     section_two = get_object_or_404(SectionTwo, id=id)
 
     form_action = reverse(
         'user_dashboard:section_two_update', args=[section_two.id])
 
     if request.method == 'POST':
-        form = SectionTwoForm(request.POST, request.FILES,
-                              instance=section_two)
+        form = SectionTwoForm(
+            request.POST,
+            request.FILES,
+            instance=section_two
+        )
 
         context = {
             'form': form,
@@ -142,19 +199,25 @@ def section_two_update(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Secção atualizada com sucesso.')
-            return redirect('user_dashboard:section_two_update', id=section_two.id)
+            return redirect(
+                'user_dashboard:section_two_update',
+                id=section_two.id
+            )
         else:
             messages.error(request, 'Erro ao atualizar secção.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-two-update.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-two-update.html',
+            context
+        )
+
     context = {
         'form': SectionTwoForm(instance=section_two),
         'section_two': section_two,
         'form_action': form_action,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-two-update.html',
@@ -164,7 +227,14 @@ def section_two_update(request, id):
 # Section Three
 
 
+@login_required(login_url='/login/')
 def section_three_create(request):
+    ''' Section three create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     section_three = SectionThree.objects.all().first()
 
     form_action = reverse('user_dashboard:section_three_create')
@@ -183,25 +253,35 @@ def section_three_create(request):
             return redirect('user_dashboard:section_three')
         else:
             messages.error(request, 'Erro ao adicionar secção.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-three-create.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-three-create.html',
+            context
+        )
+
     context = {
         'form': SectionThreeForm(),
         'section_three': section_three,
         'form_action': form_action,
     }
-    return render(request,
-                  'user_dashboard/pages/section-three-create.html',
-                  context
-                  )
+
+    return render(
+        request,
+        'user_dashboard/pages/section-three-create.html',
+        context
+    )
 
 
+@login_required(login_url='/login/')
 def section_three_update(request, id):
+    ''' Section three update page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     section_three = get_object_or_404(SectionThree, id=id)
-    print(f'Section Three: {section_three}')
 
     form_action = reverse(
         'user_dashboard:section_three_update', args=[section_three.id])
@@ -215,22 +295,29 @@ def section_three_update(request, id):
             'section_three': section_three,
             'form_action': form_action,
         }
+
         if form.is_valid():
             form.save()
             messages.success(request, 'Secção atualizada com sucesso.')
-            return redirect('user_dashboard:section_three_update', id=section_three.id)
+            return redirect(
+                'user_dashboard:section_three_update',
+                id=section_three.id
+            )
         else:
             messages.error(request, 'Erro ao atualizar secção.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-three-update.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-three-update.html',
+            context
+        )
+
     context = {
         'form': SectionThreeForm(instance=section_three),
         'section_three': section_three,
         'form_action': form_action,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-three-update.html',
@@ -239,7 +326,15 @@ def section_three_update(request, id):
 
 
 # Section Four
+
+@login_required(login_url='/login/')
 def section_four_create(request):
+    ''' Section four create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     section_four = SectionFour.objects.all()
 
     form_action = reverse('user_dashboard:section_four_create')
@@ -258,26 +353,40 @@ def section_four_create(request):
             return redirect('user_dashboard:section_four')
         else:
             messages.error(request, 'Erro ao adicionar imagem.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-four-create.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-four-create.html',
+            context
+        )
 
     context = {
         'form': SectionFourForm(),
         'section_four': section_four,
         'form_action': form_action,
     }
-    return render(request, 'user_dashboard/pages/section-four-create.html', context)
+
+    return render(
+        request,
+        'user_dashboard/pages/section-four-create.html',
+        context
+    )
 
 
+@login_required(login_url='/login/')
 def section_four_single_photo(request, id):
+    ''' Section four single photo page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     photo = get_object_or_404(SectionFour, id=id)
 
     context = {
         'photo': photo,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-four-single-photo.html',
@@ -285,7 +394,14 @@ def section_four_single_photo(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def section_four_single_photo_update(request, id):
+    ''' Section four single photo update page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     photo = get_object_or_404(SectionFour, id=id)
 
     form_action = reverse(
@@ -299,6 +415,7 @@ def section_four_single_photo_update(request, id):
             'photo': photo,
             'form_action': form_action,
         }
+
         if form.is_valid():
             form.save()
             messages.success(request, 'Imagem atualizada com sucesso.')
@@ -308,7 +425,6 @@ def section_four_single_photo_update(request, id):
             )
         else:
             messages.error(request, 'Erro ao atualizar imagem.')
-            print(f'Form is not valid: {form.errors}')
 
         return render(
             request,
@@ -321,6 +437,7 @@ def section_four_single_photo_update(request, id):
         'photo': photo,
         'form_action': form_action,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-four-single-photo-update.html',
@@ -328,7 +445,14 @@ def section_four_single_photo_update(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def section_four_single_photo_delete(request, id):
+    ''' Section four single photo delete page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     photo = get_object_or_404(SectionFour, id=id)
 
     confirmation = request.POST.get('confirmation', 'no')
@@ -344,7 +468,14 @@ def section_four_single_photo_delete(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def section_four_ordering_photos(request):
+    ''' Section four ordering photos page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     photos = SectionFour.objects.all()\
         .order_by('order')
 
@@ -373,7 +504,14 @@ def section_four_ordering_photos(request):
 
 
 # Section Five
+@login_required(login_url='/login/')
 def section_five_header(request):
+    ''' Section five header page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     SectionFiveHeaderFormSet = modelformset_factory(
         SectionFiveHeader,
         form=SectionFiveHeaderForm,
@@ -391,7 +529,11 @@ def section_five_header(request):
                 messages.error(
                     request, 'Apenas um item pode ser visível por vez')
 
-                return render(request, 'user_dashboard/pages/section-five-header.html', {'formset': formset})
+                return render(
+                    request,
+                    'user_dashboard/pages/section-five-header.html',
+                    {'formset': formset}
+                )
 
             else:
                 instances = formset.save(commit=False)
@@ -408,7 +550,8 @@ def section_five_header(request):
                 return redirect('user_dashboard:section_five_header')
 
         else:
-            print(f'Formset is not valid: {formset.errors}')
+            messages.error(request, 'Erro ao atualizar seção.')
+
     else:
         formset = SectionFiveHeaderFormSet(
             queryset=SectionFiveHeader.objects.all())
@@ -418,10 +561,21 @@ def section_five_header(request):
         'form_action': reverse('user_dashboard:section_five_header'),
     }
 
-    return render(request, 'user_dashboard/pages/section-five-header.html', context)
+    return render(
+        request,
+        'user_dashboard/pages/section-five-header.html',
+        context
+    )
 
 
+@login_required(login_url='/login/')
 def section_five_header_create(request):
+    ''' Section five header create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     section_five_header = SectionFiveHeader.objects.all()
 
     form_action = reverse('user_dashboard:section_five_header_create')
@@ -434,27 +588,44 @@ def section_five_header_create(request):
             'section_five_header': section_five_header,
             'form_action': form_action,
         }
+
         if form.is_valid():
             form.save()
             messages.success(request, 'Título criado com sucesso.')
             return redirect('user_dashboard:section_five_header_create')
         else:
             messages.error(request, 'Erro ao criar título.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request,
-                      'user_dashboard/pages/section-five-header-create.html',
-                      context
-                      )
-    return render(request,
-                  'user_dashboard/pages/section-five-header-create.html')
+        return render(
+            request,
+            'user_dashboard/pages/section-five-header-create.html',
+            context
+        )
+
+    return render(
+        request,
+        'user_dashboard/pages/section-five-header-create.html'
+    )
 
 
+@login_required(login_url='/login/')
 def section_five_create(request):
+    ''' Section five create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     return render(request, 'user_dashboard/pages/section-five-create.html')
 
 
+@login_required(login_url='/login/')
 def section_five_header_delete(request):
+    ''' Section five header delete page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     form_action = reverse('user_dashboard:section_five_header_delete')
 
@@ -477,14 +648,23 @@ def section_five_header_delete(request):
         'form_action': form_action,
     }
 
-    return render(request, 'user_dashboard/pages/section-five-header-delete.html', context)
+    return render(
+        request,
+        'user_dashboard/pages/section-five-header-delete.html',
+        context
+    )
 
 
+@login_required(login_url='/login/')
 def section_five_pricing_offers(request):
+    ''' Section five pricing offers page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     pricing_offers = PricingOffers.objects.all()
-    count = pricing_offers.count()
-    print(f'Pricing Offers: {pricing_offers}')
-    print(f'Count: {count}')
+    # count = pricing_offers.count()
 
     if pricing_offers.exists():
         SectionFivePricingOffers = modelformset_factory(
@@ -502,15 +682,17 @@ def section_five_pricing_offers(request):
                 return redirect('user_dashboard:section_five_pricing_offers')
             else:
                 messages.error(request, 'Erro ao atualizar ofertas.')
-                print(f'Formset is not valid: {formset.errors}')
 
         else:
             formset = SectionFivePricingOffers(queryset=pricing_offers)
         context = {
             'formset': formset,
-            'form_action': reverse('user_dashboard:section_five_pricing_offers'),
+            'form_action': reverse(
+                'user_dashboard:section_five_pricing_offers'
+            ),
             'pricing_offers': pricing_offers,
         }
+
         return render(
             request,
             'user_dashboard/pages/section-five-pricing-offers.html',
@@ -528,7 +710,13 @@ def section_five_pricing_offers(request):
     )
 
 
+@login_required(login_url='/login/')
 def section_five_pricing_offers_create(request):
+    ''' Section five pricing offers create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     form_action = reverse('user_dashboard:section_five_pricing_offers_create')
 
@@ -545,19 +733,25 @@ def section_five_pricing_offers_create(request):
             return redirect('user_dashboard:section_five_pricing_offers')
         else:
             messages.error(request, 'Erro ao adicionar oferta.')
-            print(f'Form is not valid: {form.errors}')
 
         return render(
             request,
             'user_dashboard/pages/section-five-pricing-offers-create.html',
             context
         )
+
     return render(
         request,
         'user_dashboard/pages/section-five-pricing-offers-create.html')
 
 
+@login_required(login_url='/login/')
 def section_five_pricing_offers_delete(request):
+    ''' Section five pricing offers delete page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     form_action = reverse('user_dashboard:section_five_pricing_offers_delete')
 
@@ -570,7 +764,6 @@ def section_five_pricing_offers_delete(request):
             return redirect('user_dashboard:section_five_pricing_offers')
         else:
             messages.error(request, 'Erro ao deletar ofertas.')
-            print(f'Form is not valid: {form.errors}')
 
     else:
         form = PricingOffersDeleteForm()
@@ -586,7 +779,14 @@ def section_five_pricing_offers_delete(request):
         context)
 
 
+@login_required(login_url='/login/')
 def section_five_price_card_icons(request):
+    ''' Section five price card icons page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     icons = PriceCardIcons.objects.all()
 
     form_action = reverse('user_dashboard:section_five_price_card_icons')
@@ -608,7 +808,7 @@ def section_five_price_card_icons(request):
             return redirect('user_dashboard:section_five_price_card_icons')
         else:
             messages.error(request, 'Erro ao atualizar icons.')
-            print(f'Formset is not valid: {formset.errors}')
+
     else:
         formset = PriceCardIconsFormSet(queryset=icons)
 
@@ -625,7 +825,13 @@ def section_five_price_card_icons(request):
     )
 
 
+@login_required(login_url='/login/')
 def section_five_price_card_icons_create(request):
+    ''' Section five price card icons create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     icons = PriceCardIcons.objects.all()
     form_action = reverse(
@@ -646,11 +852,13 @@ def section_five_price_card_icons_create(request):
             return redirect('user_dashboard:section_five_price_card_icons')
         else:
             messages.error(request, 'Erro ao adicionar icon.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-five-price-card-icons-create.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-five-price-card-icons-create.html',
+            context
+        )
+
     context = {
         'form': PriceCardIconsForm(),
         'icons': icons,
@@ -664,7 +872,14 @@ def section_five_price_card_icons_create(request):
     )
 
 
+@login_required(login_url='/login/')
 def section_five_price_card_icons_delete(request):
+    ''' Section five price card icons delete page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     form_action = reverse(
         'user_dashboard:section_five_price_card_icons_delete')
 
@@ -678,7 +893,6 @@ def section_five_price_card_icons_delete(request):
             return redirect('user_dashboard:section_five_price_card_icons')
         else:
             messages.error(request, 'Erro ao deletar icons.')
-            print(f'Form is not valid: {form.errors}')
 
     else:
         form = PriceCardIconsDeleteForm()
@@ -694,8 +908,15 @@ def section_five_price_card_icons_delete(request):
         context)
 
 
+@login_required(login_url='/login/')
 def section_five_offers_icons(request):
-    # Pegar todas as instâncias existentes
+    ''' Section five offers icons page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
+    # Get all existing instances
     offers_icons = OffersIcons.objects.all()
 
     form_action = reverse('user_dashboard:section_five_offers_icons')
@@ -709,20 +930,18 @@ def section_five_offers_icons(request):
     )
 
     if request.method == 'POST':
-        print('Post request')
         formset = OffersIconsFormSet(
             request.POST, request.FILES, queryset=offers_icons)
         if formset.is_valid():
-            print('Formset is valid')
             formset.save()
             messages.success(request, 'Conjunto atualizado com sucesso.')
             return redirect('user_dashboard:section_five_offers_icons')
         else:
             messages.error(request, 'Erro ao atualizar conjunto.')
-            print(f'Formset is not valid: {formset.errors}')
+
     else:
         formset = OffersIconsFormSet(
-            queryset=offers_icons)  # Passar o queryset atual
+            queryset=offers_icons)
 
     context = {
         'offers_icons': offers_icons,
@@ -731,10 +950,20 @@ def section_five_offers_icons(request):
         'form_action': form_action,
     }
 
-    return render(request, 'user_dashboard/pages/section-five-offers-icons.html', context)
+    return render(
+        request,
+        'user_dashboard/pages/section-five-offers-icons.html',
+        context
+    )
 
 
+@login_required(login_url='/login/')
 def section_five_offers_icons_create(request):
+    ''' Section five offers icons create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     offers = PricingOffers.objects.all()
     icons = PriceCardIcons.objects.all()
@@ -757,7 +986,6 @@ def section_five_offers_icons_create(request):
             return redirect('user_dashboard:section_five_offers_icons')
         else:
             messages.error(request, 'Erro ao adicionar conjunto.')
-            print(f'Form is not valid: {form.errors}')
 
         return render(
             request,
@@ -780,7 +1008,14 @@ def section_five_offers_icons_create(request):
     )
 
 
+@login_required(login_url='/login/')
 def section_five_offers_icons_delete(request):
+    ''' Section five offers icons delete page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     form_action = reverse(
         'user_dashboard:section_five_offers_icons_delete')
 
@@ -794,7 +1029,6 @@ def section_five_offers_icons_delete(request):
             return redirect('user_dashboard:section_five_offers_icons')
         else:
             messages.error(request, 'Erro ao deletar conjunto.')
-            print(f'Form is not valid: {form.errors}')
 
     else:
         form = OffersIconsDeleteForm()
@@ -810,19 +1044,23 @@ def section_five_offers_icons_delete(request):
         context)
 
 
+@login_required(login_url='/login/')
 def section_five_card(request):
+    ''' Section five card page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     cards = Card.objects\
         .prefetch_related('offers')\
         .all()\
         .order_by('order')
 
-    # for card in cards:
-    #     for icon_offer in card.offers.all():
-    #         offer_name = icon_offer.offer.name
-    #         print(f'Offer Name: {offer_name}')
     context = {
         'cards': cards,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-five-card.html',
@@ -830,7 +1068,13 @@ def section_five_card(request):
     )
 
 
+@login_required(login_url='/login/')
 def section_five_card_create(request):
+    ''' Section five card create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     form_action = reverse('user_dashboard:section_five_card_create')
 
@@ -849,11 +1093,13 @@ def section_five_card_create(request):
             return redirect('user_dashboard:section_five_card')
         else:
             messages.error(request, 'Erro ao adicionar card.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-five-card-create.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-five-card-create.html',
+            context
+        )
+
     context = {
         'form': CardForm(),
         'form_action': form_action,
@@ -866,12 +1112,20 @@ def section_five_card_create(request):
     )
 
 
+@login_required(login_url='/login/')
 def section_five_single_card(request, id):
+    ''' Section five single card page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     card = get_object_or_404(Card, id=id)
 
     context = {
         'card': card,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-five-single-card.html',
@@ -879,7 +1133,13 @@ def section_five_single_card(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def section_five_ordering_cards(request):
+    ''' Section five ordering cards page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     cards = Card.objects.all()\
         .order_by('order')
@@ -889,7 +1149,6 @@ def section_five_ordering_cards(request):
         updated_cards = []
         for card in cards:
             new_order = request.POST.get(f'card-{card.id}', 0)
-            print(f'New Order: {new_order}')
             if card.order != new_order:
                 card.order = new_order
                 updated_cards.append(card)
@@ -909,7 +1168,14 @@ def section_five_ordering_cards(request):
     )
 
 
+@login_required(login_url='/login/')
 def section_five_card_update(request, id):
+    ''' Section five card update page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     card = get_object_or_404(Card, id=id)
 
     form_action = reverse(
@@ -927,14 +1193,18 @@ def section_five_card_update(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Card atualizado com sucesso.')
-            return redirect('user_dashboard:section_five_single_card', id=card.id)
+            return redirect(
+                'user_dashboard:section_five_single_card', id=card.id
+            )
         else:
             messages.error(request, 'Erro ao atualizar card.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-five-card-update.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-five-card-update.html',
+            context
+        )
+
     context = {
         'form': CardForm(instance=card),
         'card': card,
@@ -947,7 +1217,14 @@ def section_five_card_update(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def section_five_card_delete(request, id):
+    ''' Section five card delete page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     card = get_object_or_404(Card, id=id)
 
     confirmation = request.POST.get('confirmation', 'no')
@@ -965,7 +1242,13 @@ def section_five_card_delete(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def section_six_create(request):
+    ''' Section six create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     form_action = reverse('user_dashboard:section_six_create')
 
@@ -987,11 +1270,13 @@ def section_six_create(request):
             return redirect('user_dashboard:section_six')
         else:
             messages.error(request, 'Erro ao adicionar secção.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-six-create.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-six-create.html',
+            context
+        )
+
     context = {
         'form': SectionSixForm(),
         'form_action': form_action,
@@ -1000,15 +1285,24 @@ def section_six_create(request):
     return render(
         request,
         'user_dashboard/pages/section-six-create.html',
-        context)
+        context
+    )
 
 
+@login_required(login_url='/login/')
 def section_six_single_item(request, id):
+    ''' Section six single item page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     item = get_object_or_404(SectionSix, id=id)
 
     context = {
         'item': item,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-six-single-item.html',
@@ -1016,15 +1310,25 @@ def section_six_single_item(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def section_six_update(request, id):
+    ''' Section six update page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     section_six = get_object_or_404(SectionSix, id=id)
 
     form_action = reverse(
         'user_dashboard:section_six_update', args=[section_six.id])
 
     if request.method == 'POST':
-        form = SectionSixForm(request.POST, request.FILES,
-                              instance=section_six)
+        form = SectionSixForm(
+            request.POST,
+            request.FILES,
+            instance=section_six
+        )
 
         context = {
             'form': form,
@@ -1037,16 +1341,19 @@ def section_six_update(request, id):
             return redirect('user_dashboard:section_six')
         else:
             messages.error(request, 'Erro ao atualizar secção.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-six-update.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-six-update.html',
+            context
+        )
+
     context = {
         'form': SectionSixForm(instance=section_six),
         'section_six': section_six,
         'form_action': form_action,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-six-update.html',
@@ -1054,7 +1361,14 @@ def section_six_update(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def section_six_delete(request, id):
+    ''' Section six delete page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     item = get_object_or_404(SectionSix, id=id)
 
     confirmation = request.POST.get('confirmation', 'no')
@@ -1077,7 +1391,13 @@ def section_six_delete(request, id):
 # Section Eight - video
 
 
+@login_required(login_url='/login/')
 def section_eight_create(request):
+    ''' Section eight create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
 
     form_action = reverse('user_dashboard:section_eight_create')
 
@@ -1098,11 +1418,13 @@ def section_eight_create(request):
             return redirect('user_dashboard:section_eight')
         else:
             messages.error(request, 'Erro ao adicionar vídeo.')
-            print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-eight-create.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-eight-create.html',
+            context
+        )
+
     context = {
         'form': SectionEightForm(),
         'form_action': form_action,
@@ -1115,7 +1437,14 @@ def section_eight_create(request):
     )
 
 
+@login_required(login_url='/login/')
 def section_eight_single_video(request, id):
+    ''' Section eight single video page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     video = get_object_or_404(SectionEight, id=id)
 
     context = {
@@ -1129,7 +1458,14 @@ def section_eight_single_video(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def section_eight_single_video_update(request, id):
+    ''' Section eight single video update page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     video = get_object_or_404(SectionEight, id=id)
 
     form_action = reverse(
@@ -1147,19 +1483,25 @@ def section_eight_single_video_update(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Vídeo atualizado com sucesso.')
-            return redirect('user_dashboard:section_eight_single_video', id=video.id)
+            return redirect(
+                'user_dashboard:section_eight_single_video', id=video.id
+            )
         else:
             messages.error(request, 'Erro ao atualizar vídeo.')
             print(f'Form is not valid: {form.errors}')
 
-        return render(request, 'user_dashboard/pages/section-eight-single-video-update.html',
-                      context
-                      )
+        return render(
+            request,
+            'user_dashboard/pages/section-eight-single-video-update.html',
+            context
+        )
+
     context = {
         'form': SectionEightForm(instance=video),
         'video': video,
         'form_action': form_action,
     }
+
     return render(
         request,
         'user_dashboard/pages/section-eight-single-video-update.html',
@@ -1167,7 +1509,14 @@ def section_eight_single_video_update(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def section_eight_single_video_delete(request, id):
+    ''' Section eight single video delete page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     video = get_object_or_404(SectionEight, id=id)
 
     confirmation = request.POST.get('confirmation', 'no')
@@ -1176,6 +1525,8 @@ def section_eight_single_video_delete(request, id):
         video.delete()
         messages.success(request, 'Vídeo deletado com sucesso.')
         return redirect('user_dashboard:section_eight')
+    elif confirmation == 'no':
+        messages.warning(request, 'Quer deletar o vídeo?')
     else:
         messages.error(request, 'Erro ao deletar vídeo.')
 
@@ -1188,7 +1539,14 @@ def section_eight_single_video_delete(request, id):
 # Section Nine - Services área
 
 
+@login_required(login_url='/login/')
 def section_nine_create(request):
+    ''' Section nine create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     form_action = reverse('user_dashboard:section_nine_create')
 
     if request.method == 'POST':
@@ -1227,7 +1585,61 @@ def section_nine_create(request):
         context)
 
 
+@login_required(login_url='/login/')
+def section_nine_update(request, id):
+    ''' Section nine update page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
+    service = get_object_or_404(SectionNine, id=id)
+
+    form_action = reverse(
+        'user_dashboard:section_nine_update', args=[service.id])
+
+    if request.method == 'POST':
+        form = SectionNineForm(request.POST, request.FILES, instance=service)
+
+        context = {
+            'form': form,
+            'service': service,
+            'form_action': form_action,
+        }
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Serviço atualizado com sucesso.')
+            return redirect('user_dashboard:section_nine')
+        else:
+            messages.error(request, 'Erro ao atualizar serviço.')
+
+        return render(
+            request,
+            'user_dashboard/pages/section-nine-update.html',
+            context
+        )
+
+    context = {
+        'form': SectionNineForm(instance=service),
+        'service': service,
+        'form_action': form_action,
+    }
+
+    return render(
+        request,
+        'user_dashboard/pages/section-nine-update.html',
+        context)
+
+
+@login_required(login_url='/login/')
 def classes_type_create(request):
+    ''' Classes type create page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     form_action = reverse('user_dashboard:classes_type_create')
 
     if request.method == 'POST':
@@ -1247,7 +1659,6 @@ def classes_type_create(request):
             return redirect('user_dashboard:classes_type')
         else:
             messages.error(request, 'Erro ao adicionar tipo de aula.')
-            print(f'Form is not valid: {form.errors}')
 
         return render(
             request,
@@ -1266,10 +1677,15 @@ def classes_type_create(request):
         context)
 
 
+@login_required(login_url='/login/')
 def classes_type_update(request, id):
-    classes_type = get_object_or_404(TiposDeAulas, id=id)
+    ''' Classes type update page. '''
 
-    print(f'Classes Type: {classes_type}')
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
+    classes_type = get_object_or_404(TiposDeAulas, id=id)
 
     form_action = reverse(
         'user_dashboard:classe_type_update',
@@ -1294,7 +1710,6 @@ def classes_type_update(request, id):
             return redirect('user_dashboard:classes_type')
         else:
             messages.error(request, 'Erro ao atualizar tipo de aula.')
-            print(f'Form is not valid: {form.errors}')
 
         return render(
             request,
@@ -1315,23 +1730,24 @@ def classes_type_update(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def classes_type_delete(request, id):
+    ''' Classes type delete page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     tipo_de_aula = get_object_or_404(TiposDeAulas, id=id)
 
     if request.method == 'POST':
-        print("Requisição POST recebida")
         confirmation = request.POST.get('confirmation', 'no')
-        print(f'Confirmação recebida: {confirmation}')
 
         if confirmation == 'yes':
-            print("Deletando o tipo de aula")
             tipo_de_aula.delete()
             messages.success(request, 'Tipo de aula deletado com sucesso.')
             return redirect('user_dashboard:classes_type')
         else:
-            print("Confirmação não recebida, pedindo confirmação...")
-            print(f'Tipo de aula: {tipo_de_aula.id}')
-            print(f'Confirmação: {confirmation}')
             return render(
                 request,
                 'user_dashboard/pages/classes-type-single-class.html',
@@ -1345,12 +1761,19 @@ def classes_type_delete(request, id):
     )
 
 
+@login_required(login_url='/login/')
 def classes_type_ordering(request):
+    ''' Classes type ordering page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+
     classes_type = TiposDeAulas.objects\
         .filter(is_visible=True)\
         .order_by('order')
 
-    form_action = reverse('user_dashboard:classes_type_ordering')
+    # form_action = reverse('user_dashboard:classes_type_ordering')
 
     if request.method == 'POST':
         # creates a list of the classes in the order they were received
@@ -1368,6 +1791,8 @@ def classes_type_ordering(request):
             return redirect('user_dashboard:classes_type')
         else:
             messages.info(request, 'Nenhuma aula foi reordenada.')
-    return render(request, 'user_dashboard/pages/classes-type-ordering.html',
-                  {'classes_type': classes_type}
-                  )
+    return render(
+        request,
+        'user_dashboard/pages/classes-type-ordering.html',
+        {'classes_type': classes_type}
+    )

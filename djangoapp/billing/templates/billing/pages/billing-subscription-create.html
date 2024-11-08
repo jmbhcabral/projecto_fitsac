@@ -8,12 +8,10 @@
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
-                    <h1>Gerir Aulas</h1>
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -24,25 +22,33 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2>Gerir</h2>
-                    <h2>Gerir</h2>
-                    <h2>Gerir</h2>
-                    <h2>Gerir</h2>
-                    <h2>Gerir</h2>
-                    <h2>Gerir</h2>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Criar uma nova subscrição.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit" class="btn btn-custom-user mb-5 mr-3">Criar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>  
                 </div>
-            </div>
-            <div class="row pt-60">
-                <div class="col-12">
-                    <a href="{% url 'user_dashboard:admin_home' %}" class="btn btn-primary">Voltar</a>
-                </div>
+            </div> 
+        </div>
+        <div class="container pt-5 justify-content-center">
+            <div class="col-12">
+                <a href="{% url 'billing:subscription_home' %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
             </div>
         </div>
-
-        
-        
-        
     </div>
+
 </main>
 <!-- Scroll Up -->
 <div id="back-top" >
@@ -70,7 +76,7 @@
 <!-- Date Picker -->
 <script src="{% static 'fitsac/js/gijgo.min.js' %}"></script>
 <!-- Nice-select, sticky -->
-<script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script>
+{% comment %} <script src="{% static 'fitsac/js/jquery.nice-select.min.js' %}"></script> {% endcomment %}
 <script src="{% static 'fitsac/js/jquery.sticky.js' %}"></script>
 
 <!-- counter , waypoint,Hover Direction -->

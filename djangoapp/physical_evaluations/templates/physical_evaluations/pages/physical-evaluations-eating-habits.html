@@ -1,16 +1,16 @@
 {% extends "fitsac/base_front.html" %}
 {% load static %}
-{% block content %}<main>
+{% block content %}
+<main>
     <div class="admin-menu">
         <div class="container">
             <div class="row pt-80 justify-content-center">
                 <div class="col-12 text-center">
                     <h1>Admin Dashboard</h1>
-                    <p>Welcome to the Gerenciador de aulas. Here you can manage the website.</p>
                 </div>
             </div>
             <div class="row pt-80 justify-content-center">
-                <div class="col-8">
+                <div class="col-12">
                     {% include "fitsac/partials/_messages.html" %}
                 </div>
             </div>
@@ -21,34 +21,43 @@
                 {% include "scheduling/partials/_classes_management_nav.html" %}
                 <!-- Coluna para o conteúdo principal -->
                 <div class="col-12 col-md-9 border-fit d-flex flex-column">
-                    <h2 class="text-center">Hábitos alimentares</h2>
-                    {% if eating_habits %}
-                        {% for habit in eating_habits %}
-                            <div class="card">
-                                <div class="card-body">
-                                    
-                                    <p class="card-text" style="color: black;">{{ habit.question }}?</p>
-                                    <p class="card-text" style="color: black;">{{ habit.answer }}</p>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                                <h2>Administração</h2>
+                                <p>Avaliações Físicas.</p>
+                                <p>Hábitos alimentares.</p>
+                            </div>
+                        </div>
+                        <div class="row pt-5 w-100">
+                            <div class="col-12">
+                                {% if eating_habits %}
+                                    {% for habit in eating_habits %}
+                                        <div class="card">
+                                            <div class="card-body">
+                                                
+                                                <p class="card-text" style="color: black;">{{ habit.question }}?</p>
+                                                <p class="card-text" style="color: black;">{{ habit.answer }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="row pt-5">
+                                        <div class="pt-10">
+                                            <a href="{% url "physical_evaluations:eating_habits_update" evaluation.pk %}" class="btn btn-custom-user">Editar</a> 
+                                        </div>
                                     </div>
+                                {% else %}
+                                    <p class="text-center">Nenhuma avaliação encontrada.</p>
+                                    <a href="{% url "physical_evaluations:eating_habits_create" evaluation.pk %}" class="btn btn-custom-user">Adicionar</a>
+                                {% endif %}
                             </div>
-                        {% endfor %}
-                            <div class="pt-10">
-                                <a href="{% url "physical_evaluations:eating_habits_update" evaluation.pk %}" class="btn btn-custom-user">Editar</a> 
-                                <a href="{% url "physical_evaluations:body_composition_single" evaluation.pk %}" class="btn btn-custom-user">Voltar</a>
-                            </div>
-
-                        
-                    {% else %}
-                        <p class="text-center">Nenhuma avaliação encontrada.</p>
-                        <a href="{% url "physical_evaluations:eating_habits_create" evaluation.pk %}" class="btn btn-custom-user">Adicionar</a>
-                    {% endif %}
-                    
-
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row pt-60">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-12">
-                    <a href="{% url 'scheduling:classes_management' %}" class="btn btn-custom-user">Voltar</a>
+                    <a href="{% url "physical_evaluations:body_composition_single" evaluation.pk %}" class="btn btn-custom-user mb-5 mr-3">Voltar</a>
                 </div>
             </div>
         </div>    

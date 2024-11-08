@@ -14,11 +14,11 @@ import uuid
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, logout
 from user_profiles.models import UserProfile
 from user_profiles.forms import UserForm, UserProfileForm
 from django.utils import timezone
-from datetime import timedelta
 
 
 # TODO: checar se o perfil do utilizador está completo
@@ -43,7 +43,6 @@ class BaseProfile(View):
                 # Load the user's profile
                 self.user_profile = UserProfile.objects.filter(
                     user=request.user).first()
-                print(f'User profile: {self.user_profile}')
 
     def get(self, request, *args, **kwargs):
         ''' Default GET method. '''
@@ -64,6 +63,7 @@ class BaseProfile(View):
                 'Por favor, preencha o seu perfil para continuar.'
             )
             return redirect('user_profiles:update_profile')
+
         # Get method is responsible for initializing context variables
         self.context = ({
             'user': request.user,
@@ -74,8 +74,6 @@ class BaseProfile(View):
                 instance=self.user_profile
             )
         })
-
-        print(f'Self context base: {self.context}')
 
         return render(request, self.template_name, self.context)
 
@@ -232,8 +230,9 @@ class LoginView(FormView):
         return super().get(request, *args, **kwargs)
 
 
-class LogoutView(View):
+class LogoutView(LoginRequiredMixin, View):
     ''' View for logging out the user. '''
+    login_url = '/login/'
 
     def __init__(self):
         super().__init__()
@@ -249,8 +248,9 @@ class LogoutView(View):
         return redirect('user_profiles:login')
 
 
-class UpdateProfileView(BaseProfile):
+class UpdateProfileView(LoginRequiredMixin, BaseProfile):
     ''' View for updating user and profile information. '''
+    login_url = '/login/'
 
     def __init__(self):
         super().__init__()
@@ -430,8 +430,9 @@ class UpdateProfileView(BaseProfile):
 #         return redirect('user_profiles:login')
 
 
-class ChangePasswordView(BaseProfile):
+class ChangePasswordView(LoginRequiredMixin, BaseProfile):
     '''View for changing the user password.'''
+    login_url = '/login/'
 
     def __init__(self):
         super().__init__()
