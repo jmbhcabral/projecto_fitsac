@@ -179,8 +179,6 @@ class BodyCompositionUpdateView(
                 messages.error(self.request, f"{label}: {error}")
         return self.render_to_response(self.get_context_data(form=form))
 
-# TODO: Implementar a classe BodyCompositionDeleteView
-
 
 class PhysicalEvaluationImagesFormView(
     LoginRequiredMixin,
@@ -337,9 +335,6 @@ class PhysicalEvaluationImagesUpdateView(
             for error in errors:
                 messages.error(self.request, f"{label}: {error}")
         return self.render_to_response(self.get_context_data(form=form))
-
-
-# TODO: Implementar a classe PhysicalEvaluationImagesDeleteView
 
 
 class EatingHabitsAswersFormView(
@@ -546,8 +541,6 @@ class EatingHabitsAnswersUpdateFormView(
 
         return context
 
-
-# TODO: Implementasr a classe EatingHabitsDeleteView
 
 class HealthStateFormView(
     LoginRequiredMixin,

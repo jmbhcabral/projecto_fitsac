@@ -153,7 +153,6 @@ class ClassSessionEditView(
 
 class ClassSessionEndView(FormView):
     pass
-    # TODO: Implementar a view de finalização de sessão de aula
 
 
 class MarkAttendanceView(LoginRequiredMixin, View):

@@ -21,7 +21,6 @@ from user_profiles.forms import UserForm, UserProfileForm
 from django.utils import timezone
 
 
-# TODO: checar se o perfil do utilizador está completo
 class BaseProfile(View):
     ''' Base profile view. '''
 
