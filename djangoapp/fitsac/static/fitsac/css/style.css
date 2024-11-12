@@ -8108,7 +8108,7 @@ del {
 
 /* Sidebar */
 #sidebar {
-  flex: 0 0 250px; /* Largura fixa da sidebar */
+  /* flex: 0 0 250px;  Largura fixa da sidebar */
   flex-grow: 1; /* A sidebar pode crescer */
   background-color: #27293D!important;
   border-radius: 8px;
@@ -8438,5 +8438,7 @@ input[type="file"]::file-selector-button {
   transform: translateY(-50%);
   z-index: 10;
 }
+
 .input-group .form-control {
   padding-right: 2.5rem;
+}
