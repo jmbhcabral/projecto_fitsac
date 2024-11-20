@@ -32,7 +32,7 @@
                     <div class="col-xl-6 col-lg-6">
                         <div class="single-topic text-center mb-30">
                             <div class="topic-img">
-                                <img src="{{ section_two.image_1.url }}" alt="">
+                                <img src="{{ section_two.image_1.url }}" alt="" style="border-radius: 10px;">
                                 <div class="topic-content-box">
                                     <div class="topic-content">
                                         <h3>{{ section_two.text_field_3  }}</h3>
@@ -46,7 +46,7 @@
                     <div class="col-xl-6 col-lg-6">
                         <div class="single-topic text-center mb-30">
                             <div class="topic-img">
-                                <img src="{{ section_two.image_2.url }}" alt="">
+                                <img src="{{ section_two.image_2.url }}" alt="" style="border-radius: 10px;">
                                 <div class="topic-content-box">
                                     <div class="topic-content">
                                         <h3>{{ section_two.text_field_5  }}</h3>
@@ -121,8 +121,8 @@
                     {% for photo in section_four %}
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                         <div class="box snake mb-30">
-                            <div class="gallery-img big-img" style="background-image: url({{ photo.image.url }});"></div>
-                            <div class="overlay">
+                            <div class="gallery-img big-img" style="background-image: url({{ photo.image.url }}); border-radius: 10px;"></div>
+                            <div class="overlay" style="border-radius: 10px;">
                                 <div class="overlay-content">
                                     <h3>{{ photo.tag}}</h3>
                                     <a href="{% url 'fitsac:gallery' %}"><i class="ti-plus"></i></a>
@@ -192,7 +192,7 @@
                 <div class="right-content2">
                     <!-- img -->
                     <div class="right-img wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
-                        <img src="{{ section_six.image.url}}" alt="{{ section_six.image.name|basename}}">
+                        <img src="{{ section_six.image.url}}" alt="{{ section_six.image.name|basename}}" style="border-radius: 10px;">
                     </div>
                 </div>
                 <div class="left-content2">

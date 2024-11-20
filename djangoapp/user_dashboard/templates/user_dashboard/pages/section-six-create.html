@@ -34,11 +34,11 @@
                                 <form action="{{form_action}}" method="post" enctype="multipart/form-data" class="custom-form-six">
                                     {% csrf_token %}
                                     {{ form.as_p }}
+                                    <div class="row pt-60">
+                                        <button type="submit" class="btn btn-custom-user mb-5 mr-3">Salvar</button>
+                                    </div>
                                 </form>
                             </div>
-                        </div>
-                        <div class="row pt-60">
-                            <button type="submit" class="btn btn-custom-user mb-5 mr-3">Salvar</button>
                         </div>
                     </div>
                 </div>
