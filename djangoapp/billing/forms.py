@@ -149,13 +149,12 @@ class PackOrderForm(forms.Form):
 class PaymentForm(forms.ModelForm):
     ''' Payment form '''
     class Meta:
-        ''' Meta '''
         model = Payment
         fields = ['invoice', 'date']
 
     invoice = forms.ModelChoiceField(
         label='Fatura',
-        queryset=Invoice.objects.filter(status=False),
+        queryset=Invoice.objects.none(),  # Inicialmente vazio
         widget=forms.Select(
             attrs={
                 'class': 'form-control',
@@ -172,6 +171,15 @@ class PaymentForm(forms.ModelForm):
         )
     )
 
+    def __init__(self, *args, **kwargs):
+        # Receber o utilizador da view
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+        if user:
+            # Filtrar as faturas para o utilizador específico
+            self.fields['invoice'].queryset = Invoice.objects.filter(user=user, status=False)
+
     def clean(self):
         ''' Clean '''
         user = self.data.get('user')
@@ -184,13 +192,13 @@ class PaymentForm(forms.ModelForm):
         if not invoice:
             errors['invoice'] = 'A fatura é obrigatória'
 
-        if Payment.objects.filter(user=user, invoice=invoice).exists():
+        if user and Payment.objects.filter(user=user, invoice=invoice).exists():
             errors['invoice'] = 'Já existe um pagamento para este aluno neste mês/ano'
 
         if date:
             now = timezone.now().date()
             if date > now:
-                errors['date'] = 'A data de pagamento deve ser menor ou igual a data atual'
+                errors['date'] = 'A data de pagamento deve ser menor ou igual à data atual'
         else:
             errors['date'] = 'A data de pagamento é obrigatória'
 

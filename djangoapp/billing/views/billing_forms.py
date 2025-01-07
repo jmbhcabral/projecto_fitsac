@@ -322,6 +322,15 @@ class PaymentCreateView(
             and self.request.user.groups
             .filter(name='_access_restricted').exists()
         )
+    
+    def get_form_kwargs(self):
+        ''' Passa o utilizador ao formulário '''
+        kwargs = super().get_form_kwargs()
+        user_id = self.kwargs.get('pk')  # Obtém o ID do utilizador do URL
+        User = get_user_model()
+        user = get_object_or_404(User, pk=user_id)
+        kwargs['user'] = user  # Passa o utilizador para o formulário
+        return kwargs
 
     def handle_no_permission(self):
         ''' Redirect to the admin home page. '''
