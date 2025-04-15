@@ -50,6 +50,12 @@
                     <span class="ml-3">Financeiro</span>
                 </a>
             </li>
+            <li class="mb-4">
+                <a href="{% url "user_dashboard:contacts_management" %}" class="d-flex align-items-center text-light" style="font-size: 18px;">
+                    <i class="fas fa-envelope" style="width: 25px;"></i>
+                    <span class="ml-3">Gerir contactos</span>
+                </a>
+            </li>
         </ul>
     </div>
 {% elif request.user|in_group:"_admin" %}

@@ -1,12 +1,21 @@
 
-from django.shortcuts import render, get_object_or_404, redirect
-from user_dashboard.models import (
-    SectionOne, SectionTwo, SectionThree, SectionFour, Card,
-    SectionFiveHeader, SectionSix, SectionEight, SectionNine,
-    TiposDeAulas
-)
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
+from fitsac.models import Contact
+
+from user_dashboard.models import (
+    Card,
+    SectionEight,
+    SectionFiveHeader,
+    SectionFour,
+    SectionNine,
+    SectionOne,
+    SectionSix,
+    SectionThree,
+    SectionTwo,
+    TiposDeAulas,
+)
 
 
 @login_required(login_url='/login/')
@@ -259,3 +268,39 @@ def classes_type_single_class(request, id):
         'user_dashboard/pages/classes-type-single-class.html',
         context
     )
+
+
+@login_required(login_url='/login/')
+def contacts_management(request):
+    ''' Contacts management page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+    
+    # Get all contacts
+    contacts = Contact.objects.all()
+
+    context = {
+        'contacts': contacts,
+    }
+
+    return render(request, 'user_dashboard/pages/section-contacts.html', context)
+
+
+@login_required(login_url='/login/')
+def contact_single(request, id):
+    ''' Contact single page. '''
+
+    # Check if the user is in the _access_restricted group
+    if not request.user.groups.filter(name='_access_restricted').exists():
+        return redirect('user_profiles:user_account')
+    
+    contact = get_object_or_404(Contact, id=id)
+
+    context = {
+        'contact': contact,
+    }
+
+    return render(request, 'user_dashboard/pages/section-contacts-single.html', context)
+
